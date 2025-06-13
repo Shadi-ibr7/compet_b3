@@ -33,18 +33,8 @@ const formatPrivateKey = (key: string | undefined) => {
   return formattedKey;
 };
 
-// Debug des variables d'environnement
-console.log('PROJECT_ID:', process.env.PROJECT_ID);
-console.log('CLIENT_EMAIL:', process.env.CLIENT_EMAIL);
-
 const privateKey = formatPrivateKey(process.env.PRIVATE_KEY);
 
-// Debug de la clé privée après traitement
-console.log('privateKey est défini:', !!privateKey);
-console.log('privateKey format correct:', 
-  privateKey?.includes('-----BEGIN PRIVATE KEY-----') && 
-  privateKey?.includes('-----END PRIVATE KEY-----')
-);
 
 export const authOptions: NextAuthOptions = {
   providers: [
