@@ -1,0 +1,219 @@
+.hero {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 64px 0 0 0;
+  background: url('/m.svg') center top no-repeat, #06104a;
+  background-size: 430px 727px;
+  position: relative;
+  min-height: 727px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  display: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 320px;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(to top, rgba(6,16,74,0.7) 0%, rgba(6,16,74,0.0) 80%);
+  filter: blur(60px);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.title {
+  font-family: 'AconchegoTextTest', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fefff3;
+  text-align: center;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.jamaisSeulBg {
+  display: inline-block;
+  background: #bef9de;
+  border-radius: 6px;
+  padding: 0 10px;
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+.jamaisSeul {
+  color: #06104a;
+  font-family: 'AconchegoTextTest', sans-serif;
+  font-weight: 700;
+}
+
+.mentorsInfo {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.3rem;
+  color: #fefff3;
+  text-align: center;
+  margin-bottom: 16px;
+  overflow-wrap: break-word;
+}
+
+.mentorsInfo b {
+  font-weight: 700;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.searchBox {
+  width: 100%;
+  background: #fefff3;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 56px;
+  margin-bottom: 8px;
+}
+
+.iconRecherche {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+
+.texte {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #06104a;
+  opacity: 0.5;
+  font-weight: 500;
+}
+
+.trouverMonMentor {
+  width: 100%;
+  height: 56px;
+  background: #bef9de;
+  color: #06104a;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.trouverMonMentor:hover {
+  background: #a7e9c7;
+}
+
+.groupWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.createJobBox {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  color: #fefff3;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.createJobBox b {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.crerMonAvenirWrapper {
+  width: 100%;
+  height: 56px;
+  background: transparent;
+  color: #fefff3;
+  border: 1.5px solid #fefff3;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin-top: 4px;
+}
+.crerMonAvenirWrapper:hover {
+  background: #fefff3;
+  color: #06104a;
+}
+
+.cta {
+  font-weight: 700;
+}
+
+.searchBox,
+.trouverMonMentor,
+.crerMonAvenirWrapper,
+.groupWrapper {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .heroContent {
+    max-width: 100vw;
+    padding: 0 6px;
+  }
+  .title {
+    font-size: 1.2rem;
+  }
+  .mentorsInfo, .createJobBox, .trouverMonMentor, .crerMonAvenirWrapper {
+    font-size: 0.98rem;
+  }
+  .searchBox {
+    height: 44px;
+    padding: 0 4px;
+  }
+  .trouverMonMentor, .crerMonAvenirWrapper {
+    height: 44px;
+  }
+}
+
+@media (max-width: 425px) {
+  .heroContent {
+    max-width: 100vw;
+    padding: 0 2px;
+  }
+  .title {
+    font-size: 1rem;
+    word-break: keep-all;
+  }
+  .jamaisSeulBg {
+    padding: 0 4px;
+    font-size: 0.95rem;
+  }
+} 

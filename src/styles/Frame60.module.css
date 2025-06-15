@@ -1,0 +1,126 @@
+.section {
+  width: 100%;
+  background: #fefff3;
+  padding: 80px 0 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.headerBlock {
+  max-width: 600px;
+  margin: 0 auto 24px auto;
+  text-align: left;
+}
+
+.title {
+  font-family: 'Aconchego Text Test', sans-serif;
+  font-size: 2rem;
+  color: #06104a;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.highlight {
+  background: #bef9de;
+  color: #06104a;
+}
+
+.cardsScroller {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 0 20px 1rem 20px;
+  scroll-snap-type: x mandatory;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #172155;
+  border-radius: 4px;
+  box-shadow: 0 4px 24px 0 rgba(6,16,74,0.08);
+  min-width: 263px;
+  max-width: 263px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  gap: 20px;
+  scroll-snap-align: start;
+}
+
+.cardImage {
+  width: 100%;
+  height: 173px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.cardTitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #06104a;
+  margin-bottom: 8px;
+}
+
+.cardDesc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.98rem;
+  color: #06104a;
+}
+
+.blogBtn {
+  width: 100%;
+  max-width: 390px;
+  background: #06104a;
+  color: #fefff3;
+  border: none;
+  border-radius: 4px;
+  padding: 14px 0;
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0 auto;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.blogBtn:hover {
+  background: #3ec28f;
+  color: #06104a;
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding: 32px 0 24px 0;
+    gap: 18px;
+  }
+  .headerBlock {
+    max-width: 98vw;
+    padding: 0 8px;
+  }
+  .title {
+    font-size: 1.1rem;
+  }
+  .cardsScroller {
+    gap: 12px;
+    padding: 0 6px 8px 6px;
+  }
+  .card {
+    min-width: 90vw;
+    max-width: 90vw;
+    padding: 12px;
+    gap: 10px;
+  }
+  .blogBtn {
+    max-width: 98vw;
+    font-size: 0.98rem;
+    padding: 12px 0;
+  }
+} 

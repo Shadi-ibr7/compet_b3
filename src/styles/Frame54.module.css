@@ -1,0 +1,160 @@
+/* --- SECTION --- */
+.section {
+    position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 60% 0%, #23306a 0%, #06104a 100%);
+  color: #fefff3;
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- INTRO --- */
+.introBlock {
+  max-width: 420px;
+  width: 100%;
+  margin: 0 20px 48px 20px;
+  display: inline-block;
+  flex-direction: column;
+  align-items: left;
+}
+.title {
+  font-family: 'AconchegoTextTest';
+  font-size: 24px;
+  font-weight: 700;
+  margin: 20px;
+  color: #fefff3;
+  line-height: 26px;
+  text-align: left;
+}
+.highlight {
+  background: #bef9de;
+  color: #06104a;
+  font-weight: 700;
+  margin-left: 4px;
+}
+.descBlock {
+  width: 100%;
+}
+.desc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #fefff3;
+  margin-bottom: 40px;
+  line-height: 26px;
+  text-align: left;
+}
+.desc b {
+  font-weight: 700;
+  color: #fefff3;
+}
+
+/* --- STATS + CTA --- */
+.statsCtaBlock {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+.statsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.statValue {
+  font-family: 'Chaumont Script', cursive;
+  font-size: 128px;
+  color: #fefff3;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  display: block;
+}
+.statLabel {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #fefff3;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+}
+.statLabel .highlight {
+  background: #bef9de;
+  color: #06104a;
+  border-radius: 4px;
+  padding: 0 8px;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+/* --- CTA --- */
+.cta {
+  width: 100%;
+  max-width: 340px;
+  background: #bef9de;
+  color: #06104a;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 16px 0;
+  cursor: pointer;
+  margin-top: 48px;
+  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
+  transition: background 0.2s;
+  text-align: center;
+}
+.cta:hover {
+  background: #3ec28f;
+  color: #06104a;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 700px) {
+  .section {
+    padding: 80px 0 80px 0;
+  }
+  .introBlock {
+    max-width: 98vw;
+    margin-bottom: 24px;
+  }
+  .title {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+  }
+  .desc {
+    font-size: 0.98rem;
+    margin-bottom: 24px;
+  }
+  .statsCtaBlock {
+    max-width: 98vw;
+    gap: 32px;
+  }
+  .statsBlock {
+    gap: 32px;
+  }
+  .statValue {
+    font-size: 128px;
+  }
+  .cta {
+    max-width: 98vw;
+    font-size: 1rem;
+    padding: 12px 0;
+    margin-top: 32px;
+  }
+} 

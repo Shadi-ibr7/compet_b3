@@ -1,0 +1,139 @@
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: transparent;
+  position: relative;
+  height: 72px;
+}
+
+.linksDesktop {
+  display: flex;
+  gap: 64px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.linksDesktop li a {
+  color: #FEFFF3;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.linksDesktop li a:hover {
+  color: #BEF9DE;
+}
+
+.special {
+  background: #BEF9DE;
+  color: #06104a !important;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-weight: 700;
+  font-size: 20px;
+  margin-left: 32px;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.special:hover {
+  background: #a7e9c7;
+  color: #06104a;
+}
+
+.burger {
+  display: none;
+  background: none;
+  border: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  margin-left: 24px;
+}
+
+.burgerBar {
+  width: 28px;
+  height: 3px;
+  background: #FEFFF3;
+  border-radius: 2px;
+  display: block;
+}
+
+/* Mobile styles */
+@media (max-width: 900px) {
+  .linksDesktop {
+    display: none;
+  }
+  .burger {
+    display: flex;
+  }
+  .mobileMenu {
+    display: flex;
+  }
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 80vw;
+  max-width: 320px;
+  height: 100vh;
+  background: #06104a;
+  box-shadow: -2px 0 16px rgba(0,0,0,0.08);
+  z-index: 1000;
+  flex-direction: column;
+  padding: 32px 24px;
+  animation: slideIn 0.2s;
+}
+
+@keyframes slideIn {
+  from { right: -320px; opacity: 0; }
+  to { right: 0; opacity: 1; }
+}
+
+.mobileMenu ul {
+  list-style: none;
+  padding: 0;
+  margin: 48px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.mobileMenu li a {
+  color: #FEFFF3;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.mobileMenu li a:hover {
+  color: #BEF9DE;
+}
+
+.mobileMenu .special {
+  background: #BEF9DE;
+  color: #06104a !important;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-weight: 700;
+  font-size: 22px;
+  text-align: center;
+  margin: 0;
+}
+
+.close {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #FEFFF3;
+  cursor: pointer;
+} 

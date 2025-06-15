@@ -1,0 +1,98 @@
+.mentors {
+  padding: 40px 20px;
+  background-color: var(--color-primary);
+}
+
+.mentors-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.mentors-title {
+  font-family: 'Aconchego Text Test', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+.mentors-button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mentor-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mentor-card {
+  background-color: var(--color-secondary);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mentor-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mentor-card-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.mentor-card-occupation {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-primary);
+}
+
+.mentor-card-location {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-primary);
+}
+
+.mentor-card-description {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-primary);
+}
+
+.mentor-card-description strong {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.mentor-card-button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-primary);
+  width: fit-content;
+} 

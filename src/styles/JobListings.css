@@ -1,0 +1,89 @@
+.job-listings {
+  padding: 40px 20px;
+  background-color: var(--color-secondary);
+}
+
+.job-listings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.job-listings-title {
+  font-family: 'Aconchego Text Test', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.job-listings-button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-secondary);
+  background-color: var(--color-primary);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.job-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.job-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.job-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-card-company {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-primary);
+}
+
+.job-card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.job-card-description {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-primary);
+}
+
+.job-card-description strong {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.job-card-details {
+  display: flex;
+  gap: 16px;
+}
+
+.job-card-detail {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-primary);
+} 

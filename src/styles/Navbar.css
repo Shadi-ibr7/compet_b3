@@ -1,0 +1,34 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 44px;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 1000;
+}
+
+.navbar-time {
+  color: var(--color-secondary);
+  font-size: 17px;
+  font-weight: 700;
+  font-family: 'SF Pro Text', sans-serif;
+}
+
+.navbar-logo {
+  color: black;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'SF Pro Text', sans-serif;
+}
+
+.navbar-icon {
+  color: black;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'SF Compact Display', sans-serif;
+} 

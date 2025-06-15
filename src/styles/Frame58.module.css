@@ -1,0 +1,105 @@
+.section {
+  width: 100%;
+  background: #06104a;
+  color: #fefff3;
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.introBlock {
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto 32px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: left;
+}
+
+.title {
+  font-family: 'Aconchego Text Test', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fefff3;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.highlight {
+  background: #bef9de;
+  color: #06104a;
+  font-weight: 700;
+}
+
+.strong {
+  color: #fefff3;
+  font-weight: 700;
+}
+
+.descBlock {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #fefff3;
+  gap: 8px;
+}
+
+.ctaBlock {
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: left;
+}
+
+.ctaText {
+  font-size: 16px;
+  color: #fefff3;
+  text-align: left;
+}
+
+.whatsappBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #bef9de;
+  color: #06104a;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 14px 24px;
+  text-decoration: none;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
+}
+
+.whatsappBtn:hover {
+  background: #3ec28f;
+  color: #06104a;
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 32px 0;
+    gap: 18px;
+  }
+  .introBlock, .ctaBlock {
+    max-width: 98vw;
+    padding: 0 8px;
+  }
+  .title {
+    font-size: 1.1rem;
+  }
+  .ctaText {
+    font-size: 0.98rem;
+  }
+  .whatsappBtn {
+    font-size: 1rem;
+    padding: 12px 10px;
+  }
+} 

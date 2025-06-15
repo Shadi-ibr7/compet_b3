@@ -1,0 +1,46 @@
+.footer {
+  padding: 40px 20px;
+  background-color: var(--color-primary);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-title {
+  font-family: 'Aconchego Text Test', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+  color: var(--color-secondary);
+}
+
+.footer-link {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.footer-link:hover {
+  opacity: 0.8;
+}
+
+.footer-contact {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18px;
+  color: var(--color-secondary);
+} 
