@@ -27,8 +27,8 @@ export default function LoginPage() {
         <button type="submit" className={styles.submitBtn}>Se connecter</button>
       </form>
       <div className={styles.signup}>
-        <span>Je n'ai pas de compte, </span>
-        <b className={styles.signupLink}>s'inscrire.</b>
+        <span>Je n&apos;ai pas de compte, </span>
+        <b className={styles.signupLink}>s&apos;inscrire.</b>
       </div>
     </div>
   );
