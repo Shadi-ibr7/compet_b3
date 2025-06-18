@@ -7,7 +7,7 @@ const HeroSection = () => {
     <section className={styles.hero}>
       <div className={styles.heroContent}>
         <h1 className={styles.title}>
-          Parce qu&apos;un projet<br />
+          Parce qu'un projet<br />
           ne se réalise <span className={styles.jamaisSeulBg}><span className={styles.jamaisSeul}>jamais seul</span></span>
         </h1>
         <div className={styles.mentorsInfo}>

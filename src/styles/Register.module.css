@@ -1,0 +1,120 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: url('/m.svg') center top no-repeat, #06104a;
+  background-size: 430px 727px;
+  color: #fefff3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  font-family: 'Montserrat', sans-serif;
+  padding: 32px 0;
+}
+
+.logo {
+  width: 85.5px;
+  height: 40px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.title {
+  font-family: 'Aconchego Text Test', sans-serif;
+  font-size: 2rem;
+  color: #fefff3;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.highlight {
+  color: #06104a;
+  background: #bef9de;
+  border-radius: 4px;
+  padding: 0 6px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #fefff3;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.form {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 600;
+  color: #fefff3;
+}
+
+.input {
+  border-radius: 4px;
+  background: #fefff3;
+  color: #06104a;
+  border: none;
+  padding: 16px;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.input::placeholder {
+  color: #06104a;
+  opacity: 0.5;
+}
+
+.submitBtn {
+  border-radius: 4px;
+  background: #bef9de;
+  color: #06104a;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 16px 0;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+
+.submitBtn:hover {
+  background: #3ec28f;
+}
+
+.login {
+  color: #fefff3;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 16px;
+}
+
+.loginLink {
+  color: #bef9de;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+  .container {
+    padding: 16px 0;
+    gap: 18px;
+  }
+  .form {
+    max-width: 98vw;
+  }
+  .title {
+    font-size: 1.2rem;
+  }
+} 
