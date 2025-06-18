@@ -1,5 +1,6 @@
 'use client';
 
+import React from "react";
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styles from "@/styles/Frame59.module.css";
@@ -59,36 +60,7 @@ const jobs = [
     stars: 5,
     cta: 'Voir le profil',
   },
-  {
-    id: 6,
-    name: 'Emma Leroy',
-    subtitle: 'Café littéraire',
-    location: 'Nantes, France',
-    image: '/image2.png',
-    description: "Un lieu cosy pour lire, échanger et déguster des pâtisseries maison.",
-    stars: 4,
-    cta: 'Voir le profil',
-  },
-  {
-    id: 7,
-    name: 'Lucas Petit',
-    subtitle: 'Atelier vélo',
-    location: 'Grenoble, France',
-    image: '/image2.png',
-    description: "Réparations rapides, conseils d'entretien et location de vélos pour tous.",
-    stars: 4.5,
-    cta: 'Voir le profil',
-  },
-  {
-    id: 8,
-    name: 'Nina Rousseau',
-    subtitle: 'Fromagerie artisanale',
-    location: 'Annecy, France',
-    image: '/image2.png',
-    description: "Sélection de fromages locaux, dégustations et conseils d'accords.",
-    stars: 5,
-    cta: 'Voir le profil',
-  },
+  
 ];
 
 const Card = ({ job }: { job: typeof jobs[0] }) => (
