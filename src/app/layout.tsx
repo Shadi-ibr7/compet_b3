@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 import { Providers } from "./providers";
 import { GoogleTagManager, GoogleTagManagerNoScript, GoogleAnalytics } from '@/components/Analytics';
+import SessionInfo from '@/components/auth/SessionInfo';
 
 export const metadata: Metadata = {
   title: "Molty - Votre partenaire pour le commerce local",
@@ -21,7 +22,10 @@ export default function RootLayout({
       </head>
       <body>
         <GoogleTagManagerNoScript />
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <SessionInfo />
+        </Providers>
       </body>
     </html>
   );

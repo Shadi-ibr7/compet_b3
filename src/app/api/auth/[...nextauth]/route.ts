@@ -1,83 +1,141 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { FirestoreAdapter } from "@auth/firebase-adapter";
-import { cert } from "firebase-admin/app";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { CustomFirebaseAdapter } from "@/lib/auth/firebase-adapter";
+
+import { getAuth } from "firebase-admin/auth";
+import { getFirestore } from "firebase-admin/firestore";
+import { cert, getApps, initializeApp } from "firebase-admin/app";
 import * as dotenv from 'dotenv';
+import { UserRole } from "@/types/common";
 
 // Charger les variables d'environnement
 dotenv.config();
 
+// Initialiser Firebase Admin si ce n'est pas déjà fait
+if (!getApps().length) {
+  initializeApp({
+    credential: cert({
+      projectId: process.env.PROJECT_ID,
+      clientEmail: process.env.CLIENT_EMAIL,
+      privateKey: process.env.PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    })
+  });
+}
+
+const auth = getAuth();
+const db = getFirestore();
+
 import type { NextAuthOptions } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 
 // Fonction pour formater la clé privée
-const formatPrivateKey = (key: string | undefined) => {
-  if (!key) return undefined;
-  // Remplacer les \n littéraux par des vrais retours à la ligne
-  const formattedKey = key
-    .replace(/\\n/g, '\n')
-    .replace(/"-----/g, '-----') // Enlever les guillemets au début s'ils existent
-    .replace(/-----"/g, '-----'); // Enlever les guillemets à la fin s'ils existent
-
-  // S'assurer que la clé commence et se termine correctement
-  if (!formattedKey.includes('-----BEGIN PRIVATE KEY-----')) {
-    console.error('La clé privée ne commence pas correctement');
-    return undefined;
-  }
-  if (!formattedKey.includes('-----END PRIVATE KEY-----')) {
-    console.error('La clé privée ne se termine pas correctement');
-    return undefined;
-  }
-
-  return formattedKey;
-};
-
-const privateKey = formatPrivateKey(process.env.PRIVATE_KEY);
-
-
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: '/auth/signin',
+  },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
+        isSignup: { label: "Is Signup", type: "text" },
+        name: { label: "Name", type: "text" },
+        role: { label: "Role", type: "text" }
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
-        
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error('Missing credentials');
+        }
+
         try {
-          const userCredential = await signInWithEmailAndPassword(
-            auth,
-            credentials.email,
-            credentials.password
-          );
-          
+          if (credentials.isSignup === 'true') {
+            try {
+              // Créer un nouvel utilisateur
+              const userRecord = await auth.createUser({
+                email: credentials.email,
+                password: credentials.password,
+                displayName: credentials.name,
+              });
+
+              // Créer le document utilisateur dans Firestore
+              await db.collection('users').doc(userRecord.uid).set({
+                email: credentials.email,
+                name: credentials.name,
+                role: credentials.role as UserRole,
+                status: credentials.role === 'molt' ? 'paid' : 'active',
+                createdAt: new Date().toISOString(),
+                emailVerified: false,
+              });
+
+              return {
+                id: userRecord.uid,
+                email: userRecord.email,
+                name: userRecord.displayName,
+                role: credentials.role as UserRole,
+              };
+            } catch (error) {
+              console.error('Signup error:', error);
+              if (error instanceof Error) {
+                throw new Error(error.message);
+              }
+              throw new Error('Erreur lors de la création du compte');
+            }
+          }
+
+          // Connexion normale
+          const userRecord = await auth.getUserByEmail(credentials.email);
+
+          // Récupérer les données utilisateur depuis Firestore
+          const userDoc = await db
+            .collection('users')
+            .doc(userRecord.uid)
+            .get();
+
+          if (!userDoc.exists) {
+            throw new Error('No user data found');
+          }
+
+          const userData = userDoc.data();
+
+          // Vérifier que ce n'est pas un compte admin
+          if (userData?.role === 'admin') {
+            throw new Error('Admin accounts cannot login through this interface');
+          }
+
           return {
-            id: userCredential.user.uid,
-            email: userCredential.user.email,
-            name: userCredential.user.displayName,
+            id: userRecord.uid,
+            email: userRecord.email,
+            name: userData?.name,
+            role: userData?.role,
+            image: userData?.linkPhoto
           };
         } catch (error) {
-          console.error("Error:", error);
-          return null;
+          console.error('Auth error:', error);
+          throw error;
         }
       }
     })
   ],
-  adapter: FirestoreAdapter({
-    credential: cert({
-      projectId: process.env.PROJECT_ID,
-      clientEmail: process.env.CLIENT_EMAIL,
-      privateKey: privateKey || '',
-    }),
-  }),
-  session: {
-    strategy: "jwt" as const
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role as UserRole;
+        token.id = user.id;
+      }
+      return token as JWT;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.role = token.role as UserRole;
+        session.user.id = token.id as string;
+      }
+      return session;
+    }
   },
-  pages: {
-    signIn: "/auth/signin",
+  adapter: CustomFirebaseAdapter(),
+  session: {
+    strategy: "jwt"
   }
 };
 

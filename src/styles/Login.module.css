@@ -109,6 +109,13 @@
   margin-top: 16px;
 }
 
+.error {
+  color: #e53e3e;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
 .signupLink {
   color: #bef9de;
   cursor: pointer;
