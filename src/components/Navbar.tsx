@@ -6,7 +6,7 @@ const LINKS = [
   { label: 'Accueil', href: '/' },
   { label: 'Trouver un job', href: '/jobs' },
   { label: 'On vous accompagne !', href: '/accompagnement' },
-  { label: 'Se connecter', href: '/login', special: true },
+  { label: 'Se connecter', href: '/auth/signin', special: true },
 ];
 
 const Navbar = () => {
