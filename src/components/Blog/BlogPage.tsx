@@ -20,7 +20,7 @@ export default function BlogPage() {
         if (!response.ok) throw new Error('Failed to fetch articles');
         const data = await response.json();
         setArticles(data);
-      } catch (err) {
+      } catch {
         setError('Erreur lors du chargement des articles');
       } finally {
         setLoading(false);

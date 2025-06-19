@@ -10,7 +10,7 @@ export default function RegisterPage() {
         <Image className={styles.logo} width={85.5} height={40} alt="Molty" src="/Logotype.svg" />
       </Link>
       <h1 className={styles.title}>
-        M’ <span className={styles.highlight}>inscrire</span>
+        M&apos; <span className={styles.highlight}>inscrire</span>
       </h1>
       <div className={styles.subtitle}>
         <b>Plus de 300 mentors</b> vous attendent
