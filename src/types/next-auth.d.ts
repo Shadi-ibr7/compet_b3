@@ -11,6 +11,7 @@ declare module "next-auth" {
 
   interface User extends DefaultUser {
     role: UserRole
+    linkPhoto?: string
   }
 }
 
@@ -18,5 +19,6 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string
     role: UserRole
+    linkPhoto?: string
   }
 }

@@ -41,7 +41,8 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
         isSignup: { label: "Is Signup", type: "text" },
         name: { label: "Name", type: "text" },
-        role: { label: "Role", type: "text" }
+        role: { label: "Role", type: "text" },
+        linkPhoto: { label: "Photo URL", type: "text" }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -66,6 +67,7 @@ export const authOptions: NextAuthOptions = {
                 status: credentials.role === 'molt' ? 'paid' : 'active',
                 createdAt: new Date().toISOString(),
                 emailVerified: false,
+                linkPhoto: credentials.linkPhoto || ""
               });
 
               return {
@@ -73,6 +75,7 @@ export const authOptions: NextAuthOptions = {
                 email: userRecord.email,
                 name: userRecord.displayName,
                 role: credentials.role as UserRole,
+                linkPhoto: credentials.linkPhoto || ""
               };
             } catch (error) {
               console.error('Signup error:', error);
@@ -122,6 +125,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.role = user.role as UserRole;
         token.id = user.id;
+        token.linkPhoto = user.linkPhoto;
       }
       return token as JWT;
     },
@@ -129,6 +133,7 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.role = token.role as UserRole;
         session.user.id = token.id as string;
+        session.user.image = token.linkPhoto;
       }
       return session;
     }
