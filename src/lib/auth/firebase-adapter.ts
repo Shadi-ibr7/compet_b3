@@ -1,5 +1,5 @@
 import { cert, initializeApp, getApps } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
+import { adminDb } from '../firebase-admin';
 import { Adapter, AdapterUser, AdapterAccount, AdapterSession } from "next-auth/adapters";
 import { UserRole } from "@/types/common";
 
@@ -13,7 +13,7 @@ if (!getApps().length) {
   });
 }
 
-const firestore = getFirestore();
+const firestore = adminDb;
 
 export interface CustomAdapterUser extends AdapterUser {
   role: UserRole;
