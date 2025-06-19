@@ -4,6 +4,9 @@ import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import { useState } from 'react';
 import type { IArticle } from '@/types/interfaces/article.interface';
+import type { IAnnonce } from '@/types/interfaces/annonce.interface';
+import AnnonceForm from '@/components/annonces/AnnonceForm';
+import AnnonceDisplay from '@/components/annonces/AnnonceDisplay';
 import { useEffect } from "react";
 
 export default function DashboardPage() {
@@ -14,6 +17,8 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [articleToDelete, setArticleToDelete] = useState<string | null>(null);
+  const [annonce, setAnnonce] = useState<IAnnonce | null>(null);
+  const [isEditingAnnonce, setIsEditingAnnonce] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -22,7 +27,20 @@ export default function DashboardPage() {
   }, [status, router]);
 
   useEffect(() => {
-    if (session?.user.role === 'admin') {
+    if (session?.user.role === 'mentor') {
+      // Charger l'annonce du mentor
+      fetch(`/api/annonces/mentor/${session.user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          setAnnonce(data);
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.error('Erreur lors du chargement de l\'annonce:', err);
+          setError('Erreur lors du chargement de l\'annonce');
+          setIsLoading(false);
+        });
+    } else if (session?.user.role === 'admin') {
       fetch('/api/articles')
         .then(res => res.json())
         .then(data => {
@@ -68,7 +86,71 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {session.user.role === 'admin' && (
+      {session?.user.role === 'mentor' && !isLoading && !error && (
+        <div className="py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-bold mb-8">Gestion de votre annonce</h2>
+            
+            {!annonce && !isEditingAnnonce && (
+              <div className="bg-white shadow rounded-lg p-6">
+                <p className="text-gray-600 mb-4">Vous n&apos;avez pas encore créé d&apos;annonce.</p>
+                <button
+                  onClick={() => setIsEditingAnnonce(true)}
+                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Créer une annonce
+                </button>
+              </div>
+            )}
+
+            {isEditingAnnonce && (
+              <AnnonceForm
+                initialData={annonce || undefined}
+                onSubmit={async (data) => {
+                  const method = annonce ? 'PUT' : 'POST';
+                  const url = annonce ? `/api/annonces/${annonce.id}` : '/api/annonces';
+                  
+                  const response = await fetch(url, {
+                    method,
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                  });
+
+                  if (!response.ok) {
+                    throw new Error('Erreur lors de la sauvegarde de l\'annonce');
+                  }
+
+                  const savedAnnonce = await response.json();
+                  setAnnonce(savedAnnonce);
+                  setIsEditingAnnonce(false);
+                }}
+              />
+            )}
+
+            {annonce && !isEditingAnnonce && (
+              <AnnonceDisplay
+                annonce={annonce}
+                onEdit={() => setIsEditingAnnonce(true)}
+                onDelete={async () => {
+                  const response = await fetch(`/api/annonces/${annonce.id}`, {
+                    method: 'DELETE',
+                  });
+
+                  if (!response.ok) {
+                    throw new Error('Erreur lors de la suppression de l\'annonce');
+                  }
+
+                  setAnnonce(null);
+                }}
+              />
+            )}
+          </div>
+        </div>
+      )}
+
+      {session?.user.role === 'admin' && !isLoading && !error && (
         <div className="mt-8">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold">Gestion des Articles</h2>

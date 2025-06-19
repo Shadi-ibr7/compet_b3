@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { CustomFirebaseAdapter } from "@/lib/auth/firebase-adapter";
 
 import { getAuth } from "firebase-admin/auth";
-import { getFirestore } from "firebase-admin/firestore";
+import { adminDb } from '@/lib/firebase-admin';
 import { cert, getApps, initializeApp } from "firebase-admin/app";
 import * as dotenv from 'dotenv';
 import { UserRole } from "@/types/common";
@@ -23,7 +23,7 @@ if (!getApps().length) {
 }
 
 const auth = getAuth();
-const db = getFirestore();
+const db = adminDb;
 
 import type { NextAuthOptions } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
