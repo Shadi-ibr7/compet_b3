@@ -8,7 +8,7 @@ const stats = [
   },
   {
     value: '+12%',
-    label: <><span>c'est</span> <span className={styles.highlight}>le nombre d'ouvertures</span> <span className={styles.highlight}>de</span> commerces indépendants</>
+    label: <><span>c&apos;est</span> <span className={styles.highlight}>le nombre d&apos;ouvertures</span> <span className={styles.highlight}>de</span> commerces indépendants</>
   }
 ];
 
@@ -18,17 +18,17 @@ const Frame54 = () => (
     <div className={styles.ellipseBottom} />
     <div className={styles.introBlock}>
       <h2 className={styles.title}>
-        Parce qu'un projet ne se réalise
+        Parce qu&apos;un projet ne se réalise
         <span className={styles.highlight}> jamais seul</span>
       </h2>
       <div className={styles.descBlock}>
         <p className={styles.desc}>
-          Ouvrir un commerce de proximité, ce n'est pas juste trouver un local :
-          <b> c'est créer un projet qui vous ressemble,</b>
+          Ouvrir un commerce de proximité, ce n&apos;est pas juste trouver un local :
+          <b> c&apos;est créer un projet qui vous ressemble,</b>
           utile à votre <b>quartier</b>, et <b>durable</b> dans le temps.
         </p>
         <p /*className={styles.desc}*/>
-          Chez nous, <b>vous n'êtes pas seul.</b>
+          Chez nous, <b>vous n&apos;êtes pas seul.</b>
         </p>
       </div>
     </div>
