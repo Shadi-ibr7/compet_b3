@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getArticleById, updateArticle, deleteArticle } from '@/lib/articles';
 
 export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
   try {
     const article = await getArticleById(params.id);
     if (!article) {

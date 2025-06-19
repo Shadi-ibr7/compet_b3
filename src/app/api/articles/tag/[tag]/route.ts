@@ -3,8 +3,9 @@ import { getArticlesByTag } from '@/lib/articles';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { tag: string } }
+  context: { params: { tag: string } }
 ) {
+  const { params } = context;
   try {
     const articles = await getArticlesByTag(params.tag);
     return NextResponse.json(articles);

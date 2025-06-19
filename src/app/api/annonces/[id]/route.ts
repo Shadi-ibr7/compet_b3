@@ -109,8 +109,9 @@ export async function DELETE(
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
   try {
     const annonceDoc = await db.collection('annonces').doc(params.id).get();
 
