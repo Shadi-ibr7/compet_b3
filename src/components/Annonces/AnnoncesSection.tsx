@@ -92,11 +92,11 @@ const AnnoncesSection = () => {
           <span>Localisation</span>
         </button>
         <button className={styles.filterBtn} onClick={() => setShowSector(v => !v)}>
-          <Image src="/Vector.svg" alt="" width={16} height={16} className={styles.filterIcon} />
+          <Image src="/Vector2.svg" alt="" width={16} height={16} className={styles.filterIcon} />
           <span>Secteur</span>
         </button>
         <button className={styles.filterBtnDark} onClick={() => setShowFilters(v => !v)}>
-          <Image src="/Vector (Stroke).svg" alt="" width={16} height={11} className={styles.filterIcon} />
+          <Image src="/Vector_Stroke.svg" alt="" width={16} height={11} className={styles.filterIcon} />
           <span>Plus de filtres</span>
         </button>
       </div>

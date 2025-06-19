@@ -166,7 +166,7 @@
   max-width: 370px;
   margin: 0 auto;
   position: relative;
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: #fefff3;
   border: 1.5px solid #06104a;
   box-sizing: border-box;
@@ -175,11 +175,116 @@
   align-items: flex-start;
   justify-content: flex-start;
   padding: 24px;
-  gap: 20px;
+  gap: 0;
   text-align: left;
   font-size: 16px;
   color: #06104a;
   font-family: Montserrat;
+}
+
+.cardImageWrapper {
+  width: 100%;
+  position: relative;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.cardImage {
+  width: 100%;
+  height: 173px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+  display: block;
+}
+
+.bookmarkBtn {
+  position: absolute;
+  top: 160px;
+  right: 16px;
+  background: #fefff3;
+  border: none;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.cardContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+}
+
+.cardTitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #06104a;
+  opacity: 0.5;
+  margin-bottom: 4px;
+}
+
+.cardJob {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #06104a;
+  margin-bottom: 8px;
+}
+
+.cardDesc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #06104a;
+  margin-bottom: 8px;
+}
+
+.cardDescLabel {
+  font-weight: 700;
+}
+
+.cardInfos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.cardInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #7b7b7b;
+}
+
+.cardInfoText {
+  opacity: 0.7;
+}
+
+.cardButton {
+  width: 100%;
+  background: #06104a;
+  color: #fefff3;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 16px 0;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+.cardButton:hover {
+  background: #3ec28f;
+  color: #06104a;
 }
 
 .pasPlusDannonces {
@@ -299,4 +404,14 @@
 .creerAvenirBtn:hover {
   background: #06104a;
   color: #fff;
+}
+
+@media (max-width: 500px) {
+  .rectangleParent {
+    padding: 16px;
+    max-width: 98vw;
+  }
+  .cardImage {
+    height: 140px;
+  }
 } 
