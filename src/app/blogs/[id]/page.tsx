@@ -12,8 +12,9 @@ async function getArticle(id: string) {
   return response.json();
 }
 
-export default async function ArticlePage({ params }: { params: { id: string } }) {
-  const article: IArticle = await getArticle(params.id);
+export default async function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const article: IArticle = await getArticle(id);
 
   if (!article) {
     return <div>Article non trouvé</div>;
