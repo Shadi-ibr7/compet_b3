@@ -40,24 +40,6 @@ const AnnoncesSection = () => {
     }
   ];
 
-  const PasPlusDannoncesIci = () => (
-    <b className={styles.pasPlusDannonces}>Pas plus d'annonces ici !</b>
-  );
-
-  const Frame68 = () => (
-    <div className={styles.groupParent}>
-      <div className={styles.etSiAuLieuDeChercherUnTParent}>
-        <div className={styles.etSiAuContainer}>
-          <span className={styles.etSiAu}>{`Et si au lieu de chercher un travail, `}</span>
-          <b>vous en créiez un ?</b>
-        </div>
-        <div className={styles.crerMonAvenirWrapper}>
-          <b className={styles.crerMonAvenir}>Créer mon avenir</b>
-        </div>
-      </div>
-    </div>
-  );
-
   const BlocFinAnnonces = () => (
     <div className={styles.blocFinWrapper}>
       <div className={styles.noMoreAds}>Pas plus d&apos;annonces ici !</div>
