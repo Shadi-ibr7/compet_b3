@@ -5,6 +5,7 @@ export interface IArticle {
   content?: string;
   auteur: string;
   lienPodcast?: string;
+  imageUrl: string; // URL de l'image de couverture de l'article
   meta: {
     title: string;
     description: string;

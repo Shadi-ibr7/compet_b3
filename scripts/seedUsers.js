@@ -19,66 +19,31 @@ const app = initializeApp({
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-async function createTestUsers() {
+async function createAdminUser() {
   try {
-    // Créer un compte Molt
-    const moltUser = await auth.createUser({
-      email: 'molt@test.com',
-      password: 'testpass123',
-      displayName: 'Test Molt'
+    // Créer un compte Admin
+    const adminUser = await auth.createUser({
+      email: 'admin2@molty.fr',
+      password: 'AdminMolty2025!',
+      displayName: 'Admin Molty'
     });
 
-    await db.collection('users').doc(moltUser.uid).set({
-      name: 'Test Molt',
-      linkPhoto: 'https://example.com/photo.jpg',
-      number: '+33123456789',
-      role: 'molt',
+    await db.collection('users').doc(adminUser.uid).set({
+      name: 'Admin Molty',
+      linkPhoto: null,
+      role: 'admin',
       dateCreation: new Date(),
-      paid: true,
-      linkedin: 'https://linkedin.com/in/testmolt',
-      experiences: [
-        {
-          type: 'education',
-          institution: 'Test University',
-          startDate: '2020-09-01',
-          endDate: '2023-06-30'
-        },
-        {
-          type: 'pro',
-          institution: 'Test Company',
-          position: 'Developer',
-          startDate: '2023-07-01'
-        }
-      ]
+      email: 'admin2@molty.fr',
+      permissions: ['create_article', 'edit_article', 'delete_article', 'manage_users']
     });
 
-    console.log('Molt user created:', moltUser.uid);
-
-    // Créer un compte Mentor
-    const mentorUser = await auth.createUser({
-      email: 'mentor@test.com',
-      password: 'testpass123',
-      displayName: 'Test Mentor'
-    });
-
-    await db.collection('users').doc(mentorUser.uid).set({
-      name: 'Test Mentor',
-      linkPhoto: 'https://example.com/mentor.jpg',
-      number: '+33987654321',
-      role: 'mentor',
-      dateCreation: new Date(),
-      domain: 'Web Development',
-      note: 4.5,
-      annonceId: null
-    });
-
-    console.log('Mentor user created:', mentorUser.uid);
+    console.log('Admin user created:', adminUser.uid);
 
   } catch (error) {
     console.error('Error creating test users:', error);
   }
 }
 
-createTestUsers()
-  .then(() => console.log('Test users created successfully'))
+createAdminUser()
+  .then(() => console.log('Admin user created successfully'))
   .catch(console.error);

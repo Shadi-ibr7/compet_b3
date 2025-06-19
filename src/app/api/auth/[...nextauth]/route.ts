@@ -51,6 +51,11 @@ export const authOptions: NextAuthOptions = {
 
         try {
           if (credentials.isSignup === 'true') {
+            // Vérifier que ce n'est pas une tentative de création de compte admin
+            if (credentials.role === 'admin') {
+              throw new Error('Admin accounts cannot be created through this interface');
+            }
+
             try {
               // Créer un nouvel utilisateur
               const userRecord = await auth.createUser({
@@ -101,10 +106,6 @@ export const authOptions: NextAuthOptions = {
 
           const userData = userDoc.data();
 
-          // Vérifier que ce n'est pas un compte admin
-          if (userData?.role === 'admin') {
-            throw new Error('Admin accounts cannot login through this interface');
-          }
 
           return {
             id: userRecord.uid,
