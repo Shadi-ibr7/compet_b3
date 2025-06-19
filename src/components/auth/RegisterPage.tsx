@@ -32,10 +32,10 @@ export default function RegisterPage() {
           <label className={styles.label}>Mot de passe</label>
           <input className={styles.input} type="password" placeholder="Entrez votre mot de passe ici" />
         </div>
-        <button type="submit" className={styles.submitBtn}>S'inscrire</button>
+        <button type="submit" className={styles.submitBtn}>S&apos;inscrire</button>
       </form>
       <div className={styles.login}>
-        <span>J'ai déjà un compte, </span>
+        <span>J&apos;ai déjà un compte, </span>
         <Link href="/auth/signin"><b className={styles.loginLink}>se connecter.</b></Link>
       </div>
     </div>

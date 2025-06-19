@@ -16,7 +16,7 @@ const AnnoncesSection = () => {
       image: "/image.png",
       title: "La Mie de Quartier",
       job: "Boulanger",
-      desc: "On pétrit chaque jour du bon pain, fait maison, avec des farines locales et beaucoup d'amour.",
+      desc: "On pétrit chaque jour du bon pain, fait maison, avec des farines locales et beaucoup d&apos;amour.",
       type: "Temps complet",
       location: "Fontainebleau, France"
     },
@@ -32,7 +32,7 @@ const AnnoncesSection = () => {
     {
       id: 3,
       image: "/image.png",
-      title: "Harry's Bar",
+      title: "Harry&apos;s Bar",
       job: "Bar Parisien",
       desc: "Situé au cœur de Paris, un lieu incontournable pour les amateurs de cocktails.",
       type: "Temps complet",
