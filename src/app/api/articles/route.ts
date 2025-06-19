@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllArticles, createArticle } from '@/lib/articles';
-import { Article } from '@/types/article';
+import { IArticle } from '@/types/interfaces/article.interface';
 
 export async function GET() {
   try {
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const article = await createArticle(body as Omit<Article, 'id'>);
+    const article = await createArticle(body as Omit<IArticle, 'id'>);
     return NextResponse.json(article, { status: 201 });
   } catch (error) {
     console.error('Error creating article:', error);
