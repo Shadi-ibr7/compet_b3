@@ -50,7 +50,7 @@ export async function PUT(
     await annonceRef.update(updateData);
 
     const updatedAnnonce = {
-      id: params.id,
+      id,
       ...updateData,
       date: updateData.date.toDate().toISOString(),
     };
