@@ -1,0 +1,302 @@
+.section {
+  width: 100%;
+  background: #fefff3;
+  padding: 24px 20px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.title {
+  width: 315px;
+  font-size: 24px;
+  font-family: 'Aconchego Text Test', sans-serif;
+  color: #06104a;
+  text-align: left;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.highlight {
+  background: #bef9de;
+  color: #06104a;
+  border-radius: 4px;
+  padding: 0 6px;
+}
+
+.searchBarWrapper {
+  width: 100%;
+  max-width: 350px;
+}
+
+.searchBar {
+  width: 100%;
+  border-radius: 4px;
+  background-color: #fefff3;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  gap: 8px;
+  height: 48px;
+}
+
+.iconRecherche {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: #06104a;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  outline: none;
+  padding: 8px 0;
+}
+
+.filtersRow {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.filterBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 4px;
+  border: 1px solid #06104a;
+  background: #fff;
+  color: #06104a;
+  font-family: Montserrat, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 8px;
+  height: 40px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.filterBtn:hover {
+  background: #bef9de;
+}
+
+.filterBtnDark {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 4px;
+  border: 1px solid #06104a;
+  background: #06104a;
+  color: #fefff3;
+  font-family: Montserrat, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 8px;
+  height: 40px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.filterBtnDark:hover {
+  background: #3ec28f;
+  color: #06104a;
+}
+
+.filterIcon {
+  display: inline-block;
+}
+
+.menuPopup {
+  margin-top: 8px;
+  background: #fff;
+  color: #06104a;
+  border: 1px solid #06104a;
+  border-radius: 4px;
+  padding: 16px;
+  font-size: 15px;
+  font-family: Montserrat, sans-serif;
+  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
+  max-width: 350px;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+}
+
+@media (max-width: 500px) {
+  .title, .searchBarWrapper, .filtersRow, .menuPopup {
+    max-width: 98vw;
+    width: 98vw;
+  }
+  .title {
+    font-size: 18px;
+    width: 98vw;
+  }
+}
+
+.cardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  max-width: 420px;
+  margin: 32px auto 0 auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.rectangleParent {
+  width: 100%;
+  max-width: 370px;
+  margin: 0 auto;
+  position: relative;
+  border-radius: 8px;
+  background-color: #fefff3;
+  border: 1.5px solid #06104a;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 24px;
+  gap: 20px;
+  text-align: left;
+  font-size: 16px;
+  color: #06104a;
+  font-family: Montserrat;
+}
+
+.pasPlusDannonces {
+  width: 196px;
+  position: relative;
+  font-size: 16px;
+  display: inline-block;
+  font-family: 'Aconchego Text Test';
+  color: #06104a;
+  text-align: left;
+  margin: 0 auto 32px auto;
+}
+
+.groupParent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 32px 0 0 0;
+}
+
+.etSiAuLieuDeChercherUnTParent {
+  width: 100%;
+  max-width: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.etSiAuContainer {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #06104a;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.etSiAu {
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.crerMonAvenirWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #bef9de;
+  border-radius: 8px;
+  padding: 14px 0;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+.crerMonAvenirWrapper:hover {
+  background: #3ec28f;
+}
+
+.crerMonAvenir {
+  color: #06104a;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.blocFinWrapper {
+  width: 100%;
+  max-width: 420px;
+  margin: 48px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.noMoreAds {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #06104a;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.questionBlock {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  color: #06104a;
+  text-align: center;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.questionBold {
+  font-weight: 700;
+}
+
+.creerAvenirBtn {
+  width: 100%;
+  max-width: 420px;
+  padding: 22px 0;
+  border: 2px solid #06104a;
+  border-radius: 10px;
+  background: #fff;
+  color: #06104a;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  margin: 0 auto 32px auto;
+  box-sizing: border-box;
+}
+.creerAvenirBtn:hover {
+  background: #06104a;
+  color: #fff;
+} 

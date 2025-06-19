@@ -1,10 +1,12 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getArticleById, updateArticle, deleteArticle } from '@/lib/articles';
 
-export async function GET(request: NextRequest, context: { params: { id: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const article = await getArticleById(context.params.id);
+    const article = await getArticleById(params.id);
     if (!article) {
       return NextResponse.json(
         { error: 'Article not found' },
@@ -21,10 +23,13 @@ export async function GET(request: NextRequest, context: { params: { id: string 
   }
 }
 
-export async function PUT(request: NextRequest, context: { params: { id: string } }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const body = await request.json();
-    const article = await updateArticle(context.params.id, body);
+    const article = await updateArticle(params.id, body);
     return NextResponse.json(article);
   } catch (error) {
     console.error('Error updating article:', error);
@@ -35,9 +40,12 @@ export async function PUT(request: NextRequest, context: { params: { id: string 
   }
 }
 
-export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    await deleteArticle(context.params.id);
+    await deleteArticle(params.id);
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     console.error('Error deleting article:', error);

@@ -7,6 +7,7 @@ import Frame58 from "@/components/Home/Frame58";
 import Frame60 from "@/components/Home/Frame60";
 import FAQ from "@/components/Home/FAQ";
 import Footer from "@/components/Home/Footer";
+import AnnoncesSection from "@/components/Annonces/AnnoncesSection";
 
 export default function Home() {
   return (
