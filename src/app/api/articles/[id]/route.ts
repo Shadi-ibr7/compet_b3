@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getArticleById, updateArticle, deleteArticle } from '@/lib/articles';
 
 export async function GET(
+<<<<<<< HEAD
   request: NextRequest,
+=======
+  _request: NextRequest,
+>>>>>>> origin/mathieu
   { params }: { params: { id: string } }
 ) {
   try {
@@ -41,7 +45,11 @@ export async function PUT(
 }
 
 export async function DELETE(
+<<<<<<< HEAD
   request: NextRequest,
+=======
+  _request: NextRequest,
+>>>>>>> origin/mathieu
   { params }: { params: { id: string } }
 ) {
   try {

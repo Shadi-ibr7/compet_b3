@@ -9,9 +9,10 @@ if (!admin.apps.length) {
       clientEmail: process.env.CLIENT_EMAIL,
       privateKey,
     }),
-
+    storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET
   });
 }
 
 export const adminDb = admin.firestore();
+export const adminStorage = admin.storage();
 
