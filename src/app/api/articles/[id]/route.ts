@@ -26,8 +26,9 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
   try {
     const body = await request.json();
     const article = await updateArticle(params.id, body);
@@ -42,9 +43,10 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _request: NextRequest,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: { id: string } }
 ) {
+  const { params } = context;
   try {
     await deleteArticle(params.id);
     return new NextResponse(null, { status: 204 });
