@@ -46,7 +46,7 @@ export default function LoginPage() {
       <div className={styles.subtitle}>
         <b>Plus de 300 mentors</b> vous attendent
       </div>
-      {error && <div className={styles.error}>{error}</div>}
+      <p className={styles.error}>{error && error.replace(/'/g, "&apos;")}</p>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.inputGroup}>
           <label className={styles.label}>Mail</label>

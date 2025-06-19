@@ -13,8 +13,7 @@ const Frame58: NextPage = () => {
         </h2>
         <div className={styles.descBlock}>
           <p>
-            Vous avez de l&apos;expérience dans le commerce de proximité et l&apos;
-            <strong className={styles.strong}>envie de transmettre</strong> ?
+            Vous avez de l&apos;expérience dans le commerce de proximité et l&apos;accompagnement.
           </p>
           <p>
             <strong className={styles.strong}>Rejoignez</strong> notre réseau de mentors et accompagnez les <strong className={styles.strong}>commerçants de demain.</strong>
