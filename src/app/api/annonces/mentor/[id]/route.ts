@@ -7,13 +7,13 @@ const db = adminDb;
 
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { params } = context;
   try {
+    const { id } = await params;
     // Récupérer l'annonce du mentor
     const annonceSnapshot = await db.collection('annonces')
-      .where('mentorId', '==', params.id)
+      .where('mentorId', '==', id)
       .limit(1)
       .get();
 

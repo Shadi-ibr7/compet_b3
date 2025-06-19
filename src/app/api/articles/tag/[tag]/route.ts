@@ -3,11 +3,11 @@ import { getArticlesByTag } from '@/lib/articles';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { tag: string } }
+  { params }: { params: Promise<{ tag: string }> }
 ) {
-  const { params } = context;
   try {
-    const articles = await getArticlesByTag(params.tag);
+    const { tag } = await params;
+    const articles = await getArticlesByTag(tag);
     return NextResponse.json(articles);
   } catch (error) {
     console.error('Error fetching articles by tag:', error);

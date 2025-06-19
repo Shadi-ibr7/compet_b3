@@ -9,7 +9,7 @@ const db = adminDb;
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -20,8 +20,9 @@ export async function PUT(
       );
     }
 
+    const { id } = await params;
     const data = await request.json();
-    const annonceRef = db.collection('annonces').doc(params.id);
+    const annonceRef = db.collection('annonces').doc(id);
     const annonceDoc = await annonceRef.get();
 
     if (!annonceDoc.exists) {
@@ -66,7 +67,7 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -77,7 +78,8 @@ export async function DELETE(
       );
     }
 
-    const annonceRef = db.collection('annonces').doc(params.id);
+    const { id } = await params;
+    const annonceRef = db.collection('annonces').doc(id);
     const annonceDoc = await annonceRef.get();
 
     if (!annonceDoc.exists) {
@@ -109,11 +111,11 @@ export async function DELETE(
 
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const { params } = context;
   try {
-    const annonceDoc = await db.collection('annonces').doc(params.id).get();
+    const { id } = await params;
+    const annonceDoc = await db.collection('annonces').doc(id).get();
 
     if (!annonceDoc.exists) {
       return NextResponse.json(
