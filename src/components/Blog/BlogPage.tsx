@@ -60,7 +60,7 @@ export default function BlogPage() {
           </Link>
         ))}
       </div>
-      <BlocFinAnnonces articles />
+      <BlocFinAnnonces />
     </main>
   );
 } 
