@@ -1,5 +1,5 @@
 import { adminDb } from './firebase-admin';
-import { Article } from '@/types/article';
+import { IArticle } from '@/types/interfaces/article.interface';
 
 const COLLECTION = 'articles';
 
@@ -8,7 +8,7 @@ export async function getAllArticles() {
   return snapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
-  })) as Article[];
+  })) as IArticle[];
 }
 
 export async function getArticleById(id: string) {
@@ -16,7 +16,7 @@ export async function getArticleById(id: string) {
   if (!doc.exists) {
     return null;
   }
-  return { id: doc.id, ...doc.data() } as Article;
+  return { id: doc.id, ...doc.data() } as IArticle;
 }
 
 export async function getArticlesByTag(tag: string) {
@@ -26,26 +26,26 @@ export async function getArticlesByTag(tag: string) {
   return snapshot.docs.map(doc => ({
     id: doc.id,
     ...doc.data()
-  })) as Article[];
+  })) as IArticle[];
 }
 
-export async function createArticle(article: Omit<Article, 'id'>) {
+export async function createArticle(article: Omit<IArticle, 'id'>) {
   const docRef = await adminDb.collection(COLLECTION).add({
     ...article,
     publishedAt: new Date().toISOString()
   });
   const newDoc = await docRef.get();
-  return { id: newDoc.id, ...newDoc.data() } as Article;
+  return { id: newDoc.id, ...newDoc.data() } as IArticle;
 }
 
-export async function updateArticle(id: string, article: Partial<Article>) {
+export async function updateArticle(id: string, article: Partial<IArticle>) {
   const docRef = adminDb.collection(COLLECTION).doc(id);
   await docRef.update({
     ...article,
     updatedAt: new Date().toISOString()
   });
   const updatedDoc = await docRef.get();
-  return { id: updatedDoc.id, ...updatedDoc.data() } as Article;
+  return { id: updatedDoc.id, ...updatedDoc.data() } as IArticle;
 }
 
 export async function deleteArticle(id: string) {
