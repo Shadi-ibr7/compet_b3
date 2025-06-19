@@ -19,7 +19,7 @@ export default function RootLayout({
         <GoogleTagManager />
         <GoogleAnalytics />
       </head>
-      <body>
+      <body style={{ background: '#fefff3' }}>
         <GoogleTagManagerNoScript />
         <Providers>
           {children}

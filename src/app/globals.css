@@ -32,6 +32,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+html, body {
+  background: #fefff3 !important;
+}
+
 /* Suppression de la couche @layer base */
 /* @layer base {
   html {

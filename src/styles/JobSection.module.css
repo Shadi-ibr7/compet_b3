@@ -45,131 +45,149 @@
 }
 
 .jobCard {
-  background: #fff;
-  border: 1px solid #172155;
-  border-radius: 8px;
-  box-shadow: 0 4px 24px 0 rgba(6,16,74,0.08);
-  width: 263px;
-  min-width: 263px;
-  max-width: 263px;
+  background: #fefff3;
+  border: 1.5px solid #06104a;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 24px;
-  position: relative;
-  transition: box-shadow 0.2s;
-  text-align: left;
+  gap: 0;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 370px;
 }
-.jobCard:hover {
-  box-shadow: 0 8px 32px 0 rgba(6,16,74,0.16);
-}
+
 .cardImageWrapper {
   width: 100%;
-  border-radius: 8px 8px 0 0;
+  border-radius: 12px 12px 0 0;
   overflow: hidden;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
+
 .cardImage {
   width: 100%;
   height: auto;
-  object-fit: cover;
   display: block;
-  border-radius: 8px 8px 0 0;
 }
-.bookmarkBtn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: #fff;
-  border-radius: 50%;
-  border: none;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
-  cursor: pointer;
-  z-index: 2;
-}
-.arrowBtn {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  background: #bef9de;
-  border-radius: 50%;
-  border: none;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
-  cursor: pointer;
-  z-index: 3;
-}
+
 .cardContent {
-  position: relative;
-  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  width: 100%;
+  gap: 20px;
+  padding: 0 0 0 0;
 }
-.bookmarkMobile {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 36px;
-  height: 36px;
-  background: #fff;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
-  cursor: pointer;
-  z-index: 2;
-}
+
 .cardTitle {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.1rem;
+  font-size: 14px;
+  color: #7b7b7b;
+  margin-bottom: 4px;
+}
+
+.cardJob {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
   font-weight: 700;
   color: #06104a;
   margin-bottom: 8px;
 }
-.cardJob {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #3ec28f;
-  margin-bottom: 8px;
-}
+
 .cardDesc {
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.98rem;
+  font-size: 16px;
   color: #06104a;
   margin-bottom: 8px;
 }
+
 .cardDescLabel {
-  font-weight: 600;
-  text-decoration: underline;
+  font-weight: 700;
 }
+
 .cardInfos {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin-top: 8px;
+  gap: 8px;
+  margin-bottom: 20px;
 }
+
 .cardInfo {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.95rem;
-  color: #7a7e8c;
+  gap: 8px;
+  font-size: 15px;
+  color: #7b7b7b;
+}
+
+.bookmarkMobile {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ellipseParent {
+  display: none;
+}
+
+.groupChild {
+  display: none;
+}
+
+.mdiarrowUpIcon {
+  display: none;
+}
+
+.vectorIcon, .groupIcon, .unionIcon {
+  display: inline-block;
+}
+
+.cardButtonWrapper {
+  margin-top: 20px;
+  margin-bottom: 24px;
+}
+
+.cardButton {
+  width: 100%;
+  background: #06104a;
+  color: #fefff3;
+  border: none;
+  border-radius: 8px;
   font-family: 'Montserrat', sans-serif;
-  opacity: 0.8;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 16px 0;
+  cursor: pointer;
+  margin-top: 0;
+  margin-bottom: 0;
+  transition: background 0.2s;
+}
+.cardButton:hover {
+  background: #3ec28f;
+  color: #06104a;
+}
+
+@media (max-width: 500px) {
+  .jobCard {
+    padding: 16px;
+    max-width: 98vw;
+  }
+  .cardImageWrapper {
+    margin-bottom: 16px;
+  }
+  .cardContent {
+    gap: 14px;
+  }
+  .cardInfos {
+    margin-bottom: 14px;
+  }
+  .cardButtonWrapper {
+    margin-top: 14px;
+    margin-bottom: 16px;
+  }
 }
 
 .ctaWrapper {
@@ -222,7 +240,7 @@
     gap: 8px;
   }
   .bookmarkMobile {
-    top: 12px;
+    top: 330px;
     right: 12px;
     width: 32px;
     height: 32px;
@@ -318,44 +336,6 @@
   height: 173px;
   object-fit: cover;
 }
-.ellipseParent {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  width: 40px;
-  height: 40px;
-  z-index: 2;
-}
-.groupChild {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  background-color: #bef9de;
-  width: 40px;
-  height: 40px;
-}
-.mdiarrowUpIcon {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-.vectorIcon {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0%;
-  right: 0%;
-  bottom: 0%;
-  left: 0%;
-  border-radius: 1.28px;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
 .descriptionCarte1 {
   position: relative;
   width: 263px;
@@ -404,21 +384,11 @@
   align-items: center;
   gap: 8px;
 }
-.groupIcon {
-  width: 16px;
-  position: relative;
-  max-height: 100%;
-}
 .unionParent {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 9px;
-}
-.unionIcon {
-  width: 12.8px;
-  position: relative;
-  max-height: 100%;
 }
 .dcouvrirLesAnnoncesWrapper {
   width: 390px;
