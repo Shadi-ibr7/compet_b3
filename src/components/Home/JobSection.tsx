@@ -87,7 +87,7 @@ const JobSection = () => {
         </Swiper>
         <div className={styles.dcouvrirLesAnnoncesWrapper}>
           <a href="/annonces" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <b>Découvrir les annonces</b>
+          <b>Découvrir les annonces</b>
           </a>
         </div>
       </div>

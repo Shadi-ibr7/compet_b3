@@ -38,7 +38,7 @@ export default function LoginPage() {
   return (
     <div className={styles.container}>
       <Link href="/">
-        <Image className={styles.logo} width={85.5} height={40} alt="Molty" src="/Logotype.svg" />
+      <Image className={styles.logo} width={85.5} height={40} alt="Molty" src="/Logotype.svg" />
       </Link>
       <h1 className={styles.title}>
         Me <span className={styles.highlight}>connecter</span>
