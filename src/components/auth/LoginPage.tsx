@@ -74,7 +74,7 @@ export default function LoginPage() {
       </form>
       <div className={styles.signup}>
         <span>Je n&apos;ai pas de compte, </span>
-        <Link href="/auth/testsignup" className={styles.signupLink}>s&apos;inscrire</Link>
+        <Link href="/auth/signup" className={styles.signupLink}>s&apos;inscrire</Link>
       </div>
     </div>
   );

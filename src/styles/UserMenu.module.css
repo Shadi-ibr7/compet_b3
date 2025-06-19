@@ -1,0 +1,132 @@
+.container {
+  position: relative;
+}
+
+.signInButton {
+  background: #BEF9DE;
+  color: #06104a;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-weight: 700;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.signInButton:hover {
+  background: #a7e9c7;
+}
+
+.avatarButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.avatarButton:hover {
+  transform: scale(1.05);
+}
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #BEF9DE;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #FEFFF3;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 280px;
+  padding: 16px;
+  z-index: 1000;
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(6, 16, 74, 0.1);
+}
+
+.menuAvatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.userName {
+  color: #06104a;
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userEmail {
+  color: #06104a;
+  opacity: 0.7;
+  font-size: 14px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menuItems {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menuItem {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #06104a;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.menuItem:hover {
+  background: rgba(190, 249, 222, 0.2);
+}
+
+.signOut {
+  color: #e53e3e;
+}
+
+.signOut:hover {
+  background: rgba(229, 62, 62, 0.1);
+} 

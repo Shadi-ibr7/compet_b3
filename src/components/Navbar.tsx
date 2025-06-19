@@ -1,12 +1,12 @@
 "use client";
 import styles from '@/styles/Navbar.module.css';
 import { useState } from 'react';
+import UserMenu from './UserMenu';
 
 const LINKS = [
   { label: 'Accueil', href: '/' },
   { label: 'Trouver un job', href: '/jobs' },
   { label: 'On vous accompagne !', href: '/accompagnement' },
-  { label: 'Se connecter', href: '/auth/signin', special: true },
 ];
 
 const Navbar = () => {
@@ -18,9 +18,12 @@ const Navbar = () => {
       <ul className={styles.linksDesktop}>
         {LINKS.map(link => (
           <li key={link.label}>
-            <a href={link.href} className={link.special ? styles.special : ''}>{link.label}</a>
+            <a href={link.href}>{link.label}</a>
           </li>
         ))}
+        <li>
+          <UserMenu />
+        </li>
       </ul>
       {/* Mobile burger */}
       <button className={styles.burger} onClick={() => setOpen(!open)} aria-label="Ouvrir le menu">
@@ -35,9 +38,12 @@ const Navbar = () => {
           <ul>
             {LINKS.map(link => (
               <li key={link.label}>
-                <a href={link.href} className={link.special ? styles.special : ''} onClick={() => setOpen(false)}>{link.label}</a>
+                <a href={link.href} onClick={() => setOpen(false)}>{link.label}</a>
               </li>
             ))}
+            <li className={styles.mobileUserMenu}>
+              <UserMenu />
+            </li>
           </ul>
         </div>
       )}
