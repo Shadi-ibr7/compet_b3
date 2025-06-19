@@ -14,7 +14,7 @@ const posts = [
     id: 1,
     image: '/image.png',
     title: '5 peurs courantes avant une reconversion et comment les dépasser',
-    desc: "Changer de voie professionnelle est une aventure aussi exaltante qu'angoissante. Avant même de franchir le pas, de nombreuses peurs surgissent..."
+    desc: "Changer de voie professionnelle est une aventure aussi exaltante qu&apos;angoissante. Avant même de franchir le pas, de nombreuses peurs surgissent..."
   },
   {
     id: 2,
@@ -39,7 +39,7 @@ const Frame60: NextPage = () => {
     <section className={styles.section}>
       <div className={styles.headerBlock}>
         <h2 className={styles.title}>
-          <span className={styles.highlight}>Le coin des idées, des conseils</span> et des <span className={styles.highlight}>retours d'expérience.</span>
+          <span className={styles.highlight}>Le coin des idées, des conseils</span> et des <span className={styles.highlight}>retours d&apos;expérience.</span>
         </h2>
       </div>
       <Swiper
