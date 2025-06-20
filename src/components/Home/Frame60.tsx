@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styles from "@/styles/Frame60.module.css";
@@ -22,6 +22,18 @@ const posts = [
     title: 'Oser se lancer : témoignages de commerçants',
     desc: 'Découvrez les parcours inspirants de ceux qui ont franchi le cap et ouvert leur commerce de proximité.'
   },
+  {
+    id: 3,
+    image: '/image.png',
+    title: 'Comment bien choisir son local commercial ?',
+    desc: 'Les critères essentiels pour sélectionner le bon emplacement et réussir son installation.'
+  },
+  {
+    id: 4,
+    image: '/image.png',
+    title: 'Trouver ses premiers clients : conseils pratiques',
+    desc: "Des astuces concrètes pour attirer et fidéliser une clientèle locale dès l'ouverture."
+  },
 ];
 
 const Card = ({ post }: { post: typeof posts[0] }) => (
@@ -35,31 +47,49 @@ const Card = ({ post }: { post: typeof posts[0] }) => (
 );
 
 const Frame60: NextPage = () => {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 1200);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  const showGrid = isDesktop && posts.length <= 4;
+
   return (
     <section className={styles.section}>
       <div className={styles.headerBlock}>
         <h2 className={styles.title}>
-          <span className={styles.highlight}>Le coin des idées, des conseils</span> et des <span className={styles.highlight}>retours d&apos;expérience.</span>
+          Le coin des idées, des conseils et <span className={styles.highlight}>des retours d&apos;expérience.</span>
         </h2>
       </div>
-      <Swiper
-        className={styles.cardsScroller}
-        modules={[Pagination]}
-        spaceBetween={24}
-        pagination={{ clickable: true }}
-        centeredSlides={true}
-        breakpoints={{
-          0: { slidesPerView: 1 },
-          700: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 }
-        }}
-      >
-        {posts.map((post) => (
-          <SwiperSlide key={post.id}>
-            <Card post={post} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {showGrid ? (
+        <div className={styles.cardsScroller}>
+          {posts.map((post) => (
+            <Card key={post.id} post={post} />
+          ))}
+        </div>
+      ) : (
+        <Swiper
+          className={styles.cardsScroller}
+          modules={[Pagination]}
+          spaceBetween={24}
+          pagination={{ clickable: true }}
+          centeredSlides={true}
+          breakpoints={{
+            0: { slidesPerView: 1 },
+            700: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1200: { slidesPerView: 4 }
+          }}
+        >
+          {posts.map((post) => (
+            <SwiperSlide key={post.id}>
+              <Card post={post} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
       <a href="/blog" className={styles.blogBtn}>Accéder au blog</a>
     </section>
   );

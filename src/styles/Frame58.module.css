@@ -9,30 +9,54 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-.introBlock {
+.contentWrapper {
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto 48px;
-  padding: 0 24px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 48px;
+  padding: 0 40px;
+}
+
+.leftCol {
+  flex: 1;
+  min-width: 420px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.rightCol {
+  flex: 1;
+  min-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
   gap: 24px;
-  text-align: center;
+  margin-top: 24px;
 }
 
 .title {
   font-family: 'AconchegoTextTest', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-size: 32px;
+  font-weight: 800;
   color: #fefff3;
-  line-height: 1.2;
-  position: relative;
+  line-height: 1.1;
+  margin-bottom: 32px;
+  text-align: left;
 }
 
 .highlight {
   position: relative;
   display: inline-block;
   color: #06104a;
+  padding: 0 18px;
+  background: none;
   z-index: 2;
 }
 
@@ -41,10 +65,26 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 4px;
-  height: 12px;
+  top: 55%;
+  transform: translateY(-50%);
+  height: 1.5em;
+  min-height: 38px;
   background: #bef9de;
+  border-radius: 8px;
   z-index: -1;
+}
+
+.descBlock {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #fefff3;
+  max-width: 600px;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.descBlock p {
+  margin-bottom: 0;
 }
 
 .strong {
@@ -52,38 +92,12 @@
   font-weight: 700;
 }
 
-.descBlock {
-  font-size: 18px;
-  line-height: 1.6;
-  color: #fefff3;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.descBlock p {
-  margin-bottom: 16px;
-}
-
-.descBlock p:last-child {
-  margin-bottom: 0;
-}
-
-.ctaBlock {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: center;
-  text-align: center;
-}
-
 .ctaText {
-  font-size: 18px;
+  font-size: 17px;
   color: #fefff3;
   line-height: 1.5;
+  margin-bottom: 18px;
+  text-align: left;
 }
 
 .ctaText strong {
@@ -91,89 +105,61 @@
 }
 
 .whatsappBtn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 12px;
   background: #bef9de;
   color: #06104a;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 18px;
-  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 22px;
+  padding: 24px 56px;
   text-decoration: none;
   transition: all 0.3s ease;
+  border: none;
+  box-shadow: none;
+  margin-top: 32px;
+  justify-content: center;
 }
 
-.whatsappBtn:hover {
-  background: #a7e9c7;
-  transform: translateY(-2px);
+.whatsappBtn span {
+  font-weight: 800;
+  font-size: 22px;
 }
 
-@media (min-width: 1024px) {
-  .section {
-    padding: 120px 0;
-  }
-
-  .introBlock {
-    padding: 0 40px;
-    margin-bottom: 64px;
-  }
-
-  .title {
-    font-size: 3.5rem;
-  }
-
-  .descBlock {
-    font-size: 20px;
-  }
-
-  .ctaBlock {
-    padding: 0 40px;
-  }
-
-  .ctaText {
-    font-size: 20px;
-  }
-
-  .whatsappBtn {
-    padding: 20px 40px;
-    font-size: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .section {
-    padding: 60px 0;
-  }
-
-  .introBlock {
+@media (max-width: 1024px) {
+  .contentWrapper {
+    flex-direction: column;
+    gap: 32px;
     padding: 0 16px;
-    margin-bottom: 32px;
-    text-align: left;
   }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .descBlock {
-    font-size: 16px;
-  }
-
-  .ctaBlock {
-    padding: 0 16px;
-    text-align: left;
+  .leftCol, .rightCol {
+    min-width: 0;
+    width: 100%;
     align-items: flex-start;
   }
-
-  .ctaText {
+  .rightCol {
+    margin-top: 0;
+  }
+  .title {
+    font-size: 32px;
+  }
+  .highlight {
+    padding: 0 10px;
+  }
+  .highlight::after {
+    min-height: 28px;
+    border-radius: 6px;
+  }
+  .descBlock {
     font-size: 16px;
   }
-
-  .whatsappBtn {
-    width: 100%;
-    padding: 14px 24px;
+  .ctaText {
+    font-size: 15px;
+  }
+  .whatsappBtn, .whatsappBtn span {
     font-size: 16px;
-    justify-content: center;
+    padding: 14px 24px;
+    border-radius: 8px;
   }
 } 

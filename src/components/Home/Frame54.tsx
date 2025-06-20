@@ -17,9 +17,7 @@ const Frame54 = () => (
     <div className={styles.contentWrapper}>
       <div className={styles.textColumn}>
         <h2 className={styles.title}>
-          Parce qu&apos;un projet ne
-          <br />
-          se réalise <span className={styles.highlightTitle}>jamais seul</span>
+          Parce qu&apos;un projet ne se réalise <span className={styles.highlightTitle}>jamais seul</span>
         </h2>
         <div className={styles.descBlock}>
           <p className={styles.desc}>
