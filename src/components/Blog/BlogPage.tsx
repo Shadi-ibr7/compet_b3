@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./BlogPage.module.css";
 import FeaturedArticleCard from "./FeaturedArticleCard";
 import ArticleCard from "./ArticleCard";
-import BlocFinAnnonces from "../Annonces/BlocFinAnnonces";
+import BlocFinAnnonces from "../annonces/BlocFinAnnonces";
 import { IArticle } from '@/types/interfaces/article.interface';
 import Link from 'next/link';
 

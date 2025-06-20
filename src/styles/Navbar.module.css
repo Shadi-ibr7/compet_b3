@@ -14,6 +14,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
 .linksDesktop li a {
@@ -129,11 +130,23 @@
 
 .close {
   position: absolute;
-  top: 16px;
+  top: 24px;
   right: 24px;
   background: none;
   border: none;
-  font-size: 32px;
   color: #FEFFF3;
+  font-size: 32px;
   cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileUserMenu {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(254, 255, 243, 0.1);
 } 

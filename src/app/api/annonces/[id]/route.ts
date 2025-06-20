@@ -9,7 +9,7 @@ const db = adminDb;
 
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -20,7 +20,7 @@ export async function PUT(
       );
     }
 
-    const { id } = await params;
+    const { id } = context.params;
     const data = await request.json();
     const annonceRef = db.collection('annonces').doc(id);
     const annonceDoc = await annonceRef.get();
@@ -67,7 +67,7 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -78,7 +78,7 @@ export async function DELETE(
       );
     }
 
-    const { id } = await params;
+    const { id } = context.params;
     const annonceRef = db.collection('annonces').doc(id);
     const annonceDoc = await annonceRef.get();
 
@@ -111,10 +111,10 @@ export async function DELETE(
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  context: { params: { id: string } }
 ) {
   try {
-    const { id } = await params;
+    const { id } = context.params;
     const annonceDoc = await db.collection('annonces').doc(id).get();
 
     if (!annonceDoc.exists) {

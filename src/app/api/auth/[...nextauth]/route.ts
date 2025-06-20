@@ -42,7 +42,10 @@ export const authOptions: NextAuthOptions = {
         isSignup: { label: "Is Signup", type: "text" },
         name: { label: "Name", type: "text" },
         role: { label: "Role", type: "text" },
-        linkPhoto: { label: "Photo URL", type: "text" }
+        linkPhoto: { label: "Photo URL", type: "text" },
+        address: { label: "Address", type: "text" },
+        city: { label: "City", type: "text" },
+        cvUrl: { label: "CV URL", type: "text" }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -72,7 +75,10 @@ export const authOptions: NextAuthOptions = {
                 status: credentials.role === 'molt' ? 'paid' : 'active',
                 createdAt: new Date().toISOString(),
                 emailVerified: false,
-                linkPhoto: credentials.linkPhoto || ""
+                linkPhoto: credentials.linkPhoto || "",
+                address: credentials.address || "",
+                city: credentials.city || "",
+                cvUrl: credentials.cvUrl || ""
               });
 
               return {

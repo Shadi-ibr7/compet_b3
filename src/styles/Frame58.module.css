@@ -6,33 +6,45 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
   font-family: 'Montserrat', sans-serif;
 }
 
 .introBlock {
-  max-width: 480px;
   width: 100%;
-  margin: 0 auto 32px auto;
+  max-width: 1200px;
+  margin: 0 auto 48px;
+  padding: 0 24px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  text-align: left;
+  gap: 24px;
+  text-align: center;
 }
 
 .title {
-  font-family: 'Aconchego Text Test', sans-serif;
-  font-size: 2rem;
+  font-family: 'AconchegoTextTest', sans-serif;
+  font-size: 2.5rem;
   font-weight: 700;
   color: #fefff3;
   line-height: 1.2;
-  margin-bottom: 8px;
+  position: relative;
 }
 
 .highlight {
-  background: #bef9de;
+  position: relative;
+  display: inline-block;
   color: #06104a;
-  font-weight: 700;
+  z-index: 2;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 12px;
+  background: #bef9de;
+  z-index: -1;
 }
 
 .strong {
@@ -41,65 +53,127 @@
 }
 
 .descBlock {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.6;
   color: #fefff3;
-  gap: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.descBlock p {
+  margin-bottom: 16px;
+}
+
+.descBlock p:last-child {
+  margin-bottom: 0;
 }
 
 .ctaBlock {
-  max-width: 480px;
   width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  align-items: left;
+  gap: 24px;
+  align-items: center;
+  text-align: center;
 }
 
 .ctaText {
-  font-size: 16px;
+  font-size: 18px;
   color: #fefff3;
-  text-align: left;
+  line-height: 1.5;
+}
+
+.ctaText strong {
+  font-weight: 700;
 }
 
 .whatsappBtn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   background: #bef9de;
   color: #06104a;
-  border-radius: 4px;
+  border-radius: 8px;
   font-weight: 700;
-  font-size: 14px;
-  padding: 14px 24px;
+  font-size: 18px;
+  padding: 16px 32px;
   text-decoration: none;
-  transition: background 0.2s;
-  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
+  transition: all 0.3s ease;
 }
 
 .whatsappBtn:hover {
-  background: #3ec28f;
-  color: #06104a;
+  background: #a7e9c7;
+  transform: translateY(-2px);
 }
 
-@media (max-width: 600px) {
+@media (min-width: 1024px) {
   .section {
-    padding: 32px 0;
-    gap: 18px;
+    padding: 120px 0;
   }
-  .introBlock, .ctaBlock {
-    max-width: 98vw;
-    padding: 0 8px;
+
+  .introBlock {
+    padding: 0 40px;
+    margin-bottom: 64px;
   }
+
   .title {
-    font-size: 1.1rem;
+    font-size: 3.5rem;
   }
+
+  .descBlock {
+    font-size: 20px;
+  }
+
+  .ctaBlock {
+    padding: 0 40px;
+  }
+
   .ctaText {
-    font-size: 0.98rem;
+    font-size: 20px;
   }
+
   .whatsappBtn {
-    font-size: 1rem;
-    padding: 12px 10px;
+    padding: 20px 40px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 0;
+  }
+
+  .introBlock {
+    padding: 0 16px;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .descBlock {
+    font-size: 16px;
+  }
+
+  .ctaBlock {
+    padding: 0 16px;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .ctaText {
+    font-size: 16px;
+  }
+
+  .whatsappBtn {
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 16px;
+    justify-content: center;
   }
 } 
