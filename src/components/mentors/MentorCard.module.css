@@ -12,6 +12,21 @@
   color: #06104A;
   font-family: 'Montserrat', sans-serif;
   margin: 0 auto;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(6,16,74,0.12);
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1;
 }
 
 .cardHeader {

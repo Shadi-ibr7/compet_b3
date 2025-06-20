@@ -1,6 +1,7 @@
 import { IBaseUser } from './base-user.interface';
 
 export interface IMentor extends IBaseUser {
+  id?: string;           // ID unique du mentor
   role: "mentor";
   nom: string;           // Nom affiché du mentor
   job: string;           // Métier/profession

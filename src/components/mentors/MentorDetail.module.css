@@ -1,0 +1,408 @@
+.container {
+  min-height: 100vh;
+  background: #fefff3;
+  font-family: 'Montserrat', sans-serif;
+  color: #06104A;
+}
+
+/* Hero Section */
+.heroSection {
+  background: linear-gradient(135deg, #fefff3 0%, #f8fff0 100%);
+  padding: 60px 20px;
+  border-bottom: 1px solid rgba(6, 16, 74, 0.1);
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.mentorHeader {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.heroAvatar {
+  border-radius: 16px;
+  object-fit: cover;
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+  border: 3px solid #06104A;
+  box-shadow: 0 8px 24px rgba(6, 16, 74, 0.15);
+}
+
+.mentorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.mentorName {
+  color: #06104A;
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.mentorJob {
+  color: #23306a;
+  font-size: 1.5rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.mentorLocation {
+  color: #23306a;
+  font-size: 1.2rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mentorRating {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stars {
+  color: #06104A;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.ratingText {
+  color: #23306a;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.mentorDescription {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid rgba(6, 16, 74, 0.1);
+}
+
+.sectionTitle {
+  color: #06104A;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+}
+
+.description {
+  color: #06104A;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  font-weight: 500;
+  margin: 0;
+}
+
+
+
+/* Annonces Section */
+.annoncesSection {
+  padding: 80px 20px;
+}
+
+.annoncesContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.annoncesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* No Annonces State */
+.noAnnonces {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  border: 2px dashed rgba(6, 16, 74, 0.2);
+  margin-top: 40px;
+}
+
+.noAnnoncesIcon {
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+
+.noAnnoncesTitle {
+  color: #06104A;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+
+.noAnnoncesText {
+  color: #23306a;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0 0 32px 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.backToMentors {
+  display: inline-block;
+  background: #06104A;
+  color: #fefff3;
+  text-decoration: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.backToMentors:hover {
+  background: #23306a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(6, 16, 74, 0.3);
+}
+
+/* Available Annonces State */
+.availableAnnonces {
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(190, 249, 222, 0.3);
+  border-radius: 16px;
+  border: 2px dashed rgba(6, 16, 74, 0.2);
+  margin-top: 40px;
+}
+
+.availableIcon {
+  margin-bottom: 24px;
+  opacity: 0.8;
+}
+
+.availableTitle {
+  color: #06104A;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+
+.availableText {
+  color: #23306a;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0 0 32px 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.annoncesList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.annonceItem {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(6, 16, 74, 0.1);
+  text-align: left;
+}
+
+.annonceTitle {
+  color: #06104A;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.annonceCompany {
+  color: #23306a;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.annonceLocation {
+  color: #23306a;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.contactPrompt {
+  background: rgba(6, 16, 74, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.contactPrompt p {
+  color: #23306a;
+  font-size: 1rem;
+  margin: 0 0 8px 0;
+}
+
+.contactHighlight {
+  color: #06104A;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Navigation Section */
+.navigationSection {
+  padding: 40px 20px;
+  border-top: 1px solid rgba(6, 16, 74, 0.1);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #06104A;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.backButton:hover {
+  background: rgba(6, 16, 74, 0.1);
+  transform: translateX(-4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 40px 16px;
+  }
+  
+  .mentorHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+  }
+  
+  .heroAvatar {
+    width: 150px;
+    height: 150px;
+    align-self: center;
+  }
+  
+  .mentorName {
+    font-size: 2.2rem;
+  }
+  
+  .mentorJob {
+    font-size: 1.3rem;
+  }
+  
+  .mentorLocation {
+    font-size: 1.1rem;
+    justify-content: center;
+  }
+  
+  
+  .annoncesSection {
+    padding: 60px 16px;
+  }
+  
+  .annoncesGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .mentorDescription {
+    padding: 24px;
+  }
+  
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+  
+  .description {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroAvatar {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .mentorName {
+    font-size: 1.8rem;
+  }
+  
+  .mentorJob {
+    font-size: 1.1rem;
+  }
+  
+  
+  .mentorDescription {
+    padding: 20px;
+  }
+  
+  .noAnnonces {
+    padding: 40px 16px;
+  }
+  
+  .noAnnoncesTitle {
+    font-size: 1.3rem;
+  }
+  
+  .noAnnoncesText {
+    font-size: 1rem;
+  }
+  
+  .availableAnnonces {
+    padding: 40px 16px;
+  }
+  
+  .availableTitle {
+    font-size: 1.3rem;
+  }
+  
+  .availableText {
+    font-size: 1rem;
+  }
+  
+  .annonceItem {
+    padding: 16px;
+  }
+  
+  .annonceTitle {
+    font-size: 1.1rem;
+  }
+  
+  .contactPrompt {
+    padding: 16px;
+  }
+}

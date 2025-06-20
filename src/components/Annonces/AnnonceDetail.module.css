@@ -1,0 +1,420 @@
+.container {
+  min-height: 100vh;
+  background: #fefff3;
+  font-family: 'Montserrat', sans-serif;
+  color: #06104A;
+}
+
+/* Annonce Section */
+.annonceSection {
+  background: linear-gradient(135deg, #fefff3 0%, #f8fff0 100%);
+  padding: 60px 20px;
+  border-bottom: 1px solid rgba(6, 16, 74, 0.1);
+}
+
+.annonceContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.annonceHeader {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.annonceImage {
+  border-radius: 12px;
+  object-fit: cover;
+  width: 300px;
+  height: 200px;
+  flex-shrink: 0;
+  border: 2px solid #06104A;
+  box-shadow: 0 8px 24px rgba(6, 16, 74, 0.15);
+}
+
+.annonceInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.annonceTitle {
+  color: #06104A;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.annonceCompany {
+  color: #23306a;
+  font-size: 1.3rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.annonceDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.annonceDetail {
+  color: #23306a;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.annonceDescription {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid rgba(6, 16, 74, 0.1);
+}
+
+.sectionTitle {
+  color: #06104A;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+}
+
+.description {
+  color: #06104A;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Mentor Section */
+.mentorSection {
+  padding: 60px 20px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.mentorContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mentorCard {
+  background: #fefff3;
+  border: 1.5px solid #06104A;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
+  box-shadow: 0 4px 12px rgba(6, 16, 74, 0.08);
+}
+
+.mentorLink {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  text-decoration: none;
+  color: inherit;
+  margin-bottom: 16px;
+  transition: transform 0.2s;
+}
+
+.mentorLink:hover {
+  transform: translateY(-2px);
+}
+
+.mentorAvatar {
+  border-radius: 8px;
+  object-fit: cover;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border: 2px solid #06104A;
+}
+
+.mentorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.mentorName {
+  color: #06104A;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.mentorJob {
+  color: #23306a;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.mentorLocation {
+  color: #23306a;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mentorRating {
+  color: #06104A;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.mentorDescription {
+  color: #06104A;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 500;
+  padding-top: 16px;
+  border-top: 1px solid rgba(6, 16, 74, 0.1);
+}
+
+/* Application Section */
+.applicationSection {
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #fefff3 0%, #f8fff0 100%);
+}
+
+.applicationContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.applicationCard {
+  background: #fefff3;
+  border: 2px solid #06104A;
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(6, 16, 74, 0.15);
+}
+
+.applicationTitle {
+  color: #06104A;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 24px 0;
+}
+
+.statusMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.statusMessage.login {
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.statusMessage.upgrade {
+  background: rgba(0, 123, 255, 0.1);
+  border: 1px solid rgba(0, 123, 255, 0.3);
+}
+
+.statusMessage.payment {
+  background: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.statusMessage p {
+  color: #06104A;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.applicationButton {
+  background: #bef9de;
+  color: #06104A;
+  border: 2px solid #06104A;
+  border-radius: 8px;
+  padding: 16px 32px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto;
+  min-width: 200px;
+}
+
+.applicationButton.enabled:hover {
+  background: #a6e7c7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(6, 16, 74, 0.2);
+}
+
+.applicationButton.disabled {
+  background: #06104A;
+  color: #fefff3;
+  opacity: 0.9;
+}
+
+.applicationButton.disabled:hover {
+  background: #23306a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(6, 16, 74, 0.3);
+}
+
+.applicationNote {
+  color: #23306a;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 16px 0 0 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Navigation Section */
+.navigationSection {
+  padding: 40px 20px;
+  border-top: 1px solid rgba(6, 16, 74, 0.1);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #06104A;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.backButton:hover {
+  background: rgba(6, 16, 74, 0.1);
+  transform: translateX(-4px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .annonceSection {
+    padding: 40px 16px;
+  }
+  
+  .annonceHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+  }
+  
+  .annonceImage {
+    width: 100%;
+    max-width: 300px;
+    height: 200px;
+    align-self: center;
+  }
+  
+  .annonceTitle {
+    font-size: 2rem;
+  }
+  
+  .annonceCompany {
+    font-size: 1.2rem;
+  }
+  
+  .annonceDetails {
+    align-items: center;
+  }
+  
+  .mentorSection {
+    padding: 40px 16px;
+  }
+  
+  .mentorLink {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .mentorInfo {
+    align-items: center;
+  }
+  
+  .applicationSection {
+    padding: 40px 16px;
+  }
+  
+  .applicationCard {
+    padding: 24px;
+  }
+  
+  .annonceDescription {
+    padding: 24px;
+  }
+  
+  .sectionTitle {
+    font-size: 1.5rem;
+  }
+  
+  .description {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .annonceImage {
+    width: 100%;
+    height: 150px;
+  }
+  
+  .annonceTitle {
+    font-size: 1.8rem;
+  }
+  
+  .annonceCompany {
+    font-size: 1.1rem;
+  }
+  
+  .applicationCard {
+    padding: 20px;
+  }
+  
+  .applicationTitle {
+    font-size: 1.5rem;
+  }
+  
+  .applicationButton {
+    font-size: 1rem;
+    padding: 14px 24px;
+    min-width: 180px;
+  }
+  
+  .mentorCard {
+    padding: 20px;
+  }
+  
+  .annonceDescription {
+    padding: 20px;
+  }
+}

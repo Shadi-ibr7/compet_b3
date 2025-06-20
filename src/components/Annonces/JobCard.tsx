@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import styles from "./AnnoncesSection.module.css";
 
@@ -35,8 +36,11 @@ const JobCard = ({ job, annonce }: JobCardProps) => {
   // Créer un alt text descriptif pour l'accessibilité
   const altText = `Annonce pour ${displayData.job} chez ${displayData.title}`;
 
-  return (
-    <div className={styles.rectangleParent}>
+  // Determine the link URL based on whether we have an annonce or job
+  const linkUrl = annonce?.id ? `/annonces/${annonce.id}` : null;
+
+  const cardContent = (
+    <>
       <div className={styles.cardImageWrapper}>
         <Image 
           className={styles.cardImage} 
@@ -72,6 +76,18 @@ const JobCard = ({ job, annonce }: JobCardProps) => {
         </div>
         <button className={styles.cardButton}>Postuler</button>
       </div>
+    </>
+  );
+
+  return (
+    <div className={styles.rectangleParent}>
+      {linkUrl ? (
+        <Link href={linkUrl} className={styles.cardLink}>
+          {cardContent}
+        </Link>
+      ) : (
+        cardContent
+      )}
     </div>
   );
 };
