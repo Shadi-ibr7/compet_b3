@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import styles from '@/styles/ArticleForm.module.css';
 import type { IArticle } from '@/types/interfaces/article.interface';
 
 interface ArticleFormProps {
@@ -16,24 +17,19 @@ export default function ArticleForm({ initialData, onSubmit }: ArticleFormProps)
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
-  // Form fields
   const [title, setTitle] = useState(initialData?.title || '');
   const [content, setContent] = useState(initialData?.content || '');
   const [auteur, setAuteur] = useState(initialData?.auteur || '');
   const [metaTitle, setMetaTitle] = useState(initialData?.meta?.title || '');
   const [metaDescription, setMetaDescription] = useState(initialData?.meta?.description || '');
   const [metaKeywords, setMetaKeywords] = useState(initialData?.meta?.keywords?.join(', ') || '');
-  
-  // File inputs
-  const [podcastFile, setPodcastFile] = useState<File | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [currentPodcastUrl] = useState(initialData?.lienPodcast || '');
-  const [currentImageUrl] = useState(initialData?.imageUrl || '');
+  const [podcastFile, setPodcastFile] = useState<File | null>(null);
+  const [currentImageUrl, setCurrentImageUrl] = useState(initialData?.imageUrl || '');
+  const [currentPodcastUrl, setCurrentPodcastUrl] = useState(initialData?.lienPodcast || '');
   
-  // Refs pour réinitialiser les input file
-  const podcastInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const podcastInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,135 +102,168 @@ export default function ArticleForm({ initialData, onSubmit }: ArticleFormProps)
   };
 
   if (session?.user?.role !== 'admin') {
-    return <div className="p-4">Accès non autorisé</div>;
+    return <div className={styles.unauthorized}>Accès non autorisé</div>;
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl mx-auto p-4">
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          {error}
-        </div>
-      )}
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h1 className={styles.title}>
+          {initialData ? 'Modifier l\'article' : 'Nouvel Article'}
+        </h1>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Titre</label>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Contenu</label>
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={10}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Auteur</label>
-        <input
-          type="text"
-          value={auteur}
-          onChange={(e) => setAuteur(e.target.value)}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Image de couverture</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-          ref={imageInputRef}
-          className="mt-1 block w-full"
-        />
-        {currentImageUrl && (
-          <div className="mt-2">
-            <Image src={currentImageUrl} alt="Preview" width={128} height={128} className="h-32 w-auto object-cover rounded" />
+        {error && (
+          <div className={styles.error}>
+            {error}
           </div>
         )}
-      </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Fichier Podcast (optionnel)</label>
-        <input
-          type="file"
-          accept=".mp3,.wav,.m4a,.aac,.ogg"
-          onChange={(e) => setPodcastFile(e.target.files?.[0] || null)}
-          ref={podcastInputRef}
-          className="mt-1 block w-full"
-        />
-        {currentPodcastUrl && (
-          <div className="mt-2">
-            <audio controls src={currentPodcastUrl} className="w-full" />
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Informations principales</h2>
+          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Titre</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className={styles.input}
+              placeholder="Titre de l'article"
+            />
           </div>
-        )}
-      </div>
 
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium">Meta données</h3>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Meta Title</label>
-          <input
-            type="text"
-            value={metaTitle}
-            onChange={(e) => setMetaTitle(e.target.value)}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          />
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Contenu</label>
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows={10}
+              className={styles.textarea}
+              placeholder="Contenu de l'article"
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Auteur</label>
+            <input
+              type="text"
+              value={auteur}
+              onChange={(e) => setAuteur(e.target.value)}
+              required
+              className={styles.input}
+              placeholder="Nom de l'auteur"
+            />
+          </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Meta Description</label>
-          <textarea
-            value={metaDescription}
-            onChange={(e) => setMetaDescription(e.target.value)}
-            required
-            rows={3}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          />
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Médias</h2>
+
+          <div className={styles.mediaSection}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Image de couverture</label>
+              <div className={styles.uploadArea}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                  ref={imageInputRef}
+                  className={styles.hiddenInput}
+                  id="image-upload"
+                />
+                <label htmlFor="image-upload" className={styles.uploadButton}>
+                  <Image src="/upload.svg" width={24} height={24} alt="" />
+                  <span>Choisir une image</span>
+                </label>
+                {currentImageUrl && (
+                  <div className={styles.preview}>
+                    <Image src={currentImageUrl} alt="Preview" width={200} height={200} className={styles.previewImage} />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Fichier Podcast (optionnel)</label>
+              <div className={styles.uploadArea}>
+                <input
+                  type="file"
+                  accept=".mp3,.wav,.m4a,.aac,.ogg"
+                  onChange={(e) => setPodcastFile(e.target.files?.[0] || null)}
+                  ref={podcastInputRef}
+                  className={styles.hiddenInput}
+                  id="podcast-upload"
+                />
+                <label htmlFor="podcast-upload" className={styles.uploadButton}>
+                  <Image src="/upload.svg" width={24} height={24} alt="" />
+                  <span>Choisir un podcast</span>
+                </label>
+                {currentPodcastUrl && (
+                  <div className={styles.preview}>
+                    <audio controls src={currentPodcastUrl} className={styles.audioPlayer} />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Mots-clés (séparés par des virgules)
-          </label>
-          <input
-            type="text"
-            value={metaKeywords}
-            onChange={(e) => setMetaKeywords(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          />
-        </div>
-      </div>
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>SEO</h2>
+          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Meta Title</label>
+            <input
+              type="text"
+              value={metaTitle}
+              onChange={(e) => setMetaTitle(e.target.value)}
+              className={styles.input}
+              placeholder="Titre pour le SEO"
+            />
+          </div>
 
-      <div className="flex justify-end gap-4">
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-        >
-          Annuler
-        </button>
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:opacity-50"
-        >
-          {isLoading ? 'Enregistrement...' : initialData ? 'Mettre à jour' : 'Créer'}
-        </button>
-      </div>
-    </form>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Meta Description</label>
+            <textarea
+              value={metaDescription}
+              onChange={(e) => setMetaDescription(e.target.value)}
+              className={styles.textarea}
+              rows={3}
+              placeholder="Description pour le SEO"
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Meta Keywords</label>
+            <input
+              type="text"
+              value={metaKeywords}
+              onChange={(e) => setMetaKeywords(e.target.value)}
+              className={styles.input}
+              placeholder="Mots-clés séparés par des virgules"
+            />
+          </div>
+        </div>
+
+        <div className={styles.actions}>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className={styles.secondaryButton}
+            disabled={isLoading}
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            className={styles.primaryButton}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Enregistrement...' : initialData ? 'Mettre à jour' : 'Créer'}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

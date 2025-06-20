@@ -6,35 +6,49 @@ const HeroSection = () => {
   return (
     <section className={styles.hero}>
       <div className={styles.heroContent}>
-        <h1 className={styles.title}>
-          Parce qu&apos;un projet<br />
-          ne se réalise <span className={styles.jamaisSeulBg}><span className={styles.jamaisSeul}>jamais seul</span></span>
-        </h1>
-        <div className={styles.mentorsInfo}>
-          <b>Plus de 300 mentors</b> vous attendent
-        </div>
-        <div className={styles.actions}>
-          <div className={styles.searchBox}>
-            <Image
-              className={styles.iconRecherche}
-              width={24}
-              height={24}
-              alt=""
-              src="/Icon_Recherche.svg"
-            />
-            <div className={styles.texte}>Rechercher une annonce par domaine</div>
-          </div>
-          <button className={styles.trouverMonMentor}>
-            <b className={styles.cta}>Trouver une annonce</b>
-          </button>
-          <div className={styles.groupWrapper}>
-            <div className={styles.createJobBox}>
-              Et si au lieu de chercher un travail, <b>vous en créiez un ?</b>
+        <div className={styles.titleContainer}>
+          <h1 className={styles.title}>
+            <div>Parce qu&apos;un projet</div>
+            <div className={styles.titleSecondLine}>
+              ne se réalise
+              <span className={styles.jamaisSeulBg}>
+                <span className={styles.jamaisSeul}>jamais seul</span>
+              </span>
             </div>
-            <button className={styles.crerMonAvenirWrapper}>
-              <b className={styles.cta}>Créer mon avenir</b>
-            </button>
-          </div>
+          </h1>
+        </div>
+
+        <p className={styles.mentorsInfo}>
+          <strong>Plus de 300 mentors</strong> vous attendent
+        </p>
+
+        <div className={styles.searchBox}>
+          <Image
+            src="/Icon_Recherche.svg"
+            alt=""
+            width={20}
+            height={20}
+            className={styles.iconRecherche}
+          />
+          <input
+            type="text"
+            placeholder="Rechercher une annonce par domaine"
+            className={styles.texte}
+          />
+        </div>
+
+        <button className={styles.trouverMonMentor}>
+          Trouver une annonce
+        </button>
+
+        <div className={styles.createJobBox}>
+          <p className={styles.createJobText}>
+            Et si au lieu de chercher un travail,{" "}
+            <span className={styles.createJobLink}>vous en créiez un ?</span>
+          </p>
+          <button className={styles.crerMonAvenirWrapper}>
+            Créer mon avenir
+          </button>
         </div>
       </div>
     </section>
