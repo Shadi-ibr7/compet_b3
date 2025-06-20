@@ -132,7 +132,7 @@ export default function UserProfile() {
     setError(null);
   };
 
-  const handleFieldChange = (field: keyof UserAdditionalInfo, value: any) => {
+  const handleFieldChange = (field: keyof UserAdditionalInfo, value: string | string[]) => {
     setEditableField(prev => ({
       ...prev,
       data: { ...prev.data, [field]: value }

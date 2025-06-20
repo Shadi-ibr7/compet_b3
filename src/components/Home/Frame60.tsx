@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import type { NextPage } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from "@/styles/Frame60.module.css";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -90,7 +91,7 @@ const Frame60: NextPage = () => {
           ))}
         </Swiper>
       )}
-      <a href="/blog" className={styles.blogBtn}>Accéder au blog</a>
+      <Link href="/blog" className={styles.blogBtn}>Accéder au blog</Link>
     </section>
   );
 };

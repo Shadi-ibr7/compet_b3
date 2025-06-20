@@ -3,13 +3,13 @@ import type { FirestoreAnnonce } from '@/types/firestore';
 import { Timestamp } from 'firebase-admin/firestore';
 import { adminDb } from '@/lib/firebase-admin';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/index';
+import { authOptions } from '../../auth/[...nextauth]/route';
 
 const db = adminDb;
 
 export async function PUT(
   request: Request,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -20,7 +20,7 @@ export async function PUT(
       );
     }
 
-    const { id } = context.params;
+    const { id } = await params;
     const data = await request.json();
     const { type, nomEtablissement, nomMetier, description, localisation, imageUrl } = data;
 
@@ -82,7 +82,7 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -93,7 +93,7 @@ export async function DELETE(
       );
     }
 
-    const { id } = context.params;
+    const { id } = await params;
     const annonceRef = db.collection('annonces').doc(id);
     const annonceDoc = await annonceRef.get();
 
@@ -126,10 +126,10 @@ export async function DELETE(
 
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = context.params;
+    const { id } = await params;
     const annonceDoc = await db.collection('annonces').doc(id).get();
 
     if (!annonceDoc.exists) {

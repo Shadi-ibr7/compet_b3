@@ -113,23 +113,13 @@ export const authOptions: NextAuthOptions = {
           const userData = userDoc.data();
 
 
-          console.log('🔍 DEBUG authorize() - userData from Firestore:', {
-            uid: userRecord.uid,
-            linkPhoto: userData?.linkPhoto,
-            name: userData?.name,
-            role: userData?.role
-          });
-
-          const userToReturn = {
+          return {
             id: userRecord.uid,
             email: userRecord.email,
             name: userData?.name,
             role: userData?.role,
             image: userData?.linkPhoto
           };
-
-          console.log('🔍 DEBUG authorize() - returning user object:', userToReturn);
-          return userToReturn;
         } catch (error) {
           console.error('Auth error:', error);
           throw error;
@@ -140,22 +130,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        console.log('🔍 DEBUG JWT callback - user object received:', {
-          id: user.id,
-          image: user.image,
-          name: user.name,
-          role: user.role
-        });
-        
         token.role = user.role as UserRole;
         token.id = user.id;
-        token.linkPhoto = user.image;
-        
-        console.log('🔍 DEBUG JWT callback - token after update:', {
-          id: token.id,
-          linkPhoto: token.linkPhoto,
-          role: token.role
-        });
+        token.linkPhoto = user.image || '';
       } else if (token.id) {
         // Récupérer linkPhoto frais depuis la bonne collection selon le rôle
         try {
@@ -167,7 +144,6 @@ export const authOptions: NextAuthOptions = {
             if (mentorDoc.exists) {
               const mentorData = mentorDoc.data();
               freshLinkPhoto = mentorData?.linkPhoto || '';
-              console.log('🔍 DEBUG JWT refresh - fresh linkPhoto from mentors collection:', freshLinkPhoto);
             }
           } else {
             // Pour molt/admin, chercher dans la collection users
@@ -175,7 +151,6 @@ export const authOptions: NextAuthOptions = {
             if (userDoc.exists) {
               const userData = userDoc.data();
               freshLinkPhoto = userData?.linkPhoto || '';
-              console.log('🔍 DEBUG JWT refresh - fresh linkPhoto from users collection:', freshLinkPhoto);
             }
           }
           
@@ -188,22 +163,9 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        console.log('🔍 DEBUG session callback - token received:', {
-          id: token.id,
-          linkPhoto: token.linkPhoto,
-          role: token.role
-        });
-        
         session.user.role = token.role as UserRole;
         session.user.id = token.id as string;
         session.user.image = token.linkPhoto;
-        
-        console.log('🔍 DEBUG session callback - final session.user:', {
-          id: session.user.id,
-          image: session.user.image,
-          name: session.user.name,
-          role: session.user.role
-        });
       }
       return session;
     }

@@ -13,17 +13,6 @@ export default function UserMenu() {
   const router = useRouter();
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Debug log pour tracer l'image côté client
-  useEffect(() => {
-    if (session) {
-      console.log('🔍 DEBUG UserMenu - session data:', {
-        userId: session.user?.id,
-        userImage: session.user?.image,
-        userName: session.user?.name,
-        userRole: session.user?.role
-      });
-    }
-  }, [session]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

@@ -133,7 +133,6 @@ export default function EditAnnoncePage() {
           <AnnonceForm 
             onSubmit={handleSubmit} 
             initialData={annonce}
-            isEditing={true}
           />
         </div>
       </div>

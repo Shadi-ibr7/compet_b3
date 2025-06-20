@@ -3,10 +3,10 @@ import { getArticleById, updateArticle, deleteArticle } from '@/lib/articles';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = context.params;
+    const { id } = await params;
     const article = await getArticleById(id);
     if (!article) {
       return NextResponse.json(
@@ -26,10 +26,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = context.params;
+    const { id } = await params;
     const body = await request.json();
     const article = await updateArticle(id, body);
     return NextResponse.json(article);
@@ -44,10 +44,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = context.params;
+    const { id } = await params;
     await deleteArticle(id);
     return new NextResponse(null, { status: 204 });
   } catch (error) {
