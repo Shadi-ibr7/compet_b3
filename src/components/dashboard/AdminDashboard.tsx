@@ -35,21 +35,20 @@ export default function AdminDashboard() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <h1>Tableau de bord administrateur</h1>
-        <div className={styles.userInfo}>
-          <span>{session.user.email}</span>
-          <Image
-            src={session.user.image || '/placeholder_pp.png'}
-            alt="Admin avatar"
-            width={40}
-            height={40}
-            className={styles.avatar}
-          />
-        </div>
-      </header>
-
       <main className={styles.main}>
+        <div className={styles.pageHeader}>
+          <h1>Tableau de bord administrateur</h1>
+          <div className={styles.userInfo}>
+            <span>{session.user.email}</span>
+            <Image
+              src={session.user.image || '/placeholder_pp.png'}
+              alt="Admin avatar"
+              width={40}
+              height={40}
+              className={styles.avatar}
+            />
+          </div>
+        </div>
         <div className={styles.grid}>
           {/* Section Articles */}
           <div className={styles.section}>

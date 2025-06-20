@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Header from "@/components/Home/Header";
-import Footer from "@/components/Home/Footer";
 import AnnonceDetail from "@/components/annonces/AnnonceDetail";
 import { adminDb } from '@/lib/firebase-admin';
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
@@ -96,11 +94,5 @@ export default async function AnnoncePage({ params }: AnnoncePageProps) {
   // Then fetch mentor data
   const mentor = await getMentorData(annonce.mentorId);
 
-  return (
-    <>
-      <Header />
-      <AnnonceDetail annonce={annonce} mentor={mentor} />
-      <Footer />
-    </>
-  );
+  return <AnnonceDetail annonce={annonce} mentor={mentor} />;
 }

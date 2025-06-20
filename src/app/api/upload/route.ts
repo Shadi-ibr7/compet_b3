@@ -33,15 +33,15 @@ export async function POST(request: Request) {
       },
     });
 
-    // Générer une URL signée valide pendant 1 heure
-    const [url] = await fileUpload.getSignedUrl({
-      action: 'read',
-      expires: Date.now() + 3600 * 1000, // 1 heure
-    });
+    // Rendre le fichier public pour avoir une URL permanente
+    await fileUpload.makePublic();
+
+    // Créer l'URL publique permanente
+    const publicUrl = `https://storage.googleapis.com/${process.env.NEXT_PUBLIC_STORAGE_BUCKET}/${fileName}`;
 
     return NextResponse.json({ 
       success: true,
-      url,
+      url: publicUrl,
       fileName 
     });
 

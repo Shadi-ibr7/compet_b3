@@ -130,21 +130,20 @@ export default function MentorDashboard() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <h1>Espace Mentor</h1>
-        <div className={styles.userInfo}>
-          <span>{session.user.name}</span>
-          <Image
-            src={session.user.image || '/placeholder_pp.png'}
-            alt="Mentor avatar"
-            width={40}
-            height={40}
-            className={styles.avatar}
-          />
-        </div>
-      </header>
-
       <main className={styles.main}>
+        <div className={styles.pageHeader}>
+          <h1>Espace Mentor</h1>
+          <div className={styles.userInfo}>
+            <span>{session.user.name}</span>
+            <Image
+              src={session.user.image || '/placeholder_pp.png'}
+              alt="Mentor avatar"
+              width={40}
+              height={40}
+              className={styles.avatar}
+            />
+          </div>
+        </div>
         <div className={styles.grid}>
           {/* Section Mon Annonce */}
           <div className={styles.section}>

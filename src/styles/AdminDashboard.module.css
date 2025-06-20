@@ -5,7 +5,7 @@
   padding: 20px;
 }
 
-.header {
+.pageHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,7 +16,7 @@
   margin-bottom: 24px;
 }
 
-.header h1 {
+.pageHeader h1 {
   font-size: 24px;
   font-weight: 600;
   margin: 0;
@@ -359,7 +359,7 @@
     padding: 10px;
   }
 
-  .header {
+  .pageHeader {
     flex-direction: column;
     gap: 12px;
     text-align: center;

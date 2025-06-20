@@ -5,8 +5,6 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from '@/styles/UserProfile.module.css';
-import Header from '@/components/Home/Header';
-import Footer from '@/components/Home/Footer';
 
 interface UserAdditionalInfo {
   address?: string;
@@ -286,14 +284,12 @@ export default function UserProfile() {
   if (status === "loading" || isLoading) {
     return (
       <div className={styles.container}>
-        <Header />
         <div className={styles.main}>
           <div className={styles.loading}>
             <div className={styles.loadingSpinner}></div>
             <p>Chargement de votre profil...</p>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -308,8 +304,6 @@ export default function UserProfile() {
 
   return (
     <div className={styles.container}>
-      <Header />
-      
       <main className={styles.main}>
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Mon Compte</h1>
@@ -585,8 +579,6 @@ export default function UserProfile() {
           </div>
         )}
       </main>
-      
-      <Footer />
     </div>
   );
 } 

@@ -3,6 +3,8 @@ import "../styles/globals.css";
 import { Providers } from "./providers";
 import { GoogleTagManager, GoogleTagManagerNoScript, GoogleAnalytics } from '@/components/Analytics';
 import ToastProvider from "@/components/Toast/ToastProvider";
+import Header from "@/components/Home/Header";
+import Footer from "@/components/Home/Footer";
 
 export const metadata: Metadata = {
   title: "Molty - Votre partenaire pour le commerce local",
@@ -23,7 +25,11 @@ export default function RootLayout({
       <body style={{ background: '#fefff3' }}>
         <GoogleTagManagerNoScript />
         <Providers>
-          {children}
+          <Header />
+          <main style={{ minHeight: 'calc(100vh - 140px)' }}>
+            {children}
+          </main>
+          <Footer />
           <ToastProvider />
         </Providers>
       </body>

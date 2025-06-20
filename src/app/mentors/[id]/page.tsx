@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Header from "@/components/Home/Header";
-import Footer from "@/components/Home/Footer";
 import MentorDetail from "@/components/mentors/MentorDetail";
 import { adminDb } from '@/lib/firebase-admin';
 import type { IMentor } from "@/types/interfaces/mentor.interface";
@@ -100,11 +98,5 @@ export default async function MentorPage({ params }: MentorPageProps) {
     notFound();
   }
 
-  return (
-    <>
-      <Header />
-      <MentorDetail mentor={mentor} annonces={annonces} />
-      <Footer />
-    </>
-  );
+  return <MentorDetail mentor={mentor} annonces={annonces} />;
 }

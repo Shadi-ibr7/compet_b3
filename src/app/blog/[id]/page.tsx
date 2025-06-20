@@ -3,8 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { IArticle } from '@/types/interfaces/article.interface';
-import Header from '@/components/Home/Header';
-import Footer from '@/components/Home/Footer';
 import styles from '@/components/Blog/BlogPage.module.css';
 
 export default function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
@@ -31,30 +29,20 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
   }, [params]);
 
   if (loading) return (
-    <>
-      <Header />
-      <main className={styles.main}>
-        <div className={styles.loader}>Chargement de l'article...</div>
-      </main>
-      <Footer />
-    </>
+    <main className={styles.main}>
+      <div className={styles.loader}>Chargement de l'article...</div>
+    </main>
   );
 
   if (error || !article) return (
-    <>
-      <Header />
-      <main className={styles.main}>
-        <div className={styles.error}>{error || 'Article non trouvé'}</div>
-        <Link href="/blog" className={styles.backLink}>← Retour aux articles</Link>
-      </main>
-      <Footer />
-    </>
+    <main className={styles.main}>
+      <div className={styles.error}>{error || 'Article non trouvé'}</div>
+      <Link href="/blog" className={styles.backLink}>← Retour aux articles</Link>
+    </main>
   );
 
   return (
-    <>
-      <Header />
-      <main className={styles.main}>
+    <main className={styles.main}>
         <Link href="/blog" className={styles.backLink}>← Retour aux articles</Link>
         
         <article className={styles.singleArticle}>
@@ -126,7 +114,5 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
           </div>
         </article>
       </main>
-      <Footer />
-    </>
   );
 }

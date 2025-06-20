@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'storage.googleapis.com',
-        pathname: '/compet-lean-start-up.firebasestorage.app/**',
+        pathname: '/**',
       },
     ],
     deviceSizes: [70, 256, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
