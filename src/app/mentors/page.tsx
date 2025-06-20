@@ -1,13 +1,13 @@
 import Header from "@/components/Home/Header";
 import Footer from "@/components/Home/Footer";
-import AnnoncesSection from "@/components/annonces/AnnoncesSection";
+import MentorsSection from "@/components/mentors/MentorsSection";
 
-export default function AnnoncesPage() {
+export default function MentorsPage() {
   return (
     <>
       <Header />
-      <AnnoncesSection />
+      <MentorsSection />
       <Footer />
     </>
   );
-} 
+}

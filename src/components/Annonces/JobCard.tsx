@@ -1,7 +1,9 @@
 import React from "react";
 import Image from "next/image";
+import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import styles from "./AnnoncesSection.module.css";
 
+// Garder l'ancienne interface pour compatibilité, mais ajouter support pour IAnnonce
 export type Job = {
   id: number;
   image: string;
@@ -12,25 +14,66 @@ export type Job = {
   location: string;
 };
 
-const JobCard = ({ job }: { job: Job }) => (
-  <div className={styles.rectangleParent}>
-    <div className={styles.cardImageWrapper}>
-      <Image className={styles.cardImage} width={370} height={173} alt={job.title} src={job.image} />
-    </div>
-    <div className={styles.cardContent}>
-      <div className={styles.cardTitle}>{job.title}</div>
-      <div className={styles.cardJob}>{job.job}</div>
-      <div className={styles.cardDesc}><span className={styles.cardDescLabel}>Description :</span> {job.desc}</div>
-      <div className={styles.cardInfos}>
-        <div className={styles.cardInfo}><Image className={styles.groupIcon} width={16} height={16} alt="Temps complet" src="/Group.svg" /> <span className={styles.cardInfoText}>{job.type}</span></div>
-        <div className={styles.cardInfo}><Image className={styles.unionIcon} width={13} height={16} alt="Localisation" src="/Union.svg" /> <span className={styles.cardInfoText}>{job.location}</span></div>
-        <button className={styles.bookmarkBtn} aria-label="Ajouter aux favoris">
-        <Image src="/BookmarkMobile.svg" alt="Bookmark" width={24} height={24} />
-        </button>
+interface JobCardProps {
+  job?: Job;
+  annonce?: IAnnonce;
+}
+
+const JobCard = ({ job, annonce }: JobCardProps) => {
+  // Utiliser les données d'annonce si disponibles, sinon utiliser job (compatibilité)
+  const displayData = annonce ? {
+    image: annonce.imageUrl || '/placeholder_article.png',
+    title: annonce.nomEtablissement,
+    job: annonce.nomMetier,
+    desc: annonce.description,
+    type: annonce.type,
+    location: annonce.localisation
+  } : job;
+
+  if (!displayData) return null;
+
+  // Créer un alt text descriptif pour l'accessibilité
+  const altText = `Annonce pour ${displayData.job} chez ${displayData.title}`;
+
+  return (
+    <div className={styles.rectangleParent}>
+      <div className={styles.cardImageWrapper}>
+        <Image 
+          className={styles.cardImage} 
+          width={370} 
+          height={173} 
+          alt={altText}
+          src={displayData.image}
+          onError={(e) => {
+            // Fallback en cas d'erreur de chargement d'image
+            const target = e.target as HTMLImageElement;
+            target.src = '/placeholder_article.png';
+          }}
+        />
       </div>
-      <button className={styles.cardButton}>Postuler</button>
+      <div className={styles.cardContent}>
+        <div className={styles.cardTitle}>{displayData.title}</div>
+        <div className={styles.cardJob}>{displayData.job}</div>
+        <div className={styles.cardDesc}>
+          <span className={styles.cardDescLabel}>Description :</span> {displayData.desc}
+        </div>
+        <div className={styles.cardInfos}>
+          <div className={styles.cardInfo}>
+            <Image className={styles.groupIcon} width={16} height={16} alt="Type" src="/Group.svg" /> 
+            <span className={styles.cardInfoText}>{displayData.type}</span>
+          </div>
+          <div className={styles.cardInfo}>
+            <Image className={styles.unionIcon} width={13} height={16} alt="Localisation" src="/Union.svg" /> 
+            <span className={styles.cardInfoText}>{displayData.location}</span>
+          </div>
+          <button className={styles.bookmarkBtn} aria-label="Ajouter aux favoris">
+            <Image src="/BookmarkMobile.svg" alt="Bookmark" width={24} height={24} />
+          </button>
+        </div>
+        <button className={styles.cardButton}>Postuler</button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default JobCard; 

@@ -18,7 +18,7 @@ export async function GET(
       .get();
 
     if (annonceSnapshot.empty) {
-      return NextResponse.json(null);
+      return NextResponse.json([]);
     }
 
     const annonceDoc = annonceSnapshot.docs[0];
@@ -33,7 +33,7 @@ export async function GET(
       date: annonceData.date.toDate().toISOString()
     };
 
-    return NextResponse.json(annonceWithStringDate);
+    return NextResponse.json([annonceWithStringDate]);
   } catch (error) {
     console.error('Erreur lors de la récupération de l\'annonce:', error);
     return NextResponse.json(

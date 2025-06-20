@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed:articles": "node scripts/seedArticles.js"
+    "seed:articles": "node scripts/seedArticles.js",
+    "seed:mentors": "node scripts/seedMentors.js"
   },
   "dependencies": {
     "@auth/firebase-adapter": "^2.9.1",

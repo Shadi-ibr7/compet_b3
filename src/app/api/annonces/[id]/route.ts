@@ -22,6 +22,16 @@ export async function PUT(
 
     const { id } = context.params;
     const data = await request.json();
+    const { type, nomEtablissement, nomMetier, description, localisation, imageUrl } = data;
+
+    // Validation des champs requis
+    if (!type || !nomEtablissement || !nomMetier || !description || !localisation) {
+      return NextResponse.json(
+        { error: 'Tous les champs obligatoires doivent être remplis' },
+        { status: 400 }
+      );
+    }
+
     const annonceRef = db.collection('annonces').doc(id);
     const annonceDoc = await annonceRef.get();
 
@@ -42,7 +52,12 @@ export async function PUT(
 
     // Mettre à jour l'annonce
     const updateData = {
-      ...data,
+      type,
+      nomEtablissement,
+      nomMetier,
+      description,
+      localisation,
+      imageUrl: imageUrl || null,
       mentorId: session.user.id, // Garantir que le mentorId ne change pas
       date: Timestamp.fromDate(new Date()), // Mettre à jour la date
     };

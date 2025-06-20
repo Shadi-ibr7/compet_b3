@@ -3,14 +3,14 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import styles from '@/styles/AdminDashboard.module.css';
+import AdminDashboard from '@/components/dashboard/AdminDashboard';
+import MentorDashboard from '@/components/dashboard/MentorDashboard';
+import UserProfile from '@/components/dashboard/UserProfile';
 
-export default function AdminDashboard() {
+export default function Dashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -18,94 +18,34 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (session?.user?.role !== 'admin') {
-      router.push('/dashboard');
-      return;
+    if (status === "authenticated") {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   }, [session, status, router]);
 
   if (isLoading) {
     return (
-      <div className={styles.container}>
-        <div className={styles.loading}>
-          <div className={styles.loadingSpinner}></div>
-          <p>Chargement du tableau de bord administrateur...</p>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+        <div>
+          <div style={{ margin: '0 auto', width: '40px', height: '40px', border: '4px solid #f3f3f3', borderTop: '4px solid #3498db', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+          <p style={{ textAlign: 'center', marginTop: '1rem' }}>Chargement de votre tableau de bord...</p>
         </div>
       </div>
     );
   }
 
-  if (!session || session.user.role !== 'admin') {
+  if (!session) {
     return null;
   }
 
-  return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <h1>Tableau de bord administrateur</h1>
-        <div className={styles.userInfo}>
-          <span>{session.user.email}</span>
-          <Image
-            src={session.user.image || '/placeholder_pp.png'}
-            alt="Admin avatar"
-            width={40}
-            height={40}
-            className={styles.avatar}
-          />
-        </div>
-      </header>
-
-      <main className={styles.main}>
-        <div className={styles.grid}>
-          {/* Section Articles */}
-          <div className={styles.section}>
-            <div className={styles.sectionHeader}>
-              <h2>Gestion des Articles</h2>
-              <button 
-                onClick={() => router.push('/articles/new')}
-                className={styles.addButton}
-              >
-                Nouvel Article
-              </button>
-            </div>
-            <p className={styles.description}>
-              Créez et gérez les articles du blog Molty
-            </p>
-          </div>
-
-          {/* Section Utilisateurs */}
-          <div className={styles.section}>
-            <div className={styles.sectionHeader}>
-              <h2>Gestion des Utilisateurs</h2>
-            </div>
-            <p className={styles.description}>
-              Gérez les comptes utilisateurs et leurs rôles
-            </p>
-          </div>
-
-          {/* Section Annonces */}
-          <div className={styles.section}>
-            <div className={styles.sectionHeader}>
-              <h2>Gestion des Annonces</h2>
-            </div>
-            <p className={styles.description}>
-              Modérez les annonces de mentorat
-            </p>
-          </div>
-
-          {/* Section Analytics */}
-          <div className={styles.section}>
-            <div className={styles.sectionHeader}>
-              <h2>Analytics</h2>
-            </div>
-            <p className={styles.description}>
-              Consultez les statistiques de la plateforme
-            </p>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
+  // Routage par rôle
+  switch (session.user.role) {
+    case 'admin':
+      return <AdminDashboard />;
+    case 'mentor':
+      return <MentorDashboard />;
+    case 'molt':
+    default:
+      return <UserProfile />;
+  }
 } 

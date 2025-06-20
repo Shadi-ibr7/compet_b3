@@ -1,86 +1,85 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import type { IAnnonce } from "@/types/interfaces/annonce.interface";
-import styles from "./AnnoncesSection.module.css";
-import JobCard, { Job } from "./JobCard";
+import type { IMentor } from "@/types/interfaces/mentor.interface";
+import styles from "../annonces/AnnoncesSection.module.css";
+import MentorCard from "./MentorCard";
 
-const AnnoncesSection = () => {
+const MentorsSection = () => {
   const [search, setSearch] = useState("");
   const [showLocation, setShowLocation] = useState(false);
   const [showSector, setShowSector] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   
-  // Nouveaux states pour les données réelles
-  const [annonces, setAnnonces] = useState<IAnnonce[]>([]);
-  const [filteredAnnonces, setFilteredAnnonces] = useState<IAnnonce[]>([]);
+  // States pour les données réelles
+  const [mentors, setMentors] = useState<IMentor[]>([]);
+  const [filteredMentors, setFilteredMentors] = useState<IMentor[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Charger les annonces depuis l'API
+  // Charger les mentors depuis l'API
   useEffect(() => {
-    fetchAnnonces();
+    fetchMentors();
   }, []);
 
-  // Filtrer les annonces quand la recherche change
+  // Filtrer les mentors quand la recherche change
   useEffect(() => {
-    filterAnnonces();
-  }, [search, annonces]);
+    filterMentors();
+  }, [search, mentors]);
 
-  const fetchAnnonces = async () => {
+  const fetchMentors = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('/api/annonces');
+      const response = await fetch('/api/mentors');
       if (!response.ok) {
-        throw new Error('Erreur lors du chargement des annonces');
+        throw new Error('Erreur lors du chargement des mentors');
       }
       
       const data = await response.json();
-      setAnnonces(data);
-      setFilteredAnnonces(data);
+      setMentors(data);
+      setFilteredMentors(data);
     } catch (err) {
       console.error('Erreur:', err);
-      setError('Impossible de charger les annonces. Veuillez réessayer.');
+      setError('Impossible de charger les mentors. Veuillez réessayer.');
     } finally {
       setLoading(false);
     }
   };
 
-  const filterAnnonces = () => {
+  const filterMentors = () => {
     if (!search.trim()) {
-      setFilteredAnnonces(annonces);
+      setFilteredMentors(mentors);
       return;
     }
 
     const searchLower = search.toLowerCase();
-    const filtered = annonces.filter(annonce => 
-      annonce.nomMetier?.toLowerCase().includes(searchLower) ||
-      annonce.nomEtablissement?.toLowerCase().includes(searchLower) ||
-      annonce.description?.toLowerCase().includes(searchLower) ||
-      annonce.type?.toLowerCase().includes(searchLower) ||
-      annonce.localisation?.toLowerCase().includes(searchLower)
+    const filtered = mentors.filter(mentor => 
+      mentor.nom?.toLowerCase().includes(searchLower) ||
+      mentor.job?.toLowerCase().includes(searchLower) ||
+      mentor.description?.toLowerCase().includes(searchLower) ||
+      mentor.localisation?.toLowerCase().includes(searchLower)
     );
     
-    setFilteredAnnonces(filtered);
+    setFilteredMentors(filtered);
   };
 
-  const BlocFinAnnonces = () => (
+  const BlocFinMentors = () => (
     <div className={styles.blocFinWrapper}>
-      <div className={styles.noMoreAds}>Pas plus d&apos;annonces ici !</div>
+      <div className={styles.noMoreAds}>Plus de mentors ici !</div>
       <div className={styles.questionBlock}>
-        Et si au lieu de chercher un travail,<br />
-        <span className={styles.questionBold}>vous en créiez un&nbsp;?</span>
+        Vous voulez partager votre expertise ?<br />
+        <span className={styles.questionBold}>Devenez mentor à votre tour !</span>
       </div>
-      <button className={styles.creerAvenirBtn}>Créer mon avenir</button>
+      <button className={styles.creerAvenirBtn}>Devenir mentor</button>
     </div>
   );
 
   return (
     <section className={styles.section}>
       <h2 className={styles.title}>
-        Les annonces qui font tourner <span className={styles.highlight}>la vie locale.</span>
+        Les mentors qui partagent <span className={styles.highlight}>leur expertise.</span>
       </h2>
       <div className={styles.searchBarWrapper}>
         <div className={styles.searchBar}>
@@ -88,7 +87,7 @@ const AnnoncesSection = () => {
           <input
             className={styles.input}
             type="text"
-            placeholder="Rechercher une annonce par domaine"
+            placeholder="Rechercher un mentor par nom ou expertise"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
@@ -113,36 +112,36 @@ const AnnoncesSection = () => {
         <div className={styles.menuPopup}>Sélectionnez une localisation (exemple)</div>
       )}
       {showSector && (
-        <div className={styles.menuPopup}>Sélectionnez un secteur (exemple)</div>
+        <div className={styles.menuPopup}>Sélectionnez un secteur d'expertise (exemple)</div>
       )}
       {showFilters && (
         <div className={styles.menuPopup}>Filtres avancés (exemple)</div>
       )}
-      <div className={styles.cardsList}>
+      <div className={styles.mentorsGrid}>
         {loading ? (
           // État de chargement
           <div className={styles.loadingContainer}>
             <div className={styles.loadingSpinner}></div>
-            <p>Chargement des annonces...</p>
+            <p>Chargement des mentors...</p>
           </div>
         ) : error ? (
           // État d'erreur
           <div className={styles.errorContainer}>
             <p className={styles.errorMessage}>{error}</p>
             <button 
-              onClick={fetchAnnonces}
+              onClick={fetchMentors}
               className={styles.retryButton}
             >
               Réessayer
             </button>
           </div>
-        ) : filteredAnnonces.length === 0 ? (
-          // Aucune annonce trouvée
+        ) : filteredMentors.length === 0 ? (
+          // Aucun mentor trouvé
           <div className={styles.emptyContainer}>
             <p className={styles.emptyMessage}>
               {search ? 
-                `Aucune annonce trouvée pour "${search}"` : 
-                'Aucune annonce disponible pour le moment'
+                `Aucun mentor trouvé pour "${search}"` : 
+                'Aucun mentor disponible pour le moment'
               }
             </p>
             {search && (
@@ -155,12 +154,12 @@ const AnnoncesSection = () => {
             )}
           </div>
         ) : (
-          // Affichage des annonces
+          // Affichage des mentors
           <>
-            {filteredAnnonces.map(annonce => (
-              <JobCard key={annonce.id} annonce={annonce} />
+            {filteredMentors.map(mentor => (
+              <MentorCard key={mentor.id} mentor={mentor} />
             ))}
-            <BlocFinAnnonces />
+            <BlocFinMentors />
           </>
         )}
       </div>
@@ -168,4 +167,4 @@ const AnnoncesSection = () => {
   );
 };
 
-export default AnnoncesSection; 
+export default MentorsSection;

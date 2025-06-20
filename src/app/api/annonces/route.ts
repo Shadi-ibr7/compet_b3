@@ -17,6 +17,15 @@ export async function POST(request: Request) {
     }
 
     const data = await request.json();
+    const { type, nomEtablissement, nomMetier, description, localisation, imageUrl } = data;
+
+    // Validation des champs requis
+    if (!type || !nomEtablissement || !nomMetier || !description || !localisation) {
+      return NextResponse.json(
+        { error: 'Tous les champs obligatoires doivent être remplis' },
+        { status: 400 }
+      );
+    }
 
     // Vérifier si le mentor a déjà une annonce
     const existingAnnonce = await db.collection('annonces')
@@ -33,7 +42,12 @@ export async function POST(request: Request) {
 
     // Créer la nouvelle annonce
     const annonceData = {
-      ...data,
+      type,
+      nomEtablissement,
+      nomMetier,
+      description,
+      localisation,
+      imageUrl: imageUrl || null,
       mentorId: session.user.id,
       date: Timestamp.fromDate(new Date()),
     };

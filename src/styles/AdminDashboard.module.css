@@ -116,6 +116,243 @@
   background-color: #a7e9c7;
 }
 
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.modifyButton {
+  background-color: #06104A;
+  color: #FEFFF3;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modifyButton:hover {
+  background-color: #0a1758;
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+.deleteButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.annonceCard {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e9ecef;
+}
+
+.annonceHeader {
+  margin-bottom: 12px;
+}
+
+.annonceHeader h3 {
+  font-size: 18px;
+  color: #06104A;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.etablissement {
+  color: #666;
+  font-size: 14px;
+}
+
+.type, .location {
+  color: #666;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.description {
+  color: #333;
+  font-size: 14px;
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.imageContainer {
+  margin: 12px 0;
+}
+
+.annonceImage {
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.annonceFooter {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e9ecef;
+}
+
+.date {
+  color: #666;
+  font-size: 12px;
+}
+
+.emptyState {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+}
+
+.emptyState p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.profileCard {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e9ecef;
+}
+
+.profileHeader {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.profileAvatar {
+  border-radius: 50%;
+  border: 2px solid #BEF9DE;
+}
+
+.profileInfo h3 {
+  font-size: 18px;
+  color: #06104A;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.job {
+  color: #666;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.profileDescription p {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.profileNote {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e9ecef;
+}
+
+.profileNote span {
+  color: #666;
+  font-size: 12px;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modalContent h3 {
+  color: #06104A;
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modalContent p {
+  color: #666;
+  margin: 0 0 20px 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.cancelButton {
+  background-color: #f8f9fa;
+  color: #666;
+  border: 1px solid #dee2e6;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancelButton:hover {
+  background-color: #e9ecef;
+}
+
+.confirmDeleteButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.confirmDeleteButton:hover {
+  background-color: #c82333;
+}
+
+.confirmDeleteButton:disabled, .cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
