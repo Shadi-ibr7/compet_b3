@@ -37,8 +37,9 @@
 
 .sectionTitle {
   font-family: 'Montserrat', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 1.8rem;
+  margin: 2rem 0 1rem;
+  color: #444;
   color: #06104a;
   margin: 24px 0 12px 8px;
 }
@@ -53,30 +54,23 @@
   box-sizing: border-box;
 }
 
-.featuredImage {
+.featuredImageWrapper {
+  position: relative;
   width: 100%;
-  height: 173px;
-  object-fit: cover;
-  border-radius: 8px 8px 0 0;
-  display: block;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
-.bookmarkBtn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: #fff;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
-  padding: 6px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 2;
+.featuredImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.featuredCard:hover .featuredImage {
+  transform: scale(1.05);
 }
 
 .featuredContent {
@@ -134,12 +128,23 @@
   box-sizing: border-box;
 }
 
-.articleImage {
-  width: 64px;
-  height: 64px;
-  object-fit: cover;
+.articleImageWrapper {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
   border-radius: 8px;
-  display: block;
+}
+
+.articleImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.articleCard:hover .articleImage {
+  transform: scale(1.05);
 }
 
 .articleContent {
@@ -165,6 +170,50 @@
   gap: 6px;
 }
 
+.podcastSection {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.podcastTitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #06104a;
+  margin-bottom: 1rem;
+}
+
+.podcastPlayer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.audioPlayer {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.podcastDownload {
+  display: inline-block;
+  color: #06104a;
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #06104a;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.podcastDownload:hover {
+  background: #06104a;
+  color: white;
+}
+
 @media (max-width: 600px) {
   .main {
     padding: 12px 0 0 0;
@@ -175,5 +224,12 @@
   }
   .articleCard {
     padding: 8px 6px;
+  }
+  .podcastSection {
+    margin: 1.5rem 8px;
+    padding: 1rem;
+  }
+  .audioPlayer {
+    height: 36px;
   }
 } 

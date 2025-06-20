@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import styles from "@/styles/Login.module.css";
 
 export default function LoginPage() {
@@ -25,12 +26,24 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
+        toast.error('Email ou mot de passe incorrect', {
+          position: "top-right",
+          autoClose: 3000,
+        });
         setError('Email ou mot de passe incorrect');
       } else {
-        router.push('/'); // Redirection vers la page d'accueil après connexion
+        toast.success('Connexion réussie !', {
+          position: "top-right",
+          autoClose: 2000,
+        });
+        router.push('/dashboard');
         router.refresh();
       }
-    } catch {
+    } catch (err) {
+      toast.error('Une erreur est survenue', {
+        position: "top-right",
+        autoClose: 3000,
+      });
       setError('Une erreur est survenue');
     }
   };

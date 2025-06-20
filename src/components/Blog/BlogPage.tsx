@@ -49,13 +49,13 @@ export default function BlogPage() {
         />
       </div>
       <h2 className={styles.sectionTitle}>À la une</h2>
-      <Link href={`/blogs/${featured.id}`} style={{ textDecoration: 'none' }}>
+      <Link href={`/blog/${featured.id}`} style={{ textDecoration: 'none' }}>
         <FeaturedArticleCard article={featured} />
       </Link>
       <h2 className={styles.sectionTitle}>Plus d&apos;articles</h2>
       <div className={styles.articlesList}>
         {moreArticles.map((a) => (
-          <Link key={a.id} href={`/blogs/${a.id}`} style={{ textDecoration: 'none' }}>
+          <Link key={a.id} href={`/blog/${a.id}`} style={{ textDecoration: 'none' }}>
             <ArticleCard article={a} />
           </Link>
         ))}
