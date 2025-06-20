@@ -1,0 +1,96 @@
+.navbar {
+  width: 100%;
+  height: 72px;
+  background: #FEFFF3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logoWrapper {
+  display: flex;
+  align-items: center;
+}
+.linksWrapper {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+.navLink {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  color: #06104a;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.navLink:hover {
+  color: #3ec28f;
+}
+.authWrapper {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.loginBtn {
+  background: #fff;
+  color: #06104a;
+  border: 1.5px solid #06104a;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.loginBtn:hover {
+  background: #BEF9DE;
+  color: #06104a;
+  border-color: #3ec28f;
+}
+.signupBtn {
+  background: #06104a;
+  color: #fefff3;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 24px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  display: inline-block;
+}
+.signupBtn:hover {
+  background: #BEF9DE;
+  color: #06104a;
+}
+.avatarMenu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.avatarImg {
+  border-radius: 50%;
+  border: 2px solid #BEF9DE;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+@media (max-width: 900px) {
+  .navbar {
+    padding: 0 16px;
+  }
+  .linksWrapper {
+    gap: 16px;
+  }
+  .authWrapper {
+    gap: 8px;
+  }
+} 

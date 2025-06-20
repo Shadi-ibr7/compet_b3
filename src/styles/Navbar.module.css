@@ -149,4 +149,41 @@
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid rgba(254, 255, 243, 0.1);
+}
+
+.loginBtn {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 8px 28px;
+  transition: background 0.18s, color 0.18s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+  margin-right: 12px;
+}
+.loginBtn:hover {
+  background: #fff;
+  color: #06104a;
+}
+
+.registerBtn {
+  background: #BEF9DE;
+  color: #06104a !important;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  padding: 8px 28px;
+  transition: background 0.18s, color 0.18s;
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+}
+.registerBtn:hover {
+  background: #a7e9c7;
+  color: #06104a !important;
 } 

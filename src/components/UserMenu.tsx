@@ -5,6 +5,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from '@/styles/UserMenu.module.css';
+import Link from 'next/link';
 
 export default function UserMenu() {
   const { data: session } = useSession();
@@ -25,7 +26,18 @@ export default function UserMenu() {
     };
   }, []);
 
-  if (!session) return null;
+  if (!session) {
+    return (
+      <div className={styles.menuItems} style={{ display: 'flex', gap: 12 }}>
+        <Link href="/auth/login" className={styles.loginBtn}>
+          Se connecter
+        </Link>
+        <Link href="/auth/register" className={styles.registerBtn}>
+          S'inscrire
+        </Link>
+      </div>
+    );
+  }
 
   // Séparer les éléments du menu en fonction du rôle
   const renderMenuItems = () => {

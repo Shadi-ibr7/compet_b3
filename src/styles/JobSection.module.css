@@ -1,10 +1,227 @@
 .jobSectionBg {
   width: 100%;
-  background: #fefff3;
-  padding: 80px 0;
+  background: #FEFFF3;
+  padding: 64px 24px 48px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
+}
+
+.sectionTitleWrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto 40px auto;
+  position: relative;
+  text-align: left;
+}
+.lesAnnoncesQuiFontTournerChild {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 420px;
+  max-width: 100%;
+  height: 18px;
+  background: #BEF9DE;
+  z-index: 1;
+}
+.lesAnnoncesQui {
+  font-family: 'AconchegoTextTest', sans-serif;
+  font-size: 40px;
+  color: #06104a;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding-bottom: 8px;
+  line-height: 1.2;
+}
+.accent {
+  background: #BEF9DE;
+  border-radius: 6px;
+  padding: 0 10px;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.jobCard {
+  background: #fff;
+  border: 1.5px solid #06104a;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
+  overflow: hidden;
+  width: 100%;
+}
+.jobCard:hover {
+  box-shadow: 0 8px 24px 0 rgba(6,16,74,0.13);
+  transform: translateY(-4px) scale(1.01);
+}
+
+.cardImageWrapper {
+  width: 100%;
+  padding-top: 65%;
+  position: relative;
+}
+.cardImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+}
+
+.ellipseParent {
+  display: none;
+}
+.favoriteButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 3;
+}
+.starIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.cardContent {
+  padding: 20px 24px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+.cardTitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #7b7b7b;
+  margin-bottom: 0;
+}
+.cardJob {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #06104a;
+  margin-bottom: 4px;
+}
+.cardDesc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #06104a;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.cardDescLabel {
+  font-weight: 700;
+}
+.cardInfos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+.cardInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #7b7b7b;
+}
+.groupIcon {
+  width: 16px;
+  height: 16px;
+}
+.unionIcon {
+  width: 13px;
+  height: 16px;
+}
+
+.ctaWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+.ctaBtn {
+  background: #06104a;
+  color: #fefff3;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 16px 40px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
+  transition: background 0.2s;
+  width: auto;
+  max-width: 100%;
+}
+.ctaBtn:hover {
+  background: #BEF9DE;
+  color: #06104a;
+}
+
+@media (max-width: 1400px) {
+  .cardsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .jobSectionBg {
+    padding: 48px 16px;
+  }
+  .lesAnnoncesQui {
+    font-size: 32px;
+  }
+  .lesAnnoncesQuiFontTournerChild {
+    height: 14px;
+    width: 280px;
+  }
+  .cardJob {
+    font-size: 20px;
+  }
+  .cardDesc {
+    font-size: 15px;
+  }
+  .ctaBtn {
+    font-size: 1rem;
+    padding: 14px 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lesAnnoncesQui {
+    font-size: 28px;
+  }
+  .lesAnnoncesQuiFontTournerChild {
+    height: 12px;
+    width: 240px;
+  }
+  .cardsGrid {
+    gap: 16px;
+  }
 }
 
 .jobSectionContainer {
@@ -12,15 +229,6 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-}
-
-.sectionTitleWrapper {
-  text-align: center;
-  margin-bottom: 48px;
-  position: relative;
-  display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .lesAnnoncesQui {
@@ -32,78 +240,11 @@
   white-space: nowrap;
 }
 
-.lesAnnoncesQuiFontTournerChild {
-  position: absolute;
-  width: 100%;
-  height: 12px;
-  background: #bef9de;
-  bottom: 2px;
-  left: 0;
-  z-index: 1;
-}
-
 .cardsScroller {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   width: 100%;
-}
-
-.jobCard {
-  background-color: #fefff3;
-  border: 1px solid #06104a;
-  border-radius: 24px;
-  width: 250px;
-  height: 459px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.cardImageWrapper {
-  width: 100%;
-  height: 173px;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.cardImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.cardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.cardTitle {
-  font-size: 14px;
-  color: #7b7b7b;
-}
-
-.bookmarkMobile {
-  display: none;
-}
-
-.cardJob {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.cardDesc {
-  font-size: 16px;
-  line-height: 1.5;
-  flex-grow: 1;
-}
-
-.cardDesc strong {
-  font-weight: 700;
 }
 
 .cardInfos {
@@ -175,9 +316,6 @@
   font-weight: 700;
   margin: 0;
 }
-.accent {
-  color: #06104a;
-}
 
 .cardsScroller {
   max-width: 1200px;
@@ -189,66 +327,6 @@
   overflow-x: auto;
   padding-bottom: 1rem;
   scroll-snap-type: x mandatory;
-}
-
-.jobCard {
-  background: #fefff3;
-  border: 1.5px solid #06104a;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 370px;
-}
-
-.cardImageWrapper {
-  width: 100%;
-  border-radius: 12px 12px 0 0;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.cardImage {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.cardContent {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 0 0 0 0;
-}
-
-.cardTitle {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  color: #7b7b7b;
-  margin-bottom: 4px;
-}
-
-.cardJob {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: #06104a;
-  margin-bottom: 8px;
-}
-
-.cardDesc {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
-  color: #06104a;
-  margin-bottom: 8px;
-}
-
-.cardDescLabel {
-  font-weight: 700;
 }
 
 .cardInfos {
@@ -335,30 +413,6 @@
     margin-top: 14px;
     margin-bottom: 16px;
   }
-}
-
-.ctaWrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 32px;
-}
-.ctaBtn {
-  background: #06104a;
-  color: #fefff3;
-  border: none;
-  border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  padding: 14px 40px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
-  transition: background 0.2s;
-}
-.ctaBtn:hover {
-  background: #3ec28f;
-  color: #06104a;
 }
 
 @media (max-width: 700px) {
@@ -649,7 +703,7 @@
   }
 
   .lesAnnoncesQui {
-    font-size: 2rem;
+    font-size: 32px;
   }
 
   .jobCard {
@@ -682,7 +736,7 @@
     justify-content: flex-start;
   }
   .jobCard {
-    min-width: 320px;
+
     max-width: 320px;
   }
 }
@@ -701,7 +755,17 @@
     padding-bottom: 2rem;
   }
   .jobCard {
-    min-width: 263px;
-    max-width: 263px;
+    max-width: 320px;
   }
+}
+
+.swiperContainer {
+  width: 100%;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.swiperSlide {
+  width: 300px;
+  height: auto;
 } 
