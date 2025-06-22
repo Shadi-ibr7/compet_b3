@@ -184,6 +184,23 @@ export default function MentorDashboard() {
                 <p className={styles.type}>Type: {annonce.type}</p>
                 <p className={styles.location}>📍 {annonce.localisation}</p>
                 <p className={styles.description}>{annonce.description}</p>
+                
+                {/* Section Ce que je propose */}
+                {annonce.ceQueJePropose && annonce.ceQueJePropose.trim() && (
+                  <div className={styles.additionalSection}>
+                    <h4>Ce que je propose</h4>
+                    <p>{annonce.ceQueJePropose}</p>
+                  </div>
+                )}
+
+                {/* Section Profil recherché */}
+                {annonce.profilRecherche && annonce.profilRecherche.trim() && (
+                  <div className={styles.additionalSection}>
+                    <h4>Profil recherché</h4>
+                    <p>{annonce.profilRecherche}</p>
+                  </div>
+                )}
+
                 {annonce.imageUrl && (
                   <div className={styles.imageContainer}>
                     <Image

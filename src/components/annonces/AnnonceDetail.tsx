@@ -1,10 +1,11 @@
 'use client';
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import type { IMentor } from "@/types/interfaces/mentor.interface";
+import type { IMolt } from "@/types/interfaces/molt.interface";
 import styles from "./AnnonceDetail.module.css";
 
 interface AnnonceDetailProps {
@@ -14,8 +15,32 @@ interface AnnonceDetailProps {
 
 const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
   const { data: session, status } = useSession();
+  const [moltProfile, setMoltProfile] = useState<IMolt | null>(null);
+  const [isLoadingPaidStatus, setIsLoadingPaidStatus] = useState(false);
 
   if (!annonce) return null;
+
+  // Récupérer le profil Molt pour vérifier le statut paid
+  useEffect(() => {
+    const fetchMoltProfile = async () => {
+      if (session?.user?.id && session.user.role === 'molt') {
+        setIsLoadingPaidStatus(true);
+        try {
+          const response = await fetch(`/api/molts/${session.user.id}`);
+          if (response.ok) {
+            const data = await response.json();
+            setMoltProfile(data);
+          }
+        } catch (error) {
+          console.error('Erreur lors de la récupération du profil Molt:', error);
+        } finally {
+          setIsLoadingPaidStatus(false);
+        }
+      }
+    };
+
+    fetchMoltProfile();
+  }, [session?.user?.id, session?.user?.role]);
 
   // Format date
   const formatDate = (date: Date) => {
@@ -28,7 +53,7 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
 
   // Logic for application authorization
   const getApplicationStatus = () => {
-    if (status === 'loading') {
+    if (status === 'loading' || isLoadingPaidStatus) {
       return { canApply: false, message: 'Chargement...', type: 'loading' };
     }
 
@@ -50,17 +75,15 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
       };
     }
 
-    // Check if user has paid status (assuming it's stored in session or we need to fetch it)
-    // For now, we'll assume the paid status is in the user object
-    // You might need to adjust this based on how the paid status is stored
-    const isPaid = true; // TODO: Get this from user data
+    // Vérifier le statut paid du profil Molt
+    const isPaid = moltProfile?.paid ?? false;
     
     if (!isPaid) {
       return { 
         canApply: false, 
-        message: 'Activez votre abonnement Molt pour postuler', 
+        message: 'Passez à Molty Premium pour postuler aux offres', 
         type: 'payment',
-        action: '/dashboard' // or payment page
+        action: '/payment'
       };
     }
 
@@ -123,6 +146,26 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
               {annonce.description}
             </p>
           </div>
+
+          {/* Section Ce que je propose - Conditionnelle */}
+          {annonce.ceQueJePropose && annonce.ceQueJePropose.trim() && (
+            <div className={styles.annonceDescription}>
+              <h2 className={styles.sectionTitle}>Ce que je propose</h2>
+              <p className={styles.description}>
+                {annonce.ceQueJePropose}
+              </p>
+            </div>
+          )}
+
+          {/* Section Profil recherché - Conditionnelle */}
+          {annonce.profilRecherche && annonce.profilRecherche.trim() && (
+            <div className={styles.annonceDescription}>
+              <h2 className={styles.sectionTitle}>Profil recherché</h2>
+              <p className={styles.description}>
+                {annonce.profilRecherche}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -208,7 +251,7 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
               ) : applicationStatus.type === 'upgrade' ? (
                 'Devenir membre Molt'
               ) : applicationStatus.type === 'payment' ? (
-                'Activer l\'abonnement'
+                'Passer à Premium'
               ) : (
                 'Continuer'
               )}

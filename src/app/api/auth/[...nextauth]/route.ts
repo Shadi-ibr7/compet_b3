@@ -72,7 +72,7 @@ export const authOptions: NextAuthOptions = {
                 email: credentials.email,
                 name: credentials.name,
                 role: credentials.role as UserRole,
-                status: credentials.role === 'molt' ? 'paid' : 'active',
+                status: credentials.role === 'molt' ? 'unpaid' : 'active',
                 createdAt: new Date().toISOString(),
                 emailVerified: false,
                 linkPhoto: credentials.linkPhoto || "",

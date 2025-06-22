@@ -479,6 +479,33 @@ export default function MoltProfile() {
           )}
         </div>
 
+        {/* Premium Upgrade Section */}
+        {!moltProfile.paid && (
+          <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <div className={styles.titleWithHighlight}>
+                <h3>Passer à Premium</h3>
+              </div>
+            </div>
+            
+            <div className={styles.premiumCard}>
+              <div className={styles.premiumContent}>
+                <div className={styles.premiumIcon}>⭐</div>
+                <div className={styles.premiumText}>
+                  <h4>Débloquez toutes les fonctionnalités Molty</h4>
+                  <p>Accédez à tous les mentors, messages illimités et bien plus encore.</p>
+                </div>
+              </div>
+              <button 
+                className={styles.upgradeButton}
+                onClick={() => router.push('/payment')}
+              >
+                Passer à Premium
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Information Section */}
         <div className={styles.section}>
           <div className={styles.sectionHeader}>

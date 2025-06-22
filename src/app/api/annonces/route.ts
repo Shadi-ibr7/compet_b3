@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     }
 
     const data = await request.json();
-    const { type, nomEtablissement, nomMetier, description, localisation, imageUrl } = data;
+    const { type, nomEtablissement, nomMetier, description, localisation, imageUrl, ceQueJePropose, profilRecherche } = data;
 
     // Validation des champs requis
     if (!type || !nomEtablissement || !nomMetier || !description || !localisation) {
@@ -50,6 +50,8 @@ export async function POST(request: Request) {
       imageUrl: imageUrl || null,
       mentorId: session.user.id,
       date: Timestamp.fromDate(new Date()),
+      ceQueJePropose: ceQueJePropose || null,
+      profilRecherche: profilRecherche || null,
     };
 
     const docRef = await db.collection('annonces').add(annonceData);

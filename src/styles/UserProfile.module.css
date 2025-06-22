@@ -1100,4 +1100,59 @@
 
 .creationDate span:first-child {
   font-size: 14px;
+}
+
+/* Styles pour la section premium */
+.premiumCard {
+  background: linear-gradient(135deg, #BEF9DE 0%, #E8F9F0 100%);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #BEF9DE;
+  margin-top: 16px;
+}
+
+.premiumContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.premiumIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.premiumText h4 {
+  font-size: 16px;
+  color: #06104A;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.premiumText p {
+  font-size: 14px;
+  color: #06104A;
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.upgradeButton {
+  width: 100%;
+  background-color: #06104A;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upgradeButton:hover {
+  background-color: #051B5E;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(6, 16, 74, 0.2);
 } 

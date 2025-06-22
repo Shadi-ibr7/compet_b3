@@ -217,6 +217,28 @@
   font-size: 12px;
 }
 
+.additionalSection {
+  margin: 16px 0;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #BEF9DE;
+}
+
+.additionalSection h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #06104A;
+}
+
+.additionalSection p {
+  margin: 0;
+  font-size: 13px;
+  color: #495057;
+  line-height: 1.4;
+}
+
 .emptyState {
   text-align: center;
   color: #666;

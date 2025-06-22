@@ -22,7 +22,7 @@ export async function PUT(
 
     const { id } = await params;
     const data = await request.json();
-    const { type, nomEtablissement, nomMetier, description, localisation, imageUrl } = data;
+    const { type, nomEtablissement, nomMetier, description, localisation, imageUrl, ceQueJePropose, profilRecherche } = data;
 
     // Validation des champs requis
     if (!type || !nomEtablissement || !nomMetier || !description || !localisation) {
@@ -60,6 +60,8 @@ export async function PUT(
       imageUrl: imageUrl || null,
       mentorId: session.user.id, // Garantir que le mentorId ne change pas
       date: Timestamp.fromDate(new Date()), // Mettre à jour la date
+      ceQueJePropose: ceQueJePropose || null,
+      profilRecherche: profilRecherche || null,
     };
 
     await annonceRef.update(updateData);

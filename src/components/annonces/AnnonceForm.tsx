@@ -25,6 +25,8 @@ export default function AnnonceForm({ initialData, onSubmit }: AnnonceFormProps)
   const [localisation, setLocalisation] = useState(initialData?.localisation || '');
   const [description, setDescription] = useState(initialData?.description || '');
   const [imageUrl, setImageUrl] = useState(initialData?.imageUrl || '');
+  const [ceQueJePropose, setCeQueJePropose] = useState(initialData?.ceQueJePropose || '');
+  const [profilRecherche, setProfilRecherche] = useState(initialData?.profilRecherche || '');
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -93,6 +95,8 @@ export default function AnnonceForm({ initialData, onSubmit }: AnnonceFormProps)
         localisation,
         description,
         imageUrl,
+        ceQueJePropose,
+        profilRecherche,
         date: new Date(),
         mentorId: session.user.id
       });
@@ -195,6 +199,36 @@ export default function AnnonceForm({ initialData, onSubmit }: AnnonceFormProps)
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           placeholder="Décrivez votre expertise et ce que vous pouvez apporter..."
           required
+          disabled={isLoading}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="ceQueJePropose" className="block text-sm font-medium text-gray-700">
+          Ce que je propose (optionnel)
+        </label>
+        <textarea
+          id="ceQueJePropose"
+          value={ceQueJePropose}
+          onChange={(e) => setCeQueJePropose(e.target.value)}
+          rows={4}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          placeholder="Décrivez concrètement ce que vous proposez : accompagnement, ressources, méthodes..."
+          disabled={isLoading}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="profilRecherche" className="block text-sm font-medium text-gray-700">
+          Profil recherché (optionnel)
+        </label>
+        <textarea
+          id="profilRecherche"
+          value={profilRecherche}
+          onChange={(e) => setProfilRecherche(e.target.value)}
+          rows={4}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          placeholder="Décrivez le profil idéal : niveau d'études, expérience, motivation, objectifs..."
           disabled={isLoading}
         />
       </div>
