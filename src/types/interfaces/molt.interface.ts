@@ -6,4 +6,7 @@ export interface IMolt extends IBaseUser {
   paid: boolean;
   linkedin: string;
   experiences: Experience[];
+  city?: string;
+  jobTitle?: string;
+  motivation?: string;
 }

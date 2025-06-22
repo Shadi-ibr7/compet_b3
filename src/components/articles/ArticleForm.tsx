@@ -27,9 +27,50 @@ export default function ArticleForm({ initialData, onSubmit }: ArticleFormProps)
   const [podcastFile, setPodcastFile] = useState<File | null>(null);
   const [currentImageUrl, setCurrentImageUrl] = useState(initialData?.imageUrl || '');
   const [currentPodcastUrl, setCurrentPodcastUrl] = useState(initialData?.lienPodcast || '');
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isUploadingPodcast, setIsUploadingPodcast] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [podcastFileName, setPodcastFileName] = useState<string | null>(null);
   
   const imageInputRef = useRef<HTMLInputElement>(null);
   const podcastInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      // Créer une preview de l'image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handlePodcastChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPodcastFile(file);
+      setPodcastFileName(file.name);
+    }
+  };
+
+  const clearImageFile = () => {
+    setImageFile(null);
+    setImagePreview(null);
+    if (imageInputRef.current) {
+      imageInputRef.current.value = '';
+    }
+  };
+
+  const clearPodcastFile = () => {
+    setPodcastFile(null);
+    setPodcastFileName(null);
+    if (podcastInputRef.current) {
+      podcastInputRef.current.value = '';
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,27 +87,51 @@ export default function ArticleForm({ initialData, onSubmit }: ArticleFormProps)
       let imageUrl = currentImageUrl;
 
       if (podcastFile) {
-        const formData = new FormData();
-        formData.append('file', podcastFile);
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData
-        });
-        if (!response.ok) throw new Error('Erreur lors de l\'upload du podcast');
-        const data = await response.json();
-        podcastUrl = data.url;
+        setIsUploadingPodcast(true);
+        try {
+          const formData = new FormData();
+          formData.append('file', podcastFile);
+          const response = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+          });
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erreur lors de l\'upload du podcast');
+          }
+          const data = await response.json();
+          podcastUrl = data.url;
+          console.log('Podcast uploadé avec succès:', data.url);
+        } catch (uploadError) {
+          console.error('Erreur upload podcast:', uploadError);
+          throw uploadError;
+        } finally {
+          setIsUploadingPodcast(false);
+        }
       }
 
       if (imageFile) {
-        const formData = new FormData();
-        formData.append('file', imageFile);
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData
-        });
-        if (!response.ok) throw new Error('Erreur lors de l\'upload de l\'image');
-        const data = await response.json();
-        imageUrl = data.url;
+        setIsUploadingImage(true);
+        try {
+          const formData = new FormData();
+          formData.append('file', imageFile);
+          const response = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+          });
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erreur lors de l\'upload de l\'image');
+          }
+          const data = await response.json();
+          imageUrl = data.url;
+          console.log('Image uploadée avec succès:', data.url);
+        } catch (uploadError) {
+          console.error('Erreur upload image:', uploadError);
+          throw uploadError;
+        } finally {
+          setIsUploadingImage(false);
+        }
       }
 
       if (!imageUrl) {
@@ -162,23 +227,53 @@ export default function ArticleForm({ initialData, onSubmit }: ArticleFormProps)
 
           <div className={styles.mediaSection}>
             <div className={styles.formGroup}>
-              <label className={styles.label}>Image de couverture</label>
+              <label className={styles.label}>Image de couverture *</label>
               <div className={styles.uploadArea}>
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                  onChange={handleImageChange}
                   ref={imageInputRef}
                   className={styles.hiddenInput}
                   id="image-upload"
+                  disabled={isUploadingImage}
                 />
-                <label htmlFor="image-upload" className={styles.uploadButton}>
+                <label htmlFor="image-upload" className={`${styles.uploadButton} ${isUploadingImage ? styles.disabled : ''}`}>
                   <Image src="/upload.svg" width={24} height={24} alt="" />
-                  <span>Choisir une image</span>
+                  <span>{isUploadingImage ? 'Upload en cours...' : 'Choisir une image'}</span>
                 </label>
-                {currentImageUrl && (
+                
+                {(imagePreview || currentImageUrl) && (
                   <div className={styles.preview}>
-                    <Image src={currentImageUrl} alt="Preview" width={200} height={200} className={styles.previewImage} />
+                    <Image 
+                      src={imagePreview || currentImageUrl} 
+                      alt="Preview" 
+                      width={200} 
+                      height={200} 
+                      className={styles.previewImage}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/placeholder_article.png';
+                      }}
+                    />
+                    {imageFile && (
+                      <button 
+                        type="button" 
+                        onClick={clearImageFile}
+                        className={styles.removeButton}
+                      >
+                        ✕ Supprimer
+                      </button>
+                    )}
+                  </div>
+                )}
+                
+                {imageFile && (
+                  <div className={styles.fileInfo}>
+                    <span>📷 {imageFile.name}</span>
+                    <span className={styles.fileSize}>
+                      ({(imageFile.size / 1024 / 1024).toFixed(1)} MB)
+                    </span>
                   </div>
                 )}
               </div>
@@ -190,18 +285,36 @@ export default function ArticleForm({ initialData, onSubmit }: ArticleFormProps)
                 <input
                   type="file"
                   accept=".mp3,.wav,.m4a,.aac,.ogg"
-                  onChange={(e) => setPodcastFile(e.target.files?.[0] || null)}
+                  onChange={handlePodcastChange}
                   ref={podcastInputRef}
                   className={styles.hiddenInput}
                   id="podcast-upload"
+                  disabled={isUploadingPodcast}
                 />
-                <label htmlFor="podcast-upload" className={styles.uploadButton}>
+                <label htmlFor="podcast-upload" className={`${styles.uploadButton} ${isUploadingPodcast ? styles.disabled : ''}`}>
                   <Image src="/upload.svg" width={24} height={24} alt="" />
-                  <span>Choisir un podcast</span>
+                  <span>{isUploadingPodcast ? 'Upload en cours...' : 'Choisir un podcast'}</span>
                 </label>
+                
                 {currentPodcastUrl && (
                   <div className={styles.preview}>
                     <audio controls src={currentPodcastUrl} className={styles.audioPlayer} />
+                  </div>
+                )}
+                
+                {podcastFile && (
+                  <div className={styles.fileInfo}>
+                    <span>🎵 {podcastFileName}</span>
+                    <span className={styles.fileSize}>
+                      ({(podcastFile.size / 1024 / 1024).toFixed(1)} MB)
+                    </span>
+                    <button 
+                      type="button" 
+                      onClick={clearPodcastFile}
+                      className={styles.removeButton}
+                    >
+                      ✕ Supprimer
+                    </button>
                   </div>
                 )}
               </div>
@@ -258,9 +371,12 @@ export default function ArticleForm({ initialData, onSubmit }: ArticleFormProps)
           <button
             type="submit"
             className={styles.primaryButton}
-            disabled={isLoading}
+            disabled={isLoading || isUploadingImage || isUploadingPodcast}
           >
-            {isLoading ? 'Enregistrement...' : initialData ? 'Mettre à jour' : 'Créer'}
+            {isLoading ? 'Enregistrement...' : 
+             isUploadingImage ? 'Upload image...' :
+             isUploadingPodcast ? 'Upload podcast...' :
+             initialData ? 'Mettre à jour' : 'Créer'}
           </button>
         </div>
       </form>

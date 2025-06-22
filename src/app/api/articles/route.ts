@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllArticles, createArticle } from '@/lib/articles';
 import { IArticle } from '@/types/interfaces/article.interface';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth/index';
 
 export async function GET() {
   try {
@@ -17,6 +19,15 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    // Vérifier l'autorisation admin
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== 'admin') {
+      return NextResponse.json(
+        { error: 'Accès non autorisé' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     
     // Validate required fields

@@ -68,15 +68,10 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
 
   if (status === "loading" || isLoading) {
     return (
-      <div className="p-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
-            <div className="space-y-4">
-              <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-            </div>
-          </div>
+      <div className="min-h-screen bg-[#FEFFF3] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-gray-300 border-t-[#06104A] rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-[#06104A]">Chargement de l'article...</p>
         </div>
       </div>
     );
@@ -107,10 +102,32 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
   }
 
   return (
-    <div className="py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-bold mb-8">Modifier l&apos;article : {article.title}</h1>
-        <ArticleForm initialData={article} onSubmit={handleSubmit} />
+    <div className="min-h-screen bg-[#FEFFF3]">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <button
+            onClick={() => router.push('/dashboard')}
+            className="inline-flex items-center text-[#06104A] hover:text-[#23306a] transition-colors mb-4"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Retour au dashboard
+          </button>
+          <h1 className="text-3xl font-bold text-[#06104A]">
+            Modifier l'article
+          </h1>
+          <p className="text-gray-600 mt-2">
+            {article.title}
+          </p>
+        </div>
+
+        {/* Form */}
+        <ArticleForm 
+          initialData={article} 
+          onSubmit={handleSubmit} 
+        />
       </div>
     </div>
   );
