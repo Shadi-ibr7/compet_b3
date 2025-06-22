@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getArticleById, updateArticle, deleteArticle } from '@/lib/articles';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/index';
+import { authOptions } from '@/lib/auth/credentials-config';
 
 export async function GET(
   request: NextRequest,

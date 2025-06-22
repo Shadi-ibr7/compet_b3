@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase-admin';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/index';
+import { authOptions } from '@/lib/auth/credentials-config';
 import type { IMentor } from '@/types/interfaces/mentor.interface';
 
 const db = adminDb;
@@ -83,6 +83,7 @@ export async function PUT(
       description,
       ...(linkPhoto && { linkPhoto }), // Mettre à jour la photo seulement si fournie
       role: 'mentor',
+      email: session.user.email, // Ajout de l'email
       dateModification: new Date()
     };
 
@@ -98,6 +99,7 @@ export async function PUT(
       const completeData = {
         ...mentorData,
         name: session.user.name || '',
+        email: session.user.email, // Ajout de l'email
         number: '',
         dateCreation: new Date(),
         note: 0

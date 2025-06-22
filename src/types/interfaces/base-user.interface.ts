@@ -4,7 +4,7 @@ export interface IBaseUser {
   id?: string;
   name: string;
   linkPhoto: string;
-  number: string;
+  email: string;
   role: UserRole;
   dateCreation: Date;
 }

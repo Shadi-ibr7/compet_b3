@@ -66,7 +66,7 @@ export default function MoltProfile() {
           id: session.user.id,
           name: session.user.name || '',
           linkPhoto: session.user.image || '',
-          number: '',
+          email: session.user.email || '',
           role: 'molt',
           dateCreation: new Date(),
           paid: false,

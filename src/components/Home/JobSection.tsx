@@ -1,48 +1,20 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Image from "next/image";
+import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import styles from "@/styles/JobSection.module.css";
+import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 
-const annonces = [
-  {
-    image: "/image.png",
-    nom: "Harry's Bar",
-    titre: "Bar Parisien",
-    description: "Situé au cœur de Paris, un lieu incontournable pour les amateurs de cocktails.",
-    temps: "Temps complet",
-    localisation: "Paris, France",
-  },
-  {
-    image: "/image.png",
-    nom: "Le XVIII",
-    titre: "Fleuriste",
-    description: "Nous créons de beaux arrangements floraux faits main avec des fleurs locales et amour.",
-    temps: "Temps complet",
-    localisation: "Fontainebleau, France",
-  },
-  {
-    image: "/image.png",
-    nom: "La Mie de Quartier",
-    titre: "Boulanger",
-    description: "On pétrit chaque jour du bon pain, fait maison, avec des farines locales et beaucoup d'amour.",
-    temps: "Temps complet",
-    localisation: "Fontainebleau, France",
-  },
-  {
-    image: "/image.png",
-    nom: "Harry's Bar",
-    titre: "Bar Parisien",
-    description: "Situé au cœur de Paris, un lieu incontournable pour les amateurs de cocktails.",
-    temps: "Temps complet",
-    localisation: "Paris, France",
-  },
-];
+
 
 const JobSection = () => {
   const [isDesktop, setIsDesktop] = useState(false);
+  const [annonces, setAnnonces] = useState<IAnnonce[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,21 +27,52 @@ const JobSection = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const renderCard = (annonce: typeof annonces[0], i: number) => (
-    <div className={styles.jobCard} key={i}>
+  useEffect(() => {
+    const fetchAnnonces = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const response = await fetch('/api/annonces');
+        if (!response.ok) {
+          throw new Error('Erreur lors du chargement des annonces');
+        }
+        
+        const data = await response.json();
+        // Prendre les 4 premières annonces pour la homepage
+        setAnnonces(data.slice(0, 4));
+      } catch (err) {
+        console.error('Erreur:', err);
+        setError('Impossible de charger les annonces');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnnonces();
+  }, []);
+
+  const renderCard = (annonce: IAnnonce, i: number) => (
+    <Link href={`/annonces/${annonce.id}`} className={styles.jobCard} key={i}>
       <div className={styles.cardImageWrapper}>
-        <Image className={styles.cardImage} layout="fill" objectFit="cover" alt={`Image pour ${annonce.nom}`} src={annonce.image} />
+        <Image 
+          className={styles.cardImage} 
+          fill
+          style={{ objectFit: 'cover' }}
+          alt={`Image pour ${annonce.nomEtablissement}`} 
+          src={annonce.imageUrl || '/image.png'} 
+        />
       </div>
       <div className={styles.cardContent}>
-        <div className={styles.cardTitle}>{annonce.nom}</div>
-        <div className={styles.cardJob}>{annonce.titre}</div>
+        <div className={styles.cardTitle}>{annonce.nomEtablissement}</div>
+        <div className={styles.cardJob}>{annonce.nomMetier}</div>
         <div className={styles.cardDesc}><span className={styles.cardDescLabel}>Description :</span> {annonce.description}</div>
         <div className={styles.cardInfos}>
-          <div className={styles.cardInfo}><Image className={styles.groupIcon} width={16} height={16} alt="" src="/Group.svg" /> {annonce.temps}</div>
+          <div className={styles.cardInfo}><Image className={styles.groupIcon} width={16} height={16} alt="" src="/Group.svg" /> {annonce.type}</div>
           <div className={styles.cardInfo}><Image className={styles.unionIcon} width={13} height={16} alt="" src="/Union.svg" /> {annonce.localisation}</div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 
   return (
@@ -81,7 +84,13 @@ const JobSection = () => {
         </h2>
       </div>
 
-      {isDesktop ? (
+      {loading ? (
+        <div className={styles.loading}>Chargement des annonces...</div>
+      ) : error ? (
+        <div className={styles.error}>{error}</div>
+      ) : annonces.length === 0 ? (
+        <div className={styles.noAnnonces}>Aucune annonce disponible pour le moment</div>
+      ) : isDesktop ? (
         <div className={styles.cardsGrid}>
           {annonces.map((annonce, i) => renderCard(annonce, i))}
         </div>
@@ -100,7 +109,7 @@ const JobSection = () => {
       )}
 
       <div className={styles.ctaWrapper}>
-        <button className={styles.ctaBtn}>Découvrir les annonces</button>
+        <Link href="/annonces" className={styles.ctaBtn}>Découvrir les annonces</Link>
       </div>
     </section>
   );

@@ -1,12 +1,15 @@
 'use client';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import { useSearchParams } from 'next/navigation';
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import styles from "./AnnoncesSection.module.css";
 import JobCard, { Job } from "./JobCard";
 
 const AnnoncesSection = () => {
-  const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+  const searchFromUrl = searchParams.get('search') || '';
+  const [search, setSearch] = useState(searchFromUrl);
   const [showLocation, setShowLocation] = useState(false);
   const [showSector, setShowSector] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
@@ -17,14 +20,21 @@ const AnnoncesSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Charger les annonces depuis l'API
-  useEffect(() => {
-    fetchAnnonces();
-  }, []);
+  const filterAnnonces = useCallback(() => {
+    if (!search.trim()) {
+      setFilteredAnnonces(annonces);
+      return;
+    }
 
-  // Filtrer les annonces quand la recherche change
-  useEffect(() => {
-    filterAnnonces();
+    console.log('🔍 Filtrage des annonces avec la recherche:', search);
+    const searchLower = search.toLowerCase();
+    const filtered = annonces.filter(annonce => 
+      annonce.nomMetier?.toLowerCase().includes(searchLower) ||
+      annonce.nomEtablissement?.toLowerCase().includes(searchLower) ||
+      annonce.description?.toLowerCase().includes(searchLower)
+    );
+    
+    setFilteredAnnonces(filtered);
   }, [search, annonces]);
 
   const fetchAnnonces = async () => {
@@ -48,23 +58,20 @@ const AnnoncesSection = () => {
     }
   };
 
-  const filterAnnonces = () => {
-    if (!search.trim()) {
-      setFilteredAnnonces(annonces);
-      return;
-    }
+  // Charger les annonces depuis l'API
+  useEffect(() => {
+    fetchAnnonces();
+  }, []);
 
-    const searchLower = search.toLowerCase();
-    const filtered = annonces.filter(annonce => 
-      annonce.nomMetier?.toLowerCase().includes(searchLower) ||
-      annonce.nomEtablissement?.toLowerCase().includes(searchLower) ||
-      annonce.description?.toLowerCase().includes(searchLower) ||
-      annonce.type?.toLowerCase().includes(searchLower) ||
-      annonce.localisation?.toLowerCase().includes(searchLower)
-    );
-    
-    setFilteredAnnonces(filtered);
-  };
+  // Filtrer les annonces quand la recherche change
+  useEffect(() => {
+    filterAnnonces();
+  }, [filterAnnonces]);
+
+  // Mettre à jour la recherche quand l'URL change
+  useEffect(() => {
+    setSearch(searchFromUrl);
+  }, [searchFromUrl]);
 
   const BlocFinAnnonces = () => (
     <div className={styles.blocFinWrapper}>

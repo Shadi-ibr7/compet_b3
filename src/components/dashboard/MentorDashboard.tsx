@@ -40,7 +40,7 @@ export default function MentorDashboard() {
           id: session?.user?.id || '',
           name: session?.user?.name || '',
           linkPhoto: session?.user?.image || '',
-          number: '',
+          email: session?.user?.email || '',
           role: 'mentor' as const,
           dateCreation: new Date(),
           nom: session?.user?.name || '',

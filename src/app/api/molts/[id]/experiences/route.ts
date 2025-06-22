@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth/credentials-config';
 import { adminDb } from '@/lib/firebase-admin';
 import type { IMolt } from '@/types/interfaces/molt.interface';
 import type { Experience } from '@/types/common';

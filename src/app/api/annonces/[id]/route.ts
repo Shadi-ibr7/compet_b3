@@ -3,7 +3,7 @@ import type { FirestoreAnnonce } from '@/types/firestore';
 import { Timestamp } from 'firebase-admin/firestore';
 import { adminDb } from '@/lib/firebase-admin';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth/credentials-config';
 
 const db = adminDb;
 

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { sendApplicationEmail, isEmailJSConfigured } from "@/lib/emailService";
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import type { IMentor } from "@/types/interfaces/mentor.interface";
 import type { IMolt } from "@/types/interfaces/molt.interface";
@@ -17,8 +18,8 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
   const { data: session, status } = useSession();
   const [moltProfile, setMoltProfile] = useState<IMolt | null>(null);
   const [isLoadingPaidStatus, setIsLoadingPaidStatus] = useState(false);
-
-  if (!annonce) return null;
+  const [isApplying, setIsApplying] = useState(false);
+  const [applicationMessage, setApplicationMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
 
   // Récupérer le profil Molt pour vérifier le statut paid
   useEffect(() => {
@@ -92,14 +93,80 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
 
   const applicationStatus = getApplicationStatus();
 
-  const handleApplication = () => {
-    if (applicationStatus.canApply) {
-      // TODO: Implement application logic
-      alert('Candidature envoyée ! (À implémenter)');
-    } else if (applicationStatus.action) {
-      window.location.href = applicationStatus.action;
+  const handleApplication = async () => {
+    console.log('🚀 === DÉBUT CANDIDATURE ===');
+    console.log('📋 État de la candidature:', applicationStatus);
+    
+    if (!applicationStatus.canApply) {
+      console.log('❌ Candidature non autorisée, redirection...');
+      if (applicationStatus.action) {
+        window.location.href = applicationStatus.action;
+      }
+      return;
+    }
+
+    // Vérifications avant envoi
+    console.log('🔍 Vérification des données:');
+    console.log(`   Molt profile: ${moltProfile ? '✅' : '❌'}`);
+    console.log(`   Mentor: ${mentor ? '✅' : '❌'}`);
+    console.log(`   Mentor email: ${mentor?.email || 'UNDEFINED'}`);
+    
+    if (!moltProfile || !mentor) {
+      console.log('❌ Données manquantes pour la candidature');
+      setApplicationMessage({
+        type: 'error',
+        text: 'Données manquantes pour envoyer la candidature'
+      });
+      return;
+    }
+
+    if (!isEmailJSConfigured()) {
+      setApplicationMessage({
+        type: 'error',
+        text: 'Service d\'email non configuré'
+      });
+      return;
+    }
+
+    setIsApplying(true);
+    setApplicationMessage(null);
+
+    try {
+      console.log('📤 Appel de sendApplicationEmail...');
+      await sendApplicationEmail(moltProfile, annonce, mentor);
+      
+      console.log('✅ Email envoyé avec succès depuis le composant');
+      setApplicationMessage({
+        type: 'success',
+        text: 'Candidature envoyée avec succès ! Le mentor recevra votre profil par email.'
+      });
+
+      // Masquer le message de succès après 5 secondes
+      setTimeout(() => {
+        setApplicationMessage(null);
+      }, 5000);
+
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'envoi de la candidature:', error);
+      console.log('🚀 === FIN CANDIDATURE (ERREUR) ===');
+      
+      setApplicationMessage({
+        type: 'error',
+        text: 'Erreur lors de l\'envoi de la candidature. Veuillez réessayer.'
+      });
+
+      // Masquer le message d'erreur après 8 secondes
+      setTimeout(() => {
+        setApplicationMessage(null);
+      }, 8000);
+    } finally {
+      setIsApplying(false);
+      console.log('🚀 === FIN CANDIDATURE ===');
     }
   };
+
+  // Guard clause après tous les hooks
+  if (!annonce) return null;
 
   return (
     <div className={styles.container}>
@@ -237,10 +304,10 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
             <button 
               className={`${styles.applicationButton} ${applicationStatus.canApply ? styles.enabled : styles.disabled}`}
               onClick={handleApplication}
-              disabled={applicationStatus.type === 'loading'}
+              disabled={applicationStatus.type === 'loading' || isApplying}
             >
-              {applicationStatus.type === 'loading' ? (
-                'Chargement...'
+              {applicationStatus.type === 'loading' || isApplying ? (
+                isApplying ? 'Envoi en cours...' : 'Chargement...'
               ) : applicationStatus.canApply ? (
                 <>
                   <Image src="/Vector.svg" alt="Postuler" width={20} height={20} />
@@ -256,6 +323,19 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
                 'Continuer'
               )}
             </button>
+
+            {/* Messages de notification */}
+            {applicationMessage && (
+              <div className={`${styles.notificationMessage} ${styles[applicationMessage.type]}`}>
+                <Image 
+                  src={applicationMessage.type === 'success' ? '/checkmark.svg' : '/error.svg'} 
+                  alt={applicationMessage.type} 
+                  width={20} 
+                  height={20} 
+                />
+                <p>{applicationMessage.text}</p>
+              </div>
+            )}
 
             {applicationStatus.canApply && (
               <p className={styles.applicationNote}>

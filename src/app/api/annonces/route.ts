@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { Timestamp } from 'firebase-admin/firestore';
 import { adminDb } from '@/lib/firebase-admin';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/index';
+import { authOptions } from '@/lib/auth/credentials-config';
 
 const db = adminDb;
 
