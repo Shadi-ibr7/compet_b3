@@ -118,7 +118,7 @@ RESTful API structure:
   - Loading, error, and empty states handling
 
 ### Session 3: Email System Enhancement & Bug Fixes
-**Date**: Latest development session
+**Date**: Previous development session
 **Features Added**:
 - **Custom Message Feature for Job Applications**:
   - Added optional custom message field to job application form
@@ -138,6 +138,39 @@ RESTful API structure:
   - Added proper TypeScript typing for all email parameters
   - Implemented safer variable handling in emailService.ts
   - Added comprehensive logging for email debugging
+
+### Session 4: Application Tracking & Duplicate Prevention System
+**Date**: Latest development session
+**Features Implemented**:
+- **Application Database Schema**:
+  - Created `IApplication` interface with comprehensive tracking fields
+  - New Firestore collection `applications` with unique compound indexing
+  - Added `ApplicationStatus` enum for future workflow management
+- **Secure API Infrastructure**:
+  - `/api/applications` endpoint with role-based access control
+  - `/api/applications/check/[moltId]/[annonceId]` for real-time verification
+  - Server-side validation preventing duplicate applications
+  - Comprehensive error handling with user-friendly messages
+- **Email Service Integration**:
+  - Modified `sendApplicationEmail()` to record applications before sending
+  - Added `checkApplicationExists()` utility function
+  - Implemented transaction-like behavior (application recorded → email sent)
+  - Enhanced error handling with proper rollback logic
+- **Frontend Application Logic**:
+  - Added `hasApplied` and `isCheckingApplication` state management
+  - Real-time application status checking on page load
+  - Dynamic UI updates based on application status
+  - Fail-safe approach: allow applications on verification errors
+- **Enhanced User Experience**:
+  - New `alreadyApplied` CSS class with green checkmark styling
+  - Disabled button state for submitted applications
+  - Clear visual feedback: "Candidature envoyée ✓"
+  - Loading states during application verification
+- **Security & Performance**:
+  - Double validation: client-side checking + server-side enforcement
+  - Optimized Firestore queries with proper indexing
+  - Role-based access control on all endpoints
+  - ID resolution fixes for session vs profile mismatches
 
 ## Development Methodology
 
@@ -209,3 +242,33 @@ The template supports these dynamic variables:
 - **Simple Variables Only**: Use `{{variable_name}}` format, not `{{variable.method()}}`
 - **Fallback Values**: All variables must have fallback values to prevent corruption
 - **Variable Validation**: Server-side validation ensures no undefined variables are sent
+
+## Application Tracking System
+
+### Database Schema
+- **Collection**: `applications` in Firestore
+- **Unique Constraint**: Composite index on `moltId + annonceId` prevents duplicates
+- **Fields**: moltId, annonceId, mentorId, applicationDate, customMessage, status
+
+### API Endpoints
+- `POST /api/applications` - Create new application (validates uniqueness)
+- `GET /api/applications?annonceId=X` - Check if user applied to specific job
+- `GET /api/applications/check/[moltId]/[annonceId]` - Direct verification endpoint
+
+### Application Flow
+1. **Page Load**: Check if user already applied via `checkApplicationExists()`
+2. **UI Update**: Show appropriate button state (apply/already applied)
+3. **Application Submit**: Record in database BEFORE sending email
+4. **Email Send**: Only proceeds if database record successful
+5. **State Update**: Mark `hasApplied = true` on success
+
+### Security Features
+- **Role Validation**: Only Molts can create applications
+- **Ownership Check**: Users can only check their own applications
+- **Server Validation**: Double-check uniqueness on server side
+- **Fail-Safe**: Allow applications if verification fails (avoid blocking users)
+
+### Error Handling
+- **ID Resolution**: Use session ID as fallback for profile ID mismatches
+- **Network Errors**: Graceful degradation with user-friendly messages
+- **Database Errors**: Transaction-like rollback if email fails after recording

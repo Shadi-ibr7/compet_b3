@@ -4,10 +4,10 @@ import { authOptions } from '@/lib/auth';
 import { adminDb } from '@/lib/firebase-admin';
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     moltId: string;
     annonceId: string;
-  };
+  }>;
 }
 
 // GET /api/applications/check/[moltId]/[annonceId] - Vérifier si candidature existe
@@ -22,7 +22,7 @@ export async function GET(
       return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
     }
 
-    const { moltId, annonceId } = params;
+    const { moltId, annonceId } = await params;
 
     // Vérifier que l'utilisateur vérifie ses propres candidatures ou est mentor/admin
     if (session.user.id !== moltId && !['mentor', 'admin'].includes(session.user.role)) {

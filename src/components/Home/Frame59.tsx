@@ -10,35 +10,57 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import type { IMentor } from "@/types/interfaces/mentor.interface";
+import type { IMentorRating } from "@/types/interfaces/rating.interface";
+import { getMentorRating } from "@/lib/ratingService";
+import RatingDisplay from "@/components/rating/RatingDisplay";
 
 
 
-const Card = ({ mentor }: { mentor: IMentor }) => (
-  <Link href={`/mentors/${mentor.id}`} className={styles.card}>
-    <div className={styles.cardHeader}>
-      <Image 
-        src={mentor.linkPhoto || '/image2.png'} 
-        alt={mentor.nom || mentor.name || ''} 
-        width={104} 
-        height={104} 
-        className={styles.avatar}
-      />
-      <div className={styles.cardInfo}>
-        <h3 className={styles.name}>{mentor.nom || mentor.name}</h3>
-        <div className={styles.subtitle}>{mentor.job || 'Mentor'}</div>
-        <div className={styles.location}>
-          <Image src="/Union.svg" alt="" width={13} height={16} /> 
-          <span>{mentor.localisation || 'France'}</span>
+const Card = ({ mentor }: { mentor: IMentor }) => {
+  const [mentorRating, setMentorRating] = useState<IMentorRating | null>(null);
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      if (mentor.id) {
+        const rating = await getMentorRating(mentor.id);
+        setMentorRating(rating);
+      }
+    };
+    fetchRating();
+  }, [mentor.id]);
+
+  return (
+    <Link href={`/mentors/${mentor.id}`} className={styles.card}>
+      <div className={styles.cardHeader}>
+        <Image 
+          src={mentor.linkPhoto || '/image2.png'} 
+          alt={mentor.nom || mentor.name || ''} 
+          width={104} 
+          height={104} 
+          className={styles.avatar}
+        />
+        <div className={styles.cardInfo}>
+          <h3 className={styles.name}>{mentor.nom || mentor.name}</h3>
+          <div className={styles.subtitle}>{mentor.job || 'Mentor'}</div>
+          <div className={styles.location}>
+            <Image src="/Union.svg" alt="" width={13} height={16} /> 
+            <span>{mentor.localisation || 'France'}</span>
+          </div>
+          <RatingDisplay 
+            averageRating={mentorRating?.averageRating || null}
+            totalRatings={mentorRating?.totalRatings || 0}
+            showText={false}
+            size="small"
+          />
         </div>
-        <div className={styles.stars}>{'★'.repeat(Math.floor(mentor.note || 0))}{'☆'.repeat(5 - Math.floor(mentor.note || 0))}</div>
       </div>
-    </div>
-    <div className={styles.description}>
-      <b>Description :</b> {mentor.description || 'Ce mentor n\'a pas encore ajouté de description.'}
-    </div>
-    <div className={styles.cta}>Voir le profil</div>
-  </Link>
-);
+      <div className={styles.description}>
+        <b>Description :</b> {mentor.description || 'Ce mentor n\'a pas encore ajouté de description.'}
+      </div>
+      <div className={styles.cta}>Voir le profil</div>
+    </Link>
+  );
+};
 
 const Frame59: NextPage = () => {
   const [mentors, setMentors] = useState<IMentor[]>([]);

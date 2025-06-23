@@ -4,9 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { sendApplicationEmail, isEmailJSConfigured, checkApplicationExists } from "@/lib/emailService";
+import { getMentorRating } from "@/lib/ratingService";
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import type { IMentor } from "@/types/interfaces/mentor.interface";
 import type { IMolt } from "@/types/interfaces/molt.interface";
+import type { IMentorRating } from "@/types/interfaces/rating.interface";
+import RatingDisplay from "@/components/rating/RatingDisplay";
 import styles from "./AnnonceDetail.module.css";
 
 interface AnnonceDetailProps {
@@ -23,6 +26,7 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
   const [customMessage, setCustomMessage] = useState('');
   const [hasApplied, setHasApplied] = useState(false);
   const [isCheckingApplication, setIsCheckingApplication] = useState(false);
+  const [mentorRating, setMentorRating] = useState<IMentorRating | null>(null);
 
   // Récupérer le profil Molt pour vérifier le statut paid
   useEffect(() => {
@@ -67,6 +71,18 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
 
     checkExistingApplication();
   }, [session?.user?.id, annonce.id, session?.user?.role]);
+
+  // Récupérer la note du mentor
+  useEffect(() => {
+    const fetchMentorRating = async () => {
+      if (mentor?.id) {
+        const rating = await getMentorRating(mentor.id);
+        setMentorRating(rating);
+      }
+    };
+
+    fetchMentorRating();
+  }, [mentor?.id]);
 
   // Format date
   const formatDate = (date: Date) => {
@@ -298,11 +314,14 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
                     <Image src="/Union.svg" alt="Localisation" width={12} height={14} />
                     <span>{mentor.localisation}</span>
                   </div>
-                  {mentor.note && mentor.note > 0 && (
-                    <div className={styles.mentorRating}>
-                      {'★'.repeat(Math.floor(mentor.note))} ({mentor.note}/5)
-                    </div>
-                  )}
+                  <div className={styles.mentorRating}>
+                    <RatingDisplay 
+                      averageRating={mentorRating?.averageRating || null}
+                      totalRatings={mentorRating?.totalRatings || 0}
+                      showText={true}
+                      size="small"
+                    />
+                  </div>
                 </div>
               </Link>
               <div className={styles.mentorDescription}>
