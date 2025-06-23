@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { sendApplicationEmail, isEmailJSConfigured } from "@/lib/emailService";
+import { sendApplicationEmail, isEmailJSConfigured, checkApplicationExists } from "@/lib/emailService";
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import type { IMentor } from "@/types/interfaces/mentor.interface";
 import type { IMolt } from "@/types/interfaces/molt.interface";
@@ -21,6 +21,8 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
   const [isApplying, setIsApplying] = useState(false);
   const [applicationMessage, setApplicationMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
   const [customMessage, setCustomMessage] = useState('');
+  const [hasApplied, setHasApplied] = useState(false);
+  const [isCheckingApplication, setIsCheckingApplication] = useState(false);
 
   // Récupérer le profil Molt pour vérifier le statut paid
   useEffect(() => {
@@ -44,6 +46,28 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
     fetchMoltProfile();
   }, [session?.user?.id, session?.user?.role]);
 
+  // Vérifier si l'utilisateur a déjà postulé
+  useEffect(() => {
+    const checkExistingApplication = async () => {
+      if (!session?.user?.id || !annonce.id || session.user.role !== 'molt') {
+        return;
+      }
+
+      setIsCheckingApplication(true);
+      try {
+        const applied = await checkApplicationExists(session.user.id, annonce.id);
+        setHasApplied(applied);
+      } catch (error) {
+        console.error('Erreur lors de la vérification de candidature:', error);
+        // En cas d'erreur, on n'affiche pas hasApplied pour ne pas bloquer
+      } finally {
+        setIsCheckingApplication(false);
+      }
+    };
+
+    checkExistingApplication();
+  }, [session?.user?.id, annonce.id, session?.user?.role]);
+
   // Format date
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('fr-FR', {
@@ -55,7 +79,7 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
 
   // Logic for application authorization
   const getApplicationStatus = () => {
-    if (status === 'loading' || isLoadingPaidStatus) {
+    if (status === 'loading' || isLoadingPaidStatus || isCheckingApplication) {
       return { canApply: false, message: 'Chargement...', type: 'loading' };
     }
 
@@ -74,6 +98,15 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
         message: 'Devenez membre Molt pour accéder aux opportunités', 
         type: 'upgrade',
         action: '/auth/signup'
+      };
+    }
+
+    // Vérifier si l'utilisateur a déjà postulé
+    if (hasApplied) {
+      return { 
+        canApply: false, 
+        message: 'Candidature déjà envoyée ✓', 
+        type: 'already-applied' 
       };
     }
 
@@ -134,13 +167,16 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
 
     try {
       console.log('📤 Appel de sendApplicationEmail...');
-      await sendApplicationEmail(moltProfile, annonce, mentor, customMessage);
+      await sendApplicationEmail(moltProfile, annonce, mentor, customMessage, session?.user?.id);
       
       console.log('✅ Email envoyé avec succès depuis le composant');
       setApplicationMessage({
         type: 'success',
         text: 'Candidature envoyée avec succès ! Le mentor recevra votre profil par email.'
       });
+
+      // Marquer comme déjà postulé
+      setHasApplied(true);
 
       // Masquer le message de succès après 5 secondes
       setTimeout(() => {
@@ -324,9 +360,13 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
             )}
 
             <button 
-              className={`${styles.applicationButton} ${applicationStatus.canApply ? styles.enabled : styles.disabled}`}
+              className={`${styles.applicationButton} ${
+                applicationStatus.canApply ? styles.enabled : 
+                applicationStatus.type === 'already-applied' ? styles.alreadyApplied : 
+                styles.disabled
+              }`}
               onClick={handleApplication}
-              disabled={applicationStatus.type === 'loading' || isApplying}
+              disabled={applicationStatus.type === 'loading' || isApplying || applicationStatus.type === 'already-applied'}
             >
               {applicationStatus.type === 'loading' || isApplying ? (
                 isApplying ? 'Envoi en cours...' : 'Chargement...'
@@ -335,6 +375,8 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
                   <Image src="/Vector.svg" alt="Postuler" width={20} height={20} />
                   Postuler maintenant
                 </>
+              ) : applicationStatus.type === 'already-applied' ? (
+                'Candidature envoyée'
               ) : applicationStatus.type === 'login' ? (
                 'Se connecter'
               ) : applicationStatus.type === 'upgrade' ? (

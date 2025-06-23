@@ -97,7 +97,7 @@ RESTful API structure:
   - Corrected import paths for consistent casing
 
 ### Session 2: Mentors Page Implementation
-**Date**: Latest development session  
+**Date**: Previous development session  
 **Features Added**:
 - **Complete Mentors Listing Page** (`/mentors`):
   - New API endpoint `/api/mentors` for listing all mentors
@@ -116,6 +116,28 @@ RESTful API structure:
   - Real-time search across name, job, location, description
   - Filter buttons for location and sector (UI ready)
   - Loading, error, and empty states handling
+
+### Session 3: Email System Enhancement & Bug Fixes
+**Date**: Latest development session
+**Features Added**:
+- **Custom Message Feature for Job Applications**:
+  - Added optional custom message field to job application form
+  - 500 character limit with real-time counter
+  - Only available to premium Molt users (`paid: true`)
+  - Integrated into email template with special styling
+- **EmailJS Template Bug Fixes**:
+  - Resolved "Template: One or more dynamic variables are corrupted" error
+  - Fixed JavaScript expression `{{molt_name.charAt(0).toUpperCase()}}` that EmailJS couldn't process
+  - Created `molt_initial` variable calculated server-side for avatar initial
+  - Updated EmailParams interface to include new variable
+- **Email Template Improvements**:
+  - Added dedicated section for custom messages with gradient styling
+  - Enhanced template documentation with complete variable list
+  - Improved fallback handling for undefined variables
+- **Code Quality Enhancements**:
+  - Added proper TypeScript typing for all email parameters
+  - Implemented safer variable handling in emailService.ts
+  - Added comprehensive logging for email debugging
 
 ## Development Methodology
 
@@ -153,3 +175,37 @@ RESTful API structure:
 - Always test with multiple data entries to ensure proper functionality
 - Debug logging can be temporarily added for troubleshooting (remember to clean up)
 - Component styles should reuse existing patterns when possible
+
+## Email System Implementation
+
+### EmailJS Integration
+- **Service**: Uses EmailJS for sending application emails to mentors
+- **Template**: `email-template.html` in root directory with comprehensive styling
+- **Configuration**: Requires 3 environment variables:
+  - `NEXT_PUBLIC_EMAILJS_SERVICE_ID`
+  - `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID`
+  - `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`
+
+### Email Template Variables
+The template supports these dynamic variables:
+- `{{to_name}}` - Mentor name (recipient)
+- `{{molt_name}}` - Applicant full name
+- `{{molt_initial}}` - First letter of applicant name (for avatar)
+- `{{molt_email}}` - Applicant email address
+- `{{molt_city}}` - Applicant city
+- `{{molt_job_title}}` - Applicant current job title
+- `{{molt_motivation}}` - Applicant motivation text
+- `{{molt_linkedin}}` - Applicant LinkedIn profile URL
+- `{{molt_experiences}}` - Formatted list of experiences
+- `{{custom_message}}` - Optional personalized message (premium feature)
+- `{{annonce_title}}` - Job posting title
+- `{{annonce_company}}` - Company name
+- `{{annonce_location}}` - Job location
+- `{{annonce_description}}` - Job description
+- `{{application_date}}` - Formatted application timestamp
+
+### Critical Email Template Requirements
+- **No JavaScript**: EmailJS templates cannot execute JavaScript expressions
+- **Simple Variables Only**: Use `{{variable_name}}` format, not `{{variable.method()}}`
+- **Fallback Values**: All variables must have fallback values to prevent corruption
+- **Variable Validation**: Server-side validation ensures no undefined variables are sent

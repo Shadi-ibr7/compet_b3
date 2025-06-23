@@ -279,6 +279,26 @@
   transform: translateY(-1px);
 }
 
+.applicationButton.alreadyApplied {
+  background: linear-gradient(135deg, #4caf50, #81c784);
+  color: #ffffff;
+  cursor: default;
+  position: relative;
+}
+
+.applicationButton.alreadyApplied:hover {
+  background: linear-gradient(135deg, #4caf50, #81c784);
+  transform: none;
+}
+
+.applicationButton.alreadyApplied:before {
+  content: "✓";
+  position: absolute;
+  left: 20px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
 .applicationNote {
   color: #23306a;
   font-size: 0.9rem;
