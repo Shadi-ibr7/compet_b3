@@ -311,7 +311,7 @@ export default function MoltProfile() {
     <div className={styles.container}>
       <main className={styles.main}>
         <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Mon Profil Molt</h1>
+          <h1 className={styles.pageTitle}>Mon Compte</h1>
           <Image 
             src="/material_symbols_settings.svg" 
             width={24} 
@@ -329,45 +329,6 @@ export default function MoltProfile() {
 
         {/* Profile Section */}
         <div className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <div className={styles.titleWithHighlight}>
-              <h3>Mon Profil</h3>
-            </div>
-            {isEditingProfile ? (
-              <div className={styles.editActions}>
-                <button 
-                  onClick={handleProfileSave} 
-                  className={styles.saveButton} 
-                  disabled={isUpdatingProfile || (!!editForm.linkedin && !validateLinkedInUrl(editForm.linkedin))}
-                >
-                  {isUpdatingProfile ? 'Sauvegarde...' : 'Sauvegarder'}
-                </button>
-                <button 
-                  onClick={handleProfileCancel} 
-                  className={styles.cancelButton} 
-                  disabled={isUpdatingProfile}
-                >
-                  Annuler
-                </button>
-              </div>
-            ) : (
-              <button 
-                className={styles.modifyButton}
-                onClick={() => setIsEditingProfile(true)}
-                disabled={isUpdatingProfile}
-              >
-                <Image 
-                  src="/vector3.svg" 
-                  width={16} 
-                  height={16} 
-                  alt="" 
-                  className={styles.editIcon}
-                />
-                <span>Modifier</span>
-              </button>
-            )}
-          </div>
-
           <div className={styles.profileCard}>
             {isEditingProfile ? (
               <PhotoUpload 
@@ -414,10 +375,6 @@ export default function MoltProfile() {
                     />
                   </a>
                 )}
-              </div>
-              <div className={styles.creationDate}>
-                <span>🎂</span>
-                <span>Membre depuis le {formatCreationDate(moltProfile.dateCreation)}</span>
               </div>
             </div>
           </div>
@@ -512,6 +469,39 @@ export default function MoltProfile() {
             <div className={styles.titleWithHighlight}>
               <h3>Informations</h3>
             </div>
+            {isEditingProfile ? (
+              <div className={styles.editActions}>
+                <button 
+                  onClick={handleProfileSave} 
+                  className={styles.saveButton} 
+                  disabled={isUpdatingProfile || (!!editForm.linkedin && !validateLinkedInUrl(editForm.linkedin))}
+                >
+                  {isUpdatingProfile ? 'Sauvegarde...' : 'Sauvegarder'}
+                </button>
+                <button 
+                  onClick={handleProfileCancel} 
+                  className={styles.cancelButton} 
+                  disabled={isUpdatingProfile}
+                >
+                  Annuler
+                </button>
+              </div>
+            ) : (
+              <button 
+                className={styles.modifyButton}
+                onClick={() => setIsEditingProfile(true)}
+                disabled={isUpdatingProfile}
+              >
+                <Image 
+                  src="/vector3.svg" 
+                  width={16} 
+                  height={16} 
+                  alt="" 
+                  className={styles.editIcon}
+                />
+                <span>Modifier</span>
+              </button>
+            )}
           </div>
           
           <div className={styles.infoList}>
@@ -548,6 +538,10 @@ export default function MoltProfile() {
                   Profil LinkedIn non renseigné
                 </span>
               )}
+            </div>
+            <div className={styles.infoItem}>
+              <Image src="/cake.svg" width={20} height={20} alt="" />
+              <span>Membre depuis le {formatCreationDate(moltProfile.dateCreation)}</span>
             </div>
           </div>
         </div>

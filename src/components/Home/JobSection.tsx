@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from "next/image";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -43,6 +43,7 @@ const annonces = [
 
 const JobSection = () => {
   const [isDesktop, setIsDesktop] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -53,6 +54,25 @@ const JobSection = () => {
     handleResize(); // Set initial value
 
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in-view');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   const renderCard = (annonce: typeof annonces[0], i: number) => (
@@ -73,7 +93,7 @@ const JobSection = () => {
   );
 
   return (
-    <section className={styles.jobSectionBg}>
+    <section ref={sectionRef} className={styles.jobSectionBg}>
       <div className={styles.sectionTitleWrapper}>
         <span className={styles.lesAnnoncesQuiFontTournerChild}></span>
         <h2 className={styles.lesAnnoncesQui}>

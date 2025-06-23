@@ -1,6 +1,6 @@
 'use client';
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styles from "@/styles/Frame59.module.css";
@@ -80,8 +80,29 @@ const Card = ({ job }: { job: typeof jobs[0] }) => (
 );
 
 const Frame59: NextPage = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in-view');
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <h2>
           Les postes qui font tourner <span className={styles.highlight}>la vie locale.</span>

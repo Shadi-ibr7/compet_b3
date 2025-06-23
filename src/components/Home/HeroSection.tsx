@@ -1,10 +1,32 @@
-import React from "react";
+"use client";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "@/styles/HeroSection.module.css";
 
 const HeroSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in-view');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className={styles.hero}>
+    <section ref={sectionRef} className={styles.hero}>
       <div className={styles.heroContent}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>

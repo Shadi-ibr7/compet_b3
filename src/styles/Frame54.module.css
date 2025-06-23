@@ -41,6 +41,12 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+.section:global(.animate-in-view) .textColumn {
+  animation: statsSlideInLeft 1s ease-out forwards;
 }
 
 .title {
@@ -52,6 +58,12 @@
   text-align: left;
   margin: 0;
   gap: 32px;
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+}
+
+.section:global(.animate-in-view) .title {
+  animation: statsTextReveal 1.2s ease-out 0.5s forwards;
 }
 
 .highlightTitle {
@@ -61,6 +73,11 @@
   padding: 1px 10px;
   margin: 0;
 }
+
+.section:global(.animate-in-view) .highlightTitle {
+  animation: statsHighlightGlow 2s ease-in-out infinite 1.5s;
+}
+
 .highlightTitle::after {
   content: '';
   position: absolute;
@@ -75,7 +92,14 @@
 
 .descBlock {
   max-width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
 }
+
+.section:global(.animate-in-view) .descBlock {
+  animation: statsFadeInUp 1s ease-out 0.8s forwards;
+}
+
 .desc {
   font-family: 'Montserrat', sans-serif;
   font-size: 18px;
@@ -103,6 +127,7 @@
 .cta:hover {
   background: #a7e9c7;
   transform: translateY(-2px);
+  animation: statsButtonBounce 0.5s ease infinite;
 }
 
 .statsColumn {
@@ -111,6 +136,12 @@
   align-items: center;
   justify-content: flex-end;
   gap: 60px;
+  opacity: 0;
+  transform: translateX(60px);
+}
+
+.section:global(.animate-in-view) .statsColumn {
+  animation: statsSlideInRight 1s ease-out 0.3s forwards;
 }
 
 .stat {
@@ -119,7 +150,27 @@
   align-items: center;
   gap: 16px;
   text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.3s ease;
 }
+
+.section:global(.animate-in-view) .stat {
+  animation: statsFadeInUp 0.8s ease-out forwards;
+}
+
+.section:global(.animate-in-view) .stat:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.section:global(.animate-in-view) .stat:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.stat:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
 .statValue {
   font-family: 'Chaumont Script', cursive;
   font-size: 160px;
@@ -127,7 +178,14 @@
   font-weight: 400;
   line-height: 1;
   white-space: nowrap;
+  opacity: 0;
+  transform: scale(0.5) rotateY(180deg);
 }
+
+.section:global(.animate-in-view) .statValue {
+  animation: statsCounterAnimation 1s ease-out forwards;
+}
+
 .statLabel {
   position: relative;
   font-size: 16px;
@@ -138,7 +196,14 @@
   display: inline-block;
   color: #fefff3;
   margin: 0;
+  opacity: 0;
+  transform: translateX(-20px);
 }
+
+.section:global(.animate-in-view) .statLabel {
+  animation: statsTextSlideUp 0.8s ease-out forwards;
+}
+
 .highlightLabel {
   position: relative;
   display: inline;
@@ -152,6 +217,93 @@
   box-decoration-break: clone;
 }
 
+/* ============================
+   KEYFRAME ANIMATIONS
+   ============================ */
+
+@keyframes statsSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes statsSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes statsTextReveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0% 0 0);
+  }
+}
+
+@keyframes statsHighlightGlow {
+  0%, 100% { 
+    text-shadow: none; 
+  }
+  50% { 
+    text-shadow: 0 0 15px rgba(190, 249, 222, 0.6); 
+  }
+}
+
+@keyframes statsFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes statsCounterAnimation {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotateY(180deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
+  }
+}
+
+@keyframes statsTextSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes statsButtonBounce {
+  0%, 100% { 
+    transform: translateY(-2px); 
+  }
+  50% { 
+    transform: translateY(-5px); 
+  }
+}
 
 @media (max-width: 1024px) {
   .section {
@@ -206,5 +358,24 @@
   }
   .cta {
     width: 100%;
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .section:global(.animate-in-view) .textColumn,
+  .section:global(.animate-in-view) .title,
+  .section:global(.animate-in-view) .descBlock,
+  .section:global(.animate-in-view) .statsColumn,
+  .section:global(.animate-in-view) .stat,
+  .section:global(.animate-in-view) .statValue,
+  .section:global(.animate-in-view) .statLabel {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .section:global(.animate-in-view) .highlightTitle {
+    animation: none;
   }
 } 

@@ -6,6 +6,12 @@
   align-items: center;
   gap: 32px;
   background: #fefff3;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.section:global(.animate-in-view) {
+  animation: sectionSlideUp 1s ease-out forwards;
 }
 
 .content {
@@ -17,21 +23,63 @@
   align-items: center;
   gap: 32px;
 }
+
+.header {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.section:global(.animate-in-view) .header {
+  animation: headerFadeIn 0.8s ease-out 0.3s forwards;
+}
+
 .header h2 {
-    color: #06104A;
+  color: #06104A;
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(20px);
 }
+
+.section:global(.animate-in-view) .header h2 {
+  animation: titleReveal 0.8s ease-out 0.5s forwards;
+}
+
 .highlight {
   background: #bef9de;
   border-radius: 6px;
   padding: 0 6px;
+  position: relative;
 }
+
+.section:global(.animate-in-view) .highlight {
+  animation: highlightGlow 2s ease-in-out infinite 1.5s;
+}
+
 .cardsContainer {
   padding: 0 16px 24px 16px;
   width: 100%;
 }
+
+.cardsScroller {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.section:global(.animate-in-view) .cardsScroller {
+  animation: cardsScrollerFadeIn 0.8s ease-out 0.7s forwards;
+}
+
 .card {
   min-width: 350px;
   max-width: 350px;
@@ -48,6 +96,12 @@
   font-family: 'Montserrat', sans-serif;
   text-decoration: none;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.section:global(.animate-in-view) .card {
+  animation: cardFadeInUp 0.8s ease-out forwards;
 }
 
 .card * {
@@ -58,50 +112,99 @@
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(6,16,74,0.12);
 }
+
 .cardHeader {
   display: flex;
   gap: 16px;
   align-items: flex-start;
+  opacity: 0;
+  transform: translateX(-20px);
 }
+
+.section:global(.animate-in-view) .cardHeader {
+  animation: cardHeaderSlide 0.6s ease-out forwards;
+}
+
 .avatar {
   border-radius: 8px;
   object-fit: cover;
   width: 104px;
   height: 104px;
+  opacity: 0;
+  transform: scale(0.8);
 }
+
+.section:global(.animate-in-view) .avatar {
+  animation: avatarPop 0.6s ease-out 0.2s forwards;
+}
+
 .cardInfo {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
 .name {
   color: #06104a;
   font-size: 22px;
   font-weight: 700;
+  opacity: 0;
+  transform: translateY(10px);
 }
+
+.section:global(.animate-in-view) .name {
+  animation: textSlideUp 0.5s ease-out 0.3s forwards;
+}
+
 .subtitle {
   color: #23306a;
   font-size: 1rem;
   font-weight: 500;
-  opacity: 1;
+  opacity: 0;
+  transform: translateY(10px);
 }
+
+.section:global(.animate-in-view) .subtitle {
+  animation: textSlideUp 0.5s ease-out 0.4s forwards;
+}
+
 .location {
   color: #23306a;
   font-size: 1rem;
   font-weight: 500;
-  opacity: 1;
+  opacity: 0;
+  transform: translateY(10px);
 }
+
+.section:global(.animate-in-view) .location {
+  animation: textSlideUp 0.5s ease-out 0.5s forwards;
+}
+
 .stars {
   color: #06104A;
   font-size: 1.2rem;
   font-weight: 700;
+  opacity: 0;
+  transform: translateX(-10px);
 }
+
+.section:global(.animate-in-view) .stars {
+  animation: starsSlideIn 0.5s ease-out 0.6s forwards;
+}
+
 .description {
   color: #06104A;
   font-size: 1.12rem;
   line-height: 1.6;
   font-weight: 500;
+  opacity: 0;
+  transform: translateY(20px);
 }
+
+.section:global(.animate-in-view) .description {
+  animation: descriptionFadeIn 0.6s ease-out 0.4s forwards;
+}
+
 .cta {
   width: 100%;
   background: #bef9de;
@@ -119,10 +222,18 @@
   display: block;
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
 }
+
+.section:global(.animate-in-view) .cta {
+  animation: ctaBounce 0.6s ease-out 0.6s forwards;
+}
+
 .cta:hover {
   background: #a6e7c7;
 }
+
 .mentorsCta {
   width: 100%;
   max-width: 390px;
@@ -140,12 +251,174 @@
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
   transition: all 0.2s ease;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.section:global(.animate-in-view) .mentorsCta {
+  animation: mentorsCtaPulse 0.8s ease-out 1s forwards;
 }
 
 .mentorsCta:hover {
   background: #a6e7c7;
   color: #06104a;
+  transform: translateY(-2px);
 }
+
+/* ============================
+   KEYFRAME ANIMATIONS
+   ============================ */
+
+@keyframes sectionSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes headerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes titleReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes highlightGlow {
+  0%, 100% { 
+    text-shadow: none; 
+  }
+  50% { 
+    text-shadow: 0 0 15px rgba(190, 249, 222, 0.4); 
+  }
+}
+
+@keyframes cardsScrollerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardHeaderSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes avatarPop {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes textSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes starsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes descriptionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ctaBounce {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mentorsCtaPulse {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 500px) {
   .section {
     padding: 32px 0;
@@ -185,18 +458,6 @@
   cursor: grab;
 }
 
-.cardsScroller {
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-  overflow-x: auto;
-  padding-bottom: 1rem;
-  scroll-snap-type: x mandatory;
-}
-
 @media (max-width: 700px) {
   .cardsScroller {
     gap: 12px;
@@ -208,5 +469,31 @@
     max-width: 98vw;
     padding: 12px;
     border-radius: 8px;
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .section:global(.animate-in-view),
+  .section:global(.animate-in-view) .header,
+  .section:global(.animate-in-view) .header h2,
+  .section:global(.animate-in-view) .cardsScroller,
+  .section:global(.animate-in-view) .card,
+  .section:global(.animate-in-view) .cardHeader,
+  .section:global(.animate-in-view) .avatar,
+  .section:global(.animate-in-view) .name,
+  .section:global(.animate-in-view) .subtitle,
+  .section:global(.animate-in-view) .location,
+  .section:global(.animate-in-view) .stars,
+  .section:global(.animate-in-view) .description,
+  .section:global(.animate-in-view) .cta,
+  .section:global(.animate-in-view) .mentorsCta {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .section:global(.animate-in-view) .highlight {
+    animation: none;
   }
 } 

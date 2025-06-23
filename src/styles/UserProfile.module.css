@@ -1,14 +1,18 @@
 .container {
   width: 100%;
-  max-width: 430px;
-  margin: 0 auto;
-  background-color: #FEFFF3;
   min-height: 100vh;
+  background-color: #FEFFF3;
   position: relative;
   font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .main {
+  width: 100%;
+  max-width: 430px;
   padding: 20px;
   position: relative;
 }
@@ -709,6 +713,7 @@
   font-size: 14px;
   color: #06104A;
   background: #FEFFF3;
+  box-sizing: border-box;
 }
 
 .input:focus {
@@ -727,6 +732,7 @@
   background: #FEFFF3;
   resize: vertical;
   min-height: 100px;
+  box-sizing: border-box;
 }
 
 .textarea:focus {
@@ -780,4 +786,585 @@
 .cancelButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Responsive adaptations */
+@media (min-width: 431px) and (max-width: 768px) {
+  .container {
+    padding: 0 40px;
+  }
+  
+  .main {
+    max-width: 500px;
+    padding: 24px 20px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 0 60px;
+  }
+  
+  .main {
+    max-width: 600px;
+    padding: 32px 24px;
+  }
+  
+  .pageTitle {
+    font-size: 28px;
+  }
+  
+  .profileCard {
+    gap: 24px;
+  }
+  
+  .avatar {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .profileInfo h2 {
+    font-size: 22px;
+  }
+  
+  .section {
+    padding: 24px;
+  }
+  
+  .sectionHeader h3 {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1365px) {
+  .container {
+    padding: 0 80px;
+  }
+  
+  .main {
+    max-width: 800px;
+    padding: 40px 32px;
+  }
+  
+  .pageTitle {
+    font-size: 36px;
+  }
+  
+  .profileCard {
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  
+  .avatar {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .profileInfo h2 {
+    font-size: 28px;
+  }
+  
+  .jobTitle {
+    font-size: 18px;
+  }
+  
+  .location {
+    font-size: 18px;
+  }
+  
+  .section {
+    padding: 32px;
+    margin-bottom: 28px;
+  }
+  
+  .sectionHeader {
+    margin-bottom: 24px;
+  }
+  
+  .sectionHeader h3 {
+    font-size: 28px;
+  }
+  
+  .modifyButton {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+  
+  .infoItem {
+    gap: 20px;
+  }
+  
+  .infoItem span, .infoItem p {
+    font-size: 18px;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+  }
+  
+  .content {
+    font-size: 18px;
+  }
+  
+  .skillsList li {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  
+  .uploadButton {
+    height: 160px;
+    margin-top: 24px;
+  }
+  
+  .editForm {
+    padding: 24px;
+  }
+  
+  .input, .textarea {
+    padding: 18px;
+    font-size: 18px;
+  }
+  
+  .saveButton, .cancelButton {
+    padding: 14px 24px;
+    font-size: 16px;
+  }
+}
+
+/* Pour 1440px et plus - vraiment grand écran */
+@media (min-width: 1366px) {
+  .container {
+    padding: 0 100px;
+  }
+  
+  .main {
+    max-width: 1000px;
+    padding: 50px 40px;
+  }
+  
+  .pageTitle {
+    font-size: 42px;
+  }
+  
+  .profileCard {
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+  
+  .avatar {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .profileInfo h2 {
+    font-size: 32px;
+  }
+  
+  .jobTitle {
+    font-size: 20px;
+  }
+  
+  .location {
+    font-size: 20px;
+  }
+  
+  .section {
+    padding: 40px;
+    margin-bottom: 32px;
+  }
+  
+  .sectionHeader {
+    margin-bottom: 28px;
+  }
+  
+  .sectionHeader h3 {
+    font-size: 32px;
+  }
+  
+  .modifyButton {
+    padding: 14px 24px;
+    font-size: 18px;
+  }
+  
+  .infoItem {
+    gap: 24px;
+    padding: 8px 0;
+  }
+  
+  .infoItem span, .infoItem p {
+    font-size: 20px;
+  }
+  
+  .subtitle {
+    font-size: 20px;
+  }
+  
+  .content {
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  
+  .skillsList li {
+    font-size: 20px;
+    margin-bottom: 14px;
+    padding-left: 20px;
+  }
+  
+  .uploadButton {
+    height: 180px;
+    margin-top: 28px;
+  }
+  
+  .editForm {
+    padding: 28px;
+  }
+  
+  .input, .textarea {
+    padding: 20px;
+    font-size: 20px;
+  }
+  
+  .saveButton, .cancelButton {
+    padding: 16px 28px;
+    font-size: 18px;
+  }
+}
+
+/* Premium Card Styles */
+.premiumCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background: linear-gradient(135deg, #BEF9DE 0%, #06104A 100%);
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.premiumContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.premiumIcon {
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+.premiumText h4 {
+  margin: 0 0 8px 0;
+  color: #FEFFF3;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.premiumText p {
+  margin: 0;
+  color: #FEFFF3;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.upgradeButton {
+  padding: 12px 24px;
+  background: #FEFFF3;
+  color: #06104A;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.upgradeButton:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* LinkedIn Link Styles */
+.linkedinLink {
+  color: #06104A;
+  text-decoration: underline;
+  font-size: 14px;
+  transition: opacity 0.2s;
+}
+
+.linkedinLink:hover {
+  opacity: 0.8;
+}
+
+.linkedinEmpty {
+  color: #06104A;
+  opacity: 0.5;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Responsive styles for premium card */
+@media (min-width: 431px) and (max-width: 768px) {
+  .premiumCard {
+    padding: 24px;
+  }
+  
+  .premiumText h4 {
+    font-size: 20px;
+  }
+  
+  .premiumText p {
+    font-size: 16px;
+  }
+  
+  .upgradeButton {
+    padding: 14px 28px;
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .premiumCard {
+    padding: 28px;
+  }
+  
+  .premiumIcon {
+    font-size: 36px;
+    width: 56px;
+    height: 56px;
+  }
+  
+  .premiumText h4 {
+    font-size: 22px;
+  }
+  
+  .premiumText p {
+    font-size: 18px;
+  }
+  
+  .upgradeButton {
+    padding: 16px 32px;
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1365px) {
+  .premiumCard {
+    padding: 32px;
+  }
+  
+  .premiumIcon {
+    font-size: 40px;
+    width: 64px;
+    height: 64px;
+  }
+  
+  .premiumText h4 {
+    font-size: 24px;
+  }
+  
+  .premiumText p {
+    font-size: 20px;
+  }
+  
+  .upgradeButton {
+    padding: 18px 36px;
+    font-size: 20px;
+  }
+  
+  .linkedinLink, .linkedinEmpty {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1366px) {
+  .premiumCard {
+    padding: 40px;
+  }
+  
+  .premiumIcon {
+    font-size: 44px;
+    width: 72px;
+    height: 72px;
+  }
+  
+  .premiumText h4 {
+    font-size: 28px;
+  }
+  
+  .premiumText p {
+    font-size: 22px;
+  }
+  
+  .upgradeButton {
+    padding: 20px 40px;
+    font-size: 22px;
+  }
+  
+  .linkedinLink, .linkedinEmpty {
+    font-size: 20px;
+  }
+}
+
+/* PhotoUpload Styles */
+.photoUploadSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.photoUploadContainer {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.photoUploadOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.photoUploadContainer:hover .photoUploadOverlay {
+  opacity: 1;
+}
+
+.photoUploadIcon {
+  font-size: 24px;
+  color: white;
+}
+
+.photoUploadButton {
+  display: none;
+}
+
+.photoUploadZone {
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  border: 2px dashed #E5E7EB;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #FEFFF3;
+}
+
+.photoUploadZone:hover,
+.photoUploadZone.dragActive {
+  border-color: #BEF9DE;
+  background: rgba(190, 249, 222, 0.1);
+}
+
+.photoUploadContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.photoUploadText {
+  margin: 0;
+  font-size: 14px;
+  color: #06104A;
+  font-weight: 500;
+}
+
+.photoUploadSubtext {
+  margin: 0;
+  font-size: 12px;
+  color: #06104A;
+  opacity: 0.6;
+}
+
+/* Responsive styles for PhotoUpload */
+@media (min-width: 431px) and (max-width: 768px) {
+  .photoUploadZone {
+    max-width: 350px;
+    padding: 24px;
+  }
+  
+  .photoUploadText {
+    font-size: 16px;
+  }
+  
+  .photoUploadSubtext {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .photoUploadZone {
+    max-width: 400px;
+    padding: 28px;
+  }
+  
+  .photoUploadText {
+    font-size: 18px;
+  }
+  
+  .photoUploadSubtext {
+    font-size: 16px;
+  }
+  
+  .photoUploadIcon {
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1365px) {
+  .photoUploadZone {
+    max-width: 450px;
+    padding: 32px;
+  }
+  
+  .photoUploadText {
+    font-size: 20px;
+  }
+  
+  .photoUploadSubtext {
+    font-size: 18px;
+  }
+  
+  .photoUploadIcon {
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 1366px) {
+  .photoUploadZone {
+    max-width: 500px;
+    padding: 36px;
+  }
+  
+  .photoUploadText {
+    font-size: 22px;
+  }
+  
+  .photoUploadSubtext {
+    font-size: 20px;
+  }
+  
+  .photoUploadIcon {
+    font-size: 36px;
+  }
 } 

@@ -14,7 +14,14 @@
   margin: 0 auto 40px auto;
   position: relative;
   text-align: left;
+  opacity: 0;
+  transform: translateY(30px);
 }
+
+.jobSectionBg:global(.animate-in-view) .sectionTitleWrapper {
+  animation: jobsTitleReveal 1s ease-out forwards;
+}
+
 .lesAnnoncesQuiFontTournerChild {
   position: absolute;
   left: 0;
@@ -24,7 +31,13 @@
   height: 18px;
   background: #BEF9DE;
   z-index: 1;
+  width: 0;
 }
+
+.jobSectionBg:global(.animate-in-view) .lesAnnoncesQuiFontTournerChild {
+  animation: jobsUnderlineExpand 1s ease-out 0.5s forwards;
+}
+
 .lesAnnoncesQui {
   font-family: 'AconchegoTextTest', sans-serif;
   font-size: 40px;
@@ -36,10 +49,19 @@
   padding-bottom: 8px;
   line-height: 1.2;
 }
+
+.jobSectionBg:global(.animate-in-view) .lesAnnoncesQui {
+  animation: jobsTextWave 2s ease-in-out infinite 1s;
+}
+
 .accent {
   background: #BEF9DE;
   border-radius: 6px;
   padding: 0 10px;
+}
+
+.jobSectionBg:global(.animate-in-view) .accent {
+  animation: jobsAccentGlow 3s ease-in-out infinite 1.5s;
 }
 
 .cardsGrid {
@@ -49,6 +71,12 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.jobSectionBg:global(.animate-in-view) .cardsGrid {
+  animation: jobsGridStagger 1s ease-out 0.3s forwards;
 }
 
 .jobCard {
@@ -59,19 +87,30 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition: all 0.3s ease;
   overflow: hidden;
   width: 100%;
+  opacity: 0;
+  transform: translateY(40px);
 }
+
+.jobSectionBg:global(.animate-in-view) .jobCard {
+  animation: jobsFadeInUp 0.8s ease-out forwards;
+}
+
 .jobCard:hover {
-  box-shadow: 0 8px 24px 0 rgba(6,16,74,0.13);
-  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) scale(1.02);
 }
 
 .cardImageWrapper {
   width: 100%;
   padding-top: 65%;
   position: relative;
+  overflow: hidden;
+}
+.cardImageWrapper:hover .cardImage {
+  transform: scale(1.05);
 }
 .cardImage {
   position: absolute;
@@ -81,6 +120,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 16px 16px 0 0;
+  transition: transform 0.3s ease;
 }
 
 .ellipseParent {
@@ -115,21 +155,42 @@
   font-size: 14px;
   color: #7b7b7b;
   margin-bottom: 0;
+  opacity: 0;
+  transform: translateX(-20px);
 }
+
+.jobSectionBg:global(.animate-in-view) .cardTitle {
+  animation: jobsTextSlideIn 0.6s ease-out forwards;
+}
+
 .cardJob {
   font-family: 'Montserrat', sans-serif;
   font-size: 22px;
   font-weight: 700;
   color: #06104a;
   margin-bottom: 4px;
+  opacity: 0;
+  transform: translateX(-20px);
 }
+
+.jobSectionBg:global(.animate-in-view) .cardJob {
+  animation: jobsTextSlideIn 0.6s ease-out 0.1s forwards;
+}
+
 .cardDesc {
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
   color: #06104a;
   margin-bottom: 4px;
   line-height: 1.5;
+  opacity: 0;
+  transform: translateX(-20px);
 }
+
+.jobSectionBg:global(.animate-in-view) .cardDesc {
+  animation: jobsTextSlideIn 0.6s ease-out 0.2s forwards;
+}
+
 .cardDescLabel {
   font-weight: 700;
 }
@@ -140,6 +201,11 @@
   margin-top: auto;
   padding-top: 8px;
 }
+
+.jobSectionBg:global(.animate-in-view) .cardInfos {
+  animation: jobsIconsBounce 1s ease-in-out infinite 2s;
+}
+
 .cardInfo {
   display: flex;
   align-items: center;
@@ -161,7 +227,14 @@
   display: flex;
   justify-content: center;
   margin-top: 48px;
+  opacity: 0;
+  transform: translateY(30px);
 }
+
+.jobSectionBg:global(.animate-in-view) .ctaWrapper {
+  animation: jobsCtaPulse 1s ease-out 0.8s forwards;
+}
+
 .ctaBtn {
   background: #06104a;
   color: #fefff3;
@@ -172,19 +245,172 @@
   font-weight: 700;
   padding: 16px 40px;
   cursor: pointer;
-  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
-  transition: background 0.2s;
+  box-shadow: 0 4px 15px rgba(6, 16, 74, 0.2);
+  transition: all 0.3s ease;
   width: auto;
   max-width: 100%;
 }
+
+.jobSectionBg:global(.animate-in-view) .ctaBtn {
+  animation: jobsButtonGlow 2s ease-in-out infinite 2s;
+}
+
 .ctaBtn:hover {
   background: #BEF9DE;
   color: #06104a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(6, 16, 74, 0.3);
+}
+
+/* ============================
+   KEYFRAME ANIMATIONS
+   ============================ */
+
+@keyframes jobsTitleReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes jobsUnderlineExpand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 420px;
+  }
+}
+
+@keyframes jobsTextWave {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  25% { 
+    transform: translateY(-2px); 
+  }
+  75% { 
+    transform: translateY(2px); 
+  }
+}
+
+@keyframes jobsAccentGlow {
+  0%, 100% { 
+    text-shadow: none; 
+  }
+  50% { 
+    text-shadow: 0 0 20px rgba(190, 249, 222, 0.4); 
+  }
+}
+
+@keyframes jobsGridStagger {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes jobsFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes jobsTextSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes jobsIconsBounce {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-2px); 
+  }
+}
+
+@keyframes jobsCtaPulse {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes jobsButtonGlow {
+  0%, 100% { 
+    box-shadow: 0 4px 15px rgba(6, 16, 74, 0.2); 
+  }
+  50% { 
+    box-shadow: 0 8px 25px rgba(6, 16, 74, 0.3); 
+  }
+}
+
+/* Update swiper and cardsScroller animations */
+.cardsScroller {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.jobSectionBg:global(.animate-in-view) .cardsScroller {
+  animation: jobsGridStagger 1s ease-out 0.3s forwards;
+}
+
+.swiperContainer {
+  width: 100%;
+  padding-bottom: 20px;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.jobSectionBg:global(.animate-in-view) .swiperContainer {
+  animation: jobsGridStagger 1s ease-out 0.3s forwards;
+}
+
+.swiperSlide {
+  width: auto;
 }
 
 @media (max-width: 1400px) {
   .cardsGrid {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .lesAnnoncesQuiFontTournerChild {
+    width: 100%;
+    max-width: 420px;
   }
 }
 
@@ -224,27 +450,36 @@
   }
 }
 
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .jobSectionBg:global(.animate-in-view) .sectionTitleWrapper,
+  .jobSectionBg:global(.animate-in-view) .lesAnnoncesQuiFontTournerChild,
+  .jobSectionBg:global(.animate-in-view) .cardsGrid,
+  .jobSectionBg:global(.animate-in-view) .jobCard,
+  .jobSectionBg:global(.animate-in-view) .cardTitle,
+  .jobSectionBg:global(.animate-in-view) .cardJob,
+  .jobSectionBg:global(.animate-in-view) .cardDesc,
+  .jobSectionBg:global(.animate-in-view) .ctaWrapper,
+  .jobSectionBg:global(.animate-in-view) .cardsScroller,
+  .jobSectionBg:global(.animate-in-view) .swiperContainer {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .jobSectionBg:global(.animate-in-view) .lesAnnoncesQui,
+  .jobSectionBg:global(.animate-in-view) .accent,
+  .jobSectionBg:global(.animate-in-view) .cardInfos,
+  .jobSectionBg:global(.animate-in-view) .ctaBtn {
+    animation: none;
+  }
+}
+
 .jobSectionContainer {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-}
-
-.lesAnnoncesQui {
-  font-family: 'AconchegoTextTest', sans-serif;
-  font-size: 32px;
-  color: #06104a;
-  position: relative;
-  z-index: 2;
-  white-space: nowrap;
-}
-
-.cardsScroller {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  width: 100%;
 }
 
 .cardInfos {
@@ -315,33 +550,6 @@
   color: #06104a;
   font-weight: 700;
   margin: 0;
-}
-
-.cardsScroller {
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-  overflow-x: auto;
-  padding-bottom: 1rem;
-  scroll-snap-type: x mandatory;
-}
-
-.cardInfos {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.cardInfo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  color: #7b7b7b;
 }
 
 .bookmarkMobile {
@@ -485,158 +693,29 @@
   position: relative;
 }
 
-.lesAnnoncesQuiFontTournerChild {
-  position: absolute;
-  width: 100%;
-  height: 12px;
-  background: #BEF9DE;
-  bottom: 6px;
-  z-index: 1;
-}
-
-.lesAnnoncesQui {
-  font-family: 'AconchegoTextTest', sans-serif;
-  font-size: 48px;
-  color: #06104a;
-  position: relative;
-  z-index: 2;
-}
-
-.accent {
-  color: #06104a;
-}
-
-.cardsScroller {
-  width: 100%;
-  margin: 0 auto 48px;
-}
-
-.jobCard {
-  background: #fefff3;
-  border: 1.5px solid #06104a;
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-.jobCard:hover {
-  transform: translateY(-8px);
-}
-
-.cardImageWrapper {
-  width: 100%;
-  position: relative;
-  aspect-ratio: 16/9;
-}
-
-.cardImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.ellipseParent {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-
-.groupChild {
-  width: 48px;
-  height: 48px;
-  background: #BEF9DE;
-  border-radius: 50%;
-  position: absolute;
-}
-
-.mdiarrowUpIcon {
-  width: 24px;
-  height: 24px;
-  position: relative;
-  z-index: 1;
-}
-
-.cardContent {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.cardTitle {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  color: #7B7B7B;
-}
-
-.cardJob {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: #06104a;
-}
-
-.cardDesc {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
-  color: #06104a;
-  line-height: 1.5;
-}
-
-.cardDescLabel {
-  font-weight: 700;
-}
-
-.cardInfos {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.cardInfo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  color: #7B7B7B;
-}
-
-.bookmarkMobile {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  z-index: 2;
-}
-
 .dcouvrirLesAnnoncesWrapper {
-  margin-top: 32px;
-  padding: 16px 32px;
   background: #06104a;
+  color: #fefff3;
+  border: none;
   border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 16px 40px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px 0 rgba(6,16,74,0.10);
+  transition: background 0.2s;
+  width: auto;
+  max-width: 100%;
 }
 
 .dcouvrirLesAnnoncesWrapper:hover {
   background: #BEF9DE;
+  color: #06104a;
 }
 
 .dcouvrirLesAnnoncesWrapper b {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 18px;
-  color: #fefff3;
-  transition: color 0.3s ease;
+  font-weight: 700;
 }
 
 .dcouvrirLesAnnoncesWrapper:hover b {
@@ -645,7 +724,7 @@
 
 @media (min-width: 1024px) {
   .frameParent {
-    padding: 120px 0;
+    padding: 100px 0;
   }
 
   .lesAnnoncesQuiFontTournerParent {
@@ -653,15 +732,16 @@
   }
 
   .lesAnnoncesQui {
-    font-size: 48px;
+    font-size: 64px;
   }
 
   .cardsScroller {
-    margin: 0 auto 64px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
   }
 
   .jobCard {
-    max-width: 380px;
+    max-width: none;
   }
 
   .cardContent {
@@ -673,7 +753,7 @@
   }
 
   .cardJob {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .cardDesc {
@@ -685,11 +765,12 @@
   }
 
   .dcouvrirLesAnnoncesWrapper {
-    padding: 20px 40px;
+    font-size: 1.2rem;
+    padding: 20px 48px;
   }
 
   .dcouvrirLesAnnoncesWrapper b {
-    font-size: 20px;
+    font-size: 1.2rem;
   }
 }
 
@@ -703,69 +784,57 @@
   }
 
   .lesAnnoncesQui {
-    font-size: 32px;
+    font-size: 40px;
   }
 
   .jobCard {
-    max-width: 100%;
+    max-width: none;
   }
 
   .cardContent {
-    padding: 20px;
+    padding: 24px;
   }
 
   .dcouvrirLesAnnoncesWrapper {
+    font-size: 1rem;
+    padding: 14px 32px;
     width: 100%;
-    text-align: center;
   }
 }
 
-/* --- BREAKPOINT TABLETTE --- */
 @media (min-width: 700px) {
   .jobSectionBg {
-    padding: 2.5rem 0;
+    padding: 80px 40px 60px 40px;
   }
-  .jobSectionContainer {
-    padding: 0 2rem 3rem 2rem;
-  }
-  .cardsScroller {
-    gap: 2rem;
-    padding-bottom: 1.5rem;
-    flex-wrap: wrap;
-    overflow-x: visible;
-    justify-content: flex-start;
-  }
-  .jobCard {
 
-    max-width: 320px;
+  .jobSectionContainer {
+    padding: 0 40px;
+  }
+
+  .cardsScroller {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    overflow-x: visible;
+    padding-bottom: 0;
+  }
+
+  .jobCard {
+    max-width: none;
+    min-width: auto;
   }
 }
 
-/* --- BREAKPOINT DESKTOP --- */
 @media (min-width: 1024px) {
   .jobSectionBg {
-    padding: 3.5rem 0;
+    padding: 100px 60px 80px 60px;
   }
+
   .jobSectionContainer {
-    padding: 0 3rem 4rem 3rem;
-    font-size: 1.125rem;
+    padding: 0 60px;
+    max-width: 1400px;
   }
-  .cardsScroller {
-    gap: 2.5rem;
-    padding-bottom: 2rem;
-  }
+
   .jobCard {
-    max-width: 320px;
+    padding: 0;
   }
-}
-
-.swiperContainer {
-  width: 100%;
-  padding: 0 24px;
-  box-sizing: border-box;
-}
-
-.swiperSlide {
-  width: 300px;
-  height: auto;
 } 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -49,16 +49,38 @@ const Card = ({ post }: { post: typeof posts[0] }) => (
 
 const Frame60: NextPage = () => {
   const [isDesktop, setIsDesktop] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 1200);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in-view');
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const showGrid = isDesktop && posts.length <= 4;
 
   return (
-    <section className={styles.section}>
+    <section ref={sectionRef} className={styles.section}>
       <div className={styles.headerBlock}>
         <h2 className={styles.title}>
           Le coin des idées, des conseils et <span className={styles.highlight}>des retours d&apos;expérience.</span>
