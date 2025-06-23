@@ -13,6 +13,7 @@ export interface EmailParams extends Record<string, unknown> {
   to_name: string;
   from_name: string;
   molt_name: string;
+  molt_initial: string;
   molt_email: string;
   molt_city: string;
   molt_job_title: string;
@@ -25,6 +26,7 @@ export interface EmailParams extends Record<string, unknown> {
   annonce_description: string;
   application_date: string;
   subject: string;
+  custom_message?: string;
 }
 
 /**
@@ -37,7 +39,8 @@ export interface EmailParams extends Record<string, unknown> {
 export async function sendApplicationEmail(
   moltProfile: IMolt,
   annonce: IAnnonce,
-  mentor: IMentor
+  mentor: IMentor,
+  customMessage?: string
 ): Promise<boolean> {
   try {
     console.log('📧 === DÉBUT ENVOI EMAIL ===');
@@ -92,6 +95,7 @@ export async function sendApplicationEmail(
       to_name: mentor.nom,
       from_name: moltProfile.name,
       molt_name: moltProfile.name,
+      molt_initial: moltProfile.name ? moltProfile.name.charAt(0).toUpperCase() : 'M',
       molt_email: moltProfile.email || 'Email non renseigné',
       molt_city: moltProfile.city || 'Ville non renseignée',
       molt_job_title: moltProfile.jobTitle || 'Poste non renseigné',
@@ -109,7 +113,8 @@ export async function sendApplicationEmail(
         hour: '2-digit',
         minute: '2-digit'
       }).format(new Date()),
-      subject: `🎯 Nouvelle candidature Molty : ${moltProfile.name} pour ${annonce.nomMetier} - ${annonce.nomEtablissement}`
+      subject: `🎯 Nouvelle candidature Molty : ${moltProfile.name} pour ${annonce.nomMetier} - ${annonce.nomEtablissement}`,
+      custom_message: customMessage && customMessage.trim() ? customMessage.trim() : "Aucun message personnalisé"
     };
 
     console.log('📤 Envoi de l\'email via EmailJS...');

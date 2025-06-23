@@ -20,6 +20,7 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
   const [isLoadingPaidStatus, setIsLoadingPaidStatus] = useState(false);
   const [isApplying, setIsApplying] = useState(false);
   const [applicationMessage, setApplicationMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
+  const [customMessage, setCustomMessage] = useState('');
 
   // Récupérer le profil Molt pour vérifier le statut paid
   useEffect(() => {
@@ -133,7 +134,7 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
 
     try {
       console.log('📤 Appel de sendApplicationEmail...');
-      await sendApplicationEmail(moltProfile, annonce, mentor);
+      await sendApplicationEmail(moltProfile, annonce, mentor, customMessage);
       
       console.log('✅ Email envoyé avec succès depuis le composant');
       setApplicationMessage({
@@ -298,6 +299,27 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
                   height={32} 
                 />
                 <p>{applicationStatus.message}</p>
+              </div>
+            )}
+
+            {/* Textarea pour message personnalisé - seulement pour les Molts Premium */}
+            {applicationStatus.canApply && moltProfile?.paid && (
+              <div className={styles.messageSection}>
+                <label htmlFor="customMessage" className={styles.messageLabel}>
+                  💬 Message personnalisé (optionnel)
+                </label>
+                <textarea
+                  id="customMessage"
+                  className={styles.messageTextarea}
+                  value={customMessage}
+                  onChange={(e) => setCustomMessage(e.target.value)}
+                  placeholder="Ajoutez un message personnalisé pour vous présenter..."
+                  rows={4}
+                  maxLength={500}
+                />
+                <div className={styles.characterCount}>
+                  {customMessage.length}/500 caractères
+                </div>
               </div>
             )}
 
