@@ -1,0 +1,21 @@
+/* Override global des styles Quill pour forcer la couleur du texte */
+.ql-editor {
+  color: #06104a !important;
+}
+
+.ql-editor * {
+  color: #06104a !important;
+}
+
+.ql-editor p,
+.ql-editor div,
+.ql-editor span,
+.ql-editor li,
+.ql-editor strong,
+.ql-editor em {
+  color: #06104a !important;
+}
+
+.ql-editor.ql-blank::before {
+  color: #999 !important;
+}

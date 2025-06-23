@@ -94,7 +94,7 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
           )}
 
           <div className={styles.content}>
-            {article.content}
+            <div dangerouslySetInnerHTML={{ __html: article.content || '' }} />
           </div>
 
           {article.lienPodcast && (

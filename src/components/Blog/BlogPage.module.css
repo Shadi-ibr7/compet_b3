@@ -91,6 +91,58 @@
   margin: 0;
 }
 
+/* Rich text content styling */
+.content h1,
+.content h2,
+.content h3 {
+  margin: 1.5rem 0 1rem 0;
+  font-weight: 600;
+  color: #06104a;
+}
+
+.content h1 {
+  font-size: 1.5rem;
+}
+
+.content h2 {
+  font-size: 1.25rem;
+}
+
+.content h3 {
+  font-size: 1.1rem;
+}
+
+.content p {
+  margin-bottom: 1rem;
+}
+
+.content strong {
+  font-weight: 600;
+}
+
+.content em {
+  font-style: italic;
+}
+
+.content ul,
+.content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.content li {
+  margin-bottom: 0.5rem;
+}
+
+.content a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.content a:hover {
+  color: #0056b3;
+}
+
 .infoList {
   display: flex;
   flex-direction: column;
