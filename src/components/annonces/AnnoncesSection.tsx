@@ -187,7 +187,7 @@ const AnnoncesSection = () => {
         >
           <Image src="/Union.svg" alt="" width={13} height={16} className={styles.filterIcon} />
           <span>Localisation</span>
-          {selectedLocation !== 'Toutes les villes' && <span className={styles.filterBadge}>1</span>}
+          {selectedLocation !== 'Toutes les villes' && <span className={styles.filterDot}></span>}
         </button>
         <button 
           className={`${styles.filterBtn} ${selectedSector !== 'Tous les secteurs' ? styles.filterBtnActive : ''}`}
@@ -195,13 +195,28 @@ const AnnoncesSection = () => {
         >
           <Image src="/Vector2.svg" alt="" width={16} height={16} className={styles.filterIcon} />
           <span>Secteur</span>
-          {selectedSector !== 'Tous les secteurs' && <span className={styles.filterBadge}>1</span>}
+          {selectedSector !== 'Tous les secteurs' && <span className={styles.filterDot}></span>}
         </button>
         <button className={styles.filterBtnDark} onClick={() => setShowFilters(v => !v)}>
           <Image src="/Vector_Stroke.svg" alt="" width={16} height={11} className={styles.filterIcon} />
           <span>Plus de filtres</span>
         </button>
-        {(selectedLocation !== 'Toutes les villes' || selectedSector !== 'Tous les secteurs') && (
+      </div>
+
+      {/* Indicateur et reset des filtres actifs */}
+      {(selectedLocation !== 'Toutes les villes' || selectedSector !== 'Tous les secteurs') && (
+        <div className={styles.activeFiltersBar}>
+          <div className={styles.activeFiltersInfo}>
+            <span className={styles.activeFiltersText}>
+              Filtres actifs : 
+              {selectedLocation !== 'Toutes les villes' && (
+                <span className={styles.activeFilterTag}>{selectedLocation}</span>
+              )}
+              {selectedSector !== 'Tous les secteurs' && (
+                <span className={styles.activeFilterTag}>{selectedSector}</span>
+              )}
+            </span>
+          </div>
           <button 
             className={styles.resetFiltersBtn}
             onClick={() => {
@@ -211,10 +226,10 @@ const AnnoncesSection = () => {
               setShowSector(false);
             }}
           >
-            Effacer filtres
+            ✕ Effacer tous les filtres
           </button>
-        )}
-      </div>
+        </div>
+      )}
       
       {/* Dropdown Localisation */}
       {showLocation && (

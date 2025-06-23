@@ -57,7 +57,9 @@ const MentorCard = ({ mentor }: MentorCardProps) => {
           <b>Description :</b> {mentor.description || 'Description non renseignée'}
         </div>
       </Link>
-      <button className={styles.cta}>Contacter le mentor</button>
+      <Link href={`/mentors/${mentor.id}`} className={styles.cta}>
+        Je vais voir son profil
+      </Link>
     </article>
   );
 };
