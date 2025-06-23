@@ -6,6 +6,66 @@ import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import styles from "./AnnoncesSection.module.css";
 import JobCard, { Job } from "./JobCard";
 
+// Constantes pour les filtres
+const VILLES_FRANCE = [
+  'Toutes les villes',
+  'Paris',
+  'Lyon',
+  'Marseille',
+  'Toulouse',
+  'Nice',
+  'Nantes',
+  'Strasbourg',
+  'Montpellier',
+  'Bordeaux',
+  'Lille',
+  'Rennes',
+  'Reims',
+  'Le Havre',
+  'Saint-Étienne',
+  'Toulon',
+  'Grenoble',
+  'Dijon',
+  'Angers',
+  'Nîmes'
+];
+
+const SECTEURS_COMMERCE = [
+  'Tous les secteurs',
+  'Boulangerie',
+  'Boucherie',
+  'Coiffure',
+  'Épicerie',
+  'Pharmacie',
+  'Fleuriste',
+  'Restauration',
+  'Librairie',
+  'Bijouterie',
+  'Cordonnerie',
+  'Pressing',
+  'Opticien'
+];
+
+// Mapping pour détecter le secteur depuis nomMetier
+const detecterSecteur = (nomMetier: string): string => {
+  const metierLower = nomMetier.toLowerCase();
+  
+  if (metierLower.includes('boulang')) return 'Boulangerie';
+  if (metierLower.includes('boucher')) return 'Boucherie';
+  if (metierLower.includes('coiffeur') || metierLower.includes('coiffure')) return 'Coiffure';
+  if (metierLower.includes('épicier') || metierLower.includes('epicier')) return 'Épicerie';
+  if (metierLower.includes('pharmac')) return 'Pharmacie';
+  if (metierLower.includes('fleur')) return 'Fleuriste';
+  if (metierLower.includes('serveur') || metierLower.includes('cuisine') || metierLower.includes('restaur')) return 'Restauration';
+  if (metierLower.includes('libraire') || metierLower.includes('livre')) return 'Librairie';
+  if (metierLower.includes('bijou')) return 'Bijouterie';
+  if (metierLower.includes('cordonn')) return 'Cordonnerie';
+  if (metierLower.includes('pressing') || metierLower.includes('nettoyage')) return 'Pressing';
+  if (metierLower.includes('optic') || metierLower.includes('lunette')) return 'Opticien';
+  
+  return 'Autres';
+};
+
 const AnnoncesSection = () => {
   const searchParams = useSearchParams();
   const searchFromUrl = searchParams.get('search') || '';
@@ -14,6 +74,10 @@ const AnnoncesSection = () => {
   const [showSector, setShowSector] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   
+  // Nouveaux states pour les filtres
+  const [selectedLocation, setSelectedLocation] = useState('Toutes les villes');
+  const [selectedSector, setSelectedSector] = useState('Tous les secteurs');
+  
   // Nouveaux states pour les données réelles
   const [annonces, setAnnonces] = useState<IAnnonce[]>([]);
   const [filteredAnnonces, setFilteredAnnonces] = useState<IAnnonce[]>([]);
@@ -21,21 +85,36 @@ const AnnoncesSection = () => {
   const [error, setError] = useState<string | null>(null);
 
   const filterAnnonces = useCallback(() => {
-    if (!search.trim()) {
-      setFilteredAnnonces(annonces);
-      return;
+    let filtered = [...annonces];
+
+    // Filtrage par recherche textuelle
+    if (search.trim()) {
+      const searchLower = search.toLowerCase();
+      filtered = filtered.filter(annonce => 
+        annonce.nomMetier?.toLowerCase().includes(searchLower) ||
+        annonce.nomEtablissement?.toLowerCase().includes(searchLower) ||
+        annonce.description?.toLowerCase().includes(searchLower)
+      );
     }
 
-    console.log('🔍 Filtrage des annonces avec la recherche:', search);
-    const searchLower = search.toLowerCase();
-    const filtered = annonces.filter(annonce => 
-      annonce.nomMetier?.toLowerCase().includes(searchLower) ||
-      annonce.nomEtablissement?.toLowerCase().includes(searchLower) ||
-      annonce.description?.toLowerCase().includes(searchLower)
-    );
+    // Filtrage par localisation
+    if (selectedLocation && selectedLocation !== 'Toutes les villes') {
+      filtered = filtered.filter(annonce => {
+        const localisationLower = annonce.localisation?.toLowerCase() || '';
+        return localisationLower.includes(selectedLocation.toLowerCase());
+      });
+    }
+
+    // Filtrage par secteur
+    if (selectedSector && selectedSector !== 'Tous les secteurs') {
+      filtered = filtered.filter(annonce => {
+        const secteurDetecte = detecterSecteur(annonce.nomMetier || '');
+        return secteurDetecte === selectedSector;
+      });
+    }
     
     setFilteredAnnonces(filtered);
-  }, [search, annonces]);
+  }, [search, selectedLocation, selectedSector, annonces]);
 
   const fetchAnnonces = async () => {
     try {
@@ -102,28 +181,89 @@ const AnnoncesSection = () => {
         </div>
       </div>
       <div className={styles.filtersRow}>
-        <button className={styles.filterBtn} onClick={() => setShowLocation(v => !v)}>
+        <button 
+          className={`${styles.filterBtn} ${selectedLocation !== 'Toutes les villes' ? styles.filterBtnActive : ''}`}
+          onClick={() => setShowLocation(v => !v)}
+        >
           <Image src="/Union.svg" alt="" width={13} height={16} className={styles.filterIcon} />
           <span>Localisation</span>
+          {selectedLocation !== 'Toutes les villes' && <span className={styles.filterBadge}>1</span>}
         </button>
-        <button className={styles.filterBtn} onClick={() => setShowSector(v => !v)}>
+        <button 
+          className={`${styles.filterBtn} ${selectedSector !== 'Tous les secteurs' ? styles.filterBtnActive : ''}`}
+          onClick={() => setShowSector(v => !v)}
+        >
           <Image src="/Vector2.svg" alt="" width={16} height={16} className={styles.filterIcon} />
           <span>Secteur</span>
+          {selectedSector !== 'Tous les secteurs' && <span className={styles.filterBadge}>1</span>}
         </button>
         <button className={styles.filterBtnDark} onClick={() => setShowFilters(v => !v)}>
           <Image src="/Vector_Stroke.svg" alt="" width={16} height={11} className={styles.filterIcon} />
           <span>Plus de filtres</span>
         </button>
+        {(selectedLocation !== 'Toutes les villes' || selectedSector !== 'Tous les secteurs') && (
+          <button 
+            className={styles.resetFiltersBtn}
+            onClick={() => {
+              setSelectedLocation('Toutes les villes');
+              setSelectedSector('Tous les secteurs');
+              setShowLocation(false);
+              setShowSector(false);
+            }}
+          >
+            Effacer filtres
+          </button>
+        )}
       </div>
-      {/* Menus logiques (exemple simple, à remplacer par vrais menus/modals si besoin) */}
+      
+      {/* Dropdown Localisation */}
       {showLocation && (
-        <div className={styles.menuPopup}>Sélectionnez une localisation (exemple)</div>
+        <div className={styles.menuPopup}>
+          <div className={styles.filterHeader}>Sélectionnez une localisation</div>
+          <div className={styles.filterOptions}>
+            {VILLES_FRANCE.map((ville) => (
+              <button
+                key={ville}
+                className={`${styles.filterOption} ${selectedLocation === ville ? styles.filterOptionActive : ''}`}
+                onClick={() => {
+                  setSelectedLocation(ville);
+                  setShowLocation(false);
+                }}
+              >
+                {ville}
+              </button>
+            ))}
+          </div>
+        </div>
       )}
+
+      {/* Dropdown Secteur */}
       {showSector && (
-        <div className={styles.menuPopup}>Sélectionnez un secteur (exemple)</div>
+        <div className={styles.menuPopup}>
+          <div className={styles.filterHeader}>Sélectionnez un secteur</div>
+          <div className={styles.filterOptions}>
+            {SECTEURS_COMMERCE.map((secteur) => (
+              <button
+                key={secteur}
+                className={`${styles.filterOption} ${selectedSector === secteur ? styles.filterOptionActive : ''}`}
+                onClick={() => {
+                  setSelectedSector(secteur);
+                  setShowSector(false);
+                }}
+              >
+                {secteur}
+              </button>
+            ))}
+          </div>
+        </div>
       )}
+
+      {/* Filtres avancés placeholder */}
       {showFilters && (
-        <div className={styles.menuPopup}>Filtres avancés (exemple)</div>
+        <div className={styles.menuPopup}>
+          <div className={styles.filterHeader}>Filtres avancés</div>
+          <p>Fonctionnalité à venir...</p>
+        </div>
       )}
       <div className={styles.cardsList}>
         {loading ? (
@@ -147,17 +287,21 @@ const AnnoncesSection = () => {
           // Aucune annonce trouvée
           <div className={styles.emptyContainer}>
             <p className={styles.emptyMessage}>
-              {search ? 
-                `Aucune annonce trouvée pour "${search}"` : 
+              {search || selectedLocation !== 'Toutes les villes' || selectedSector !== 'Tous les secteurs' ? 
+                'Aucune annonce trouvée avec ces critères' : 
                 'Aucune annonce disponible pour le moment'
               }
             </p>
-            {search && (
+            {(search || selectedLocation !== 'Toutes les villes' || selectedSector !== 'Tous les secteurs') && (
               <button 
-                onClick={() => setSearch('')}
-                className={styles.clearSearchButton}
+                onClick={() => {
+                  setSearch('');
+                  setSelectedLocation('Toutes les villes');
+                  setSelectedSector('Tous les secteurs');
+                }}
+                className={styles.clearFiltersButton}
               >
-                Effacer la recherche
+                Effacer tous les filtres
               </button>
             )}
           </div>
