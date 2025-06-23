@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import AdminDashboard from '@/components/dashboard/AdminDashboard';
 import MentorDashboard from '@/components/dashboard/MentorDashboard';
-import MoltProfile from '@/components/dashboard/MoltProfile';
 import UserProfile from '@/components/dashboard/UserProfile';
 
 export default function Dashboard() {
@@ -46,7 +45,6 @@ export default function Dashboard() {
     case 'mentor':
       return <MentorDashboard />;
     case 'molt':
-      return <MoltProfile />;
     default:
       return <UserProfile />;
   }

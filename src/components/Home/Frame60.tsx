@@ -9,63 +9,53 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
-import type { IArticle } from "@/types/interfaces/article.interface";
 
-const Card = ({ article }: { article: IArticle }) => (
-  <Link href={`/blog/${article.id}`} className={styles.card}>
-    <Image 
-      src={article.imageUrl || '/image.png'} 
-      alt={article.title} 
-      width={263} 
-      height={173} 
-      className={styles.cardImage} 
-    />
+const posts = [
+  {
+    id: 1,
+    image: '/image.png',
+    title: '5 peurs courantes avant une reconversion et comment les dépasser',
+    desc: "Changer de voie professionnelle est une aventure aussi exaltante qu&apos;angoissante. Avant même de franchir le pas, de nombreuses peurs surgissent..."
+  },
+  {
+    id: 2,
+    image: '/image.png',
+    title: 'Oser se lancer : témoignages de commerçants',
+    desc: 'Découvrez les parcours inspirants de ceux qui ont franchi le cap et ouvert leur commerce de proximité.'
+  },
+  {
+    id: 3,
+    image: '/image.png',
+    title: 'Comment bien choisir son local commercial ?',
+    desc: 'Les critères essentiels pour sélectionner le bon emplacement et réussir son installation.'
+  },
+  {
+    id: 4,
+    image: '/image.png',
+    title: 'Trouver ses premiers clients : conseils pratiques',
+    desc: "Des astuces concrètes pour attirer et fidéliser une clientèle locale dès l'ouverture."
+  },
+];
+
+const Card = ({ post }: { post: typeof posts[0] }) => (
+  <article className={styles.card}>
+    <Image src={post.image} alt={post.title} width={263} height={173} className={styles.cardImage} />
     <div className={styles.cardContent}>
-      <h3 className={styles.cardTitle}>{article.title}</h3>
-      <p className={styles.cardDesc}>{article.meta.description}</p>
+      <h3 className={styles.cardTitle}>{post.title}</h3>
+      <p className={styles.cardDesc}>{post.desc}</p>
     </div>
-  </Link>
+  </article>
 );
 
 const Frame60: NextPage = () => {
   const [isDesktop, setIsDesktop] = useState(false);
-  const [articles, setArticles] = useState<IArticle[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 1200);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        const response = await fetch('/api/articles');
-        if (!response.ok) {
-          throw new Error('Erreur lors du chargement des articles');
-        }
-        
-        const data = await response.json();
-        // Prendre les 4 premiers articles pour la homepage
-        setArticles(data.slice(0, 4));
-      } catch (err) {
-        console.error('Erreur:', err);
-        setError('Impossible de charger les articles');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticles();
-  }, []);
-
-  const showGrid = isDesktop && articles.length <= 4;
+  const showGrid = isDesktop && posts.length <= 4;
 
   return (
     <section className={styles.section}>
@@ -74,17 +64,10 @@ const Frame60: NextPage = () => {
           Le coin des idées, des conseils et <span className={styles.highlight}>des retours d&apos;expérience.</span>
         </h2>
       </div>
-      
-      {loading ? (
-        <div className={styles.loading}>Chargement des articles...</div>
-      ) : error ? (
-        <div className={styles.error}>{error}</div>
-      ) : articles.length === 0 ? (
-        <div className={styles.noArticles}>Aucun article disponible pour le moment</div>
-      ) : showGrid ? (
+      {showGrid ? (
         <div className={styles.cardsScroller}>
-          {articles.map((article) => (
-            <Card key={article.id} article={article} />
+          {posts.map((post) => (
+            <Card key={post.id} post={post} />
           ))}
         </div>
       ) : (
@@ -101,14 +84,13 @@ const Frame60: NextPage = () => {
             1200: { slidesPerView: 4 }
           }}
         >
-          {articles.map((article) => (
-            <SwiperSlide key={article.id}>
-              <Card article={article} />
+          {posts.map((post) => (
+            <SwiperSlide key={post.id}>
+              <Card post={post} />
             </SwiperSlide>
           ))}
         </Swiper>
       )}
-      
       <Link href="/blog" className={styles.blogBtn}>Accéder au blog</Link>
     </section>
   );

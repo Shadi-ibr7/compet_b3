@@ -1,88 +1,53 @@
 .container {
   width: 100%;
   min-height: 100vh;
-  background-color: #06104a;
-  background-image: url('/m2.svg');
-  background-size: cover;
-  background-position: center;
+  background: url('/m.svg') center top no-repeat, #06104a;
+  background-size: 430px 727px;
+  color: #fefff3;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px;
-  box-sizing: border-box;
+  gap: 32px;
   font-family: 'Montserrat', sans-serif;
-  color: #fefff3;
+  padding: 32px 0;
 }
 
 .logo {
-  margin-bottom: 40px;
+  width: 85.5px;
+  height: 40px;
+  margin-bottom: 16px;
+  cursor: pointer;
 }
 
 .title {
-  font-family: 'AconchegoTextTest', sans-serif;
-  font-size: 48px;
-  font-weight: 800;
+  font-family: 'Aconchego Text Test', sans-serif;
+  font-size: 2rem;
   color: #fefff3;
   text-align: center;
-  margin-bottom: 16px;
-  line-height: 1.1;
+  margin-bottom: 8px;
 }
 
 .highlight {
-  position: relative;
-  display: inline-block;
   color: #06104a;
-  padding: 4px 12px;
-  z-index: 1;
-}
-
-.highlight::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 1.4em;
-  min-height: 38px;
   background: #bef9de;
-  border-radius: 8px;
-  z-index: -1;
+  border-radius: 4px;
+  padding: 0 6px;
 }
 
 .subtitle {
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 32px;
+  font-size: 16px;
   color: #fefff3;
-}
-
-.stepIndicator {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 32px;
-}
-
-.step {
-  width: 10px;
-  height: 10px;
-  background: rgba(254, 255, 243, 0.3);
-  border-radius: 50%;
-  transition: background-color 0.3s;
-}
-
-.stepActive {
-  background: #bef9de;
+  text-align: center;
+  margin-bottom: 24px;
 }
 
 .form {
   width: 100%;
-  max-width: 420px;
+  max-width: 340px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 18px;
 }
 
 .inputGroup {
@@ -92,79 +57,300 @@
 }
 
 .label {
-  font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   color: #fefff3;
-  text-align: left;
 }
 
 .input, .select {
+  border-radius: 4px;
   background: #fefff3;
   color: #06104a;
-  border: 1.5px solid #06104a;
-  border-radius: 8px;
+  border: none;
   padding: 16px;
-  font-size: 16px;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
   width: 100%;
-  box-sizing: border-box;
+}
+
+.select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306104a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+  padding-right: 2.5rem;
+}
+
+.select:hover {
+  background-color: #f8f8f8;
+}
+
+.select:focus {
+  outline: 2px solid #bef9de;
+  outline-offset: -2px;
 }
 
 .input::placeholder {
-  color: #7b7b7b;
+  color: #06104a;
+  opacity: 0.5;
+}
+
+.input:disabled, .select:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.fileInput {
+  position: relative;
+  width: 100%;
+}
+
+.hiddenFileInput {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.fileInputLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: #fefff3;
+  color: #06104a;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.fileInputLabel:hover {
+  background: #f0f0f0;
+}
+
+.fileName {
+  margin-top: 8px;
+  color: #bef9de;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.roleSelection {
+  margin-top: 16px;
+}
+
+.roleOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.roleOption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  background: rgba(190, 249, 222, 0.1);
+  border: 1px solid rgba(190, 249, 222, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.roleOption:hover {
+  background: rgba(190, 249, 222, 0.15);
+}
+
+.roleOption input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.roleOption input[type="radio"]:checked + .roleLabel {
+  color: #bef9de;
+}
+
+.roleOption input[type="radio"]:checked ~ .roleDescription {
+  color: #fefff3;
+}
+
+.roleOption input[type="radio"]:checked + .roleLabel::before {
+  border-color: #bef9de;
+  background-color: #bef9de;
+}
+
+.roleLabel {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #fefff3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.roleLabel::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(190, 249, 222, 0.5);
+  border-radius: 50%;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.roleDescription {
+  font-size: 0.9rem;
+  color: rgba(254, 255, 243, 0.7);
+  margin-left: 28px;
 }
 
 .submitBtn {
+  border-radius: 4px;
   background: #bef9de;
   color: #06104a;
-  border: none;
-  border-radius: 8px;
-  padding: 18px;
-  font-size: 18px;
   font-weight: 700;
+  font-size: 1.1rem;
+  padding: 16px 0;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.2s;
   margin-top: 8px;
+  transition: background 0.2s;
 }
 
 .submitBtn:hover {
-  background: #a7e9c7;
+  background: #3ec28f;
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: #bef9de;
 }
 
 .login {
-  margin-top: 32px;
-  font-size: 16px;
   color: #fefff3;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 16px;
 }
 
 .loginLink {
-  color: #fefff3;
-  font-weight: 700;
+  color: #bef9de;
+  cursor: pointer;
   text-decoration: underline;
+}
+
+.error {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid #ff6b6b;
+  padding: 12px 16px;
+  border-radius: 4px;
+  text-align: center;
+  margin: -16px 0;
+  max-width: 340px;
+  width: 100%;
+}
+
+.stepIndicator {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.step {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(190, 249, 222, 0.3);
+}
+
+.stepActive {
+  background: #bef9de;
+}
+
+@media (max-width: 500px) {
+  .container {
+    padding: 16px 0;
+    gap: 18px;
+  }
+  .form {
+    max-width: 98vw;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 1.2rem;
+  }
+  .roleOptions {
+    gap: 12px;
+  }
+  .roleOption {
+    padding: 12px;
+  }
+  .roleLabel {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
   .container {
     padding: 24px 16px;
-    justify-content: flex-start;
-    padding-top: 60px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .title {
-    font-size: 32px;
+    font-size: 28px;
   }
   .subtitle {
     font-size: 16px;
-    margin-bottom: 24px;
   }
   .form {
-    gap: 20px;
+    gap: 16px;
   }
-  .input, .select {
-    padding: 14px;
+  .input {
+    padding: 12px 14px;
+    font-size: 15px;
   }
   .submitBtn {
-    padding: 16px;
+    padding: 14px;
+    font-size: 16px;
   }
   .login {
     font-size: 14px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    gap: 28px;
+  }
+  .title {
+    font-size: 40px;
+  }
+  .subtitle {
+    font-size: 20px;
+  }
+  .form {
+    width: 480px;
+    gap: 24px;
+  }
+  .label {
+    font-size: 18px;
+  }
+  .input, .select {
+    padding: 18px 20px;
+    font-size: 17px;
+  }
+  .submitBtn {
+    padding: 20px;
+    font-size: 18px;
+  }
+  .login {
+    font-size: 16px;
   }
 } 

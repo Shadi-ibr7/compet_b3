@@ -66,8 +66,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  text-decoration: none;
-  color: inherit;
 }
 
 .card:hover {
@@ -126,25 +124,6 @@
 .blogBtn:hover {
   background: #bef9de;
   color: #06104a;
-}
-
-.loading,
-.error,
-.noArticles {
-  width: 100%;
-  max-width: 1200px;
-  text-align: center;
-  padding: 48px 24px;
-  font-size: 18px;
-  color: #06104a;
-  background: #FFFFFF;
-  border-radius: 16px;
-  margin: 24px auto;
-}
-
-.error {
-  color: #dc2626;
-  background: #fee2e2;
 }
 
 @media (min-width: 1200px) {
