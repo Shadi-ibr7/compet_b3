@@ -152,6 +152,7 @@
   box-decoration-break: clone;
 }
 
+
 @media (max-width: 1024px) {
   .section {
     padding: 60px 40px;
