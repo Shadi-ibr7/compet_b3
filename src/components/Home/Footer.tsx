@@ -14,7 +14,14 @@ const Footer: NextPage = () => {
           <div className={styles.footerTitle}>Contact</div>
           <div className={styles.footerContactBlock}>
             <div className={styles.footerIcons}>
-              <Image className={styles.vectorIcon} width={16} height={16} alt="" src="/logoinsta.svg" />
+              <a 
+                href="https://www.instagram.com/agence.molty/?igsh=cnZ0bWQxam9xY3Fz" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="Suivez-nous sur Instagram"
+              >
+                <Image className={styles.vectorIcon} width={16} height={16} alt="Instagram" src="/logoinsta.svg" />
+              </a>
               <Image className={styles.unionIcon} width={20} height={16} alt="" src="/logoyt.svg" />
             </div>
             <div className={styles.footerContact}>contact@molty.com</div>
