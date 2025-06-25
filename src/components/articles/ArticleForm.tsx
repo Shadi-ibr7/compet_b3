@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from '@/styles/ArticleForm.module.css';
 import type { IArticle } from '@/types/interfaces/article.interface';
-import RichTextEditor from '@/components/Editor/RichTextEditor';
+import FormattedTextArea from '@/components/Editor/FormattedTextArea';
 
 interface ArticleFormProps {
   initialData?: IArticle;
@@ -201,10 +201,13 @@ export default function ArticleForm({ initialData, onSubmit }: ArticleFormProps)
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Contenu</label>
-            <RichTextEditor
+            <FormattedTextArea
               value={content}
               onChange={setContent}
               placeholder="Rédigez le contenu de votre article..."
+              variant="full"
+              readOnly={isLoading}
+              fieldName="content"
             />
           </div>
 

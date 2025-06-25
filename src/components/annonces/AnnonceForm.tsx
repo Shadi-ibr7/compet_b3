@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import styles from '@/styles/AnnonceForm.module.css';
 import type { IAnnonce } from '@/types/interfaces/annonce.interface';
+import FormattedTextArea from '@/components/Editor/FormattedTextArea';
 
 interface AnnonceFormProps {
   initialData?: IAnnonce;
@@ -111,165 +113,188 @@ export default function AnnonceForm({ initialData, onSubmit }: AnnonceFormProps)
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          {error}
-        </div>
-      )}
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h1 className={styles.title}>
+          {initialData ? 'Modifier l\'annonce' : 'Créer votre annonce'}
+        </h1>
 
-      <div>
-        <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-          Type de mentorat *
-        </label>
-        <select
-          id="type"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          required
-          disabled={isLoading}
-        >
-          <option value="">Sélectionnez un type</option>
-          <option value="Professionnel">Professionnel</option>
-          <option value="Académique">Académique</option>
-          <option value="Entrepreneuriat">Entrepreneuriat</option>
-          <option value="Carrière">Carrière</option>
-          <option value="Développement personnel">Développement personnel</option>
-        </select>
-      </div>
-
-      <div>
-        <label htmlFor="nomEtablissement" className="block text-sm font-medium text-gray-700">
-          Nom de l'établissement *
-        </label>
-        <input
-          type="text"
-          id="nomEtablissement"
-          value={nomEtablissement}
-          onChange={(e) => setNomEtablissement(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          placeholder="Ex: École de Commerce de Paris"
-          required
-          disabled={isLoading}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="nomMetier" className="block text-sm font-medium text-gray-700">
-          Nom du métier *
-        </label>
-        <input
-          type="text"
-          id="nomMetier"
-          value={nomMetier}
-          onChange={(e) => setNomMetier(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          placeholder="Ex: Développeur Full Stack"
-          required
-          disabled={isLoading}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="localisation" className="block text-sm font-medium text-gray-700">
-          Localisation *
-        </label>
-        <input
-          type="text"
-          id="localisation"
-          value={localisation}
-          onChange={(e) => setLocalisation(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          placeholder="Ex: Paris, France"
-          required
-          disabled={isLoading}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-          Description *
-        </label>
-        <textarea
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          placeholder="Décrivez votre expertise et ce que vous pouvez apporter..."
-          required
-          disabled={isLoading}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="ceQueJePropose" className="block text-sm font-medium text-gray-700">
-          Ce que je propose (optionnel)
-        </label>
-        <textarea
-          id="ceQueJePropose"
-          value={ceQueJePropose}
-          onChange={(e) => setCeQueJePropose(e.target.value)}
-          rows={4}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          placeholder="Décrivez concrètement ce que vous proposez : accompagnement, ressources, méthodes..."
-          disabled={isLoading}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="profilRecherche" className="block text-sm font-medium text-gray-700">
-          Profil recherché (optionnel)
-        </label>
-        <textarea
-          id="profilRecherche"
-          value={profilRecherche}
-          onChange={(e) => setProfilRecherche(e.target.value)}
-          rows={4}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-          placeholder="Décrivez le profil idéal : niveau d'études, expérience, motivation, objectifs..."
-          disabled={isLoading}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-          Image (optionnel)
-        </label>
-        <input
-          type="file"
-          id="image"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-          disabled={isLoading || isUploading}
-        />
-        {isUploading && (
-          <p className="mt-2 text-sm text-gray-500">Téléchargement en cours...</p>
-        )}
-        {imageUrl && (
-          <div className="mt-2">
-            <Image
-              src={imageUrl}
-              alt="Aperçu"
-              width={200}
-              height={120}
-              className="rounded-md object-cover"
-            />
+        {error && (
+          <div className={styles.error}>
+            {error}
           </div>
         )}
-      </div>
 
-      <div className="flex justify-end">
-        <button
-          type="submit"
-          disabled={isLoading || isUploading}
-          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-        >
-          {isLoading ? 'Envoi...' : initialData ? 'Mettre à jour' : 'Créer l\'annonce'}
-        </button>
-      </div>
-    </form>
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Informations générales</h2>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="type" className={styles.label}>
+              Type de mentorat *
+            </label>
+            <select
+              id="type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className={styles.select}
+              required
+              disabled={isLoading}
+            >
+              <option value="">Sélectionnez un type</option>
+              <option value="Professionnel">Professionnel</option>
+              <option value="Académique">Académique</option>
+              <option value="Entrepreneuriat">Entrepreneuriat</option>
+              <option value="Carrière">Carrière</option>
+              <option value="Développement personnel">Développement personnel</option>
+            </select>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="nomEtablissement" className={styles.label}>
+              Nom de l'établissement *
+            </label>
+            <input
+              type="text"
+              id="nomEtablissement"
+              value={nomEtablissement}
+              onChange={(e) => setNomEtablissement(e.target.value)}
+              className={styles.input}
+              placeholder="Ex: École de Commerce de Paris"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="nomMetier" className={styles.label}>
+              Nom du métier *
+            </label>
+            <input
+              type="text"
+              id="nomMetier"
+              value={nomMetier}
+              onChange={(e) => setNomMetier(e.target.value)}
+              className={styles.input}
+              placeholder="Ex: Développeur Full Stack"
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="localisation" className={styles.label}>
+              Localisation *
+            </label>
+            <input
+              type="text"
+              id="localisation"
+              value={localisation}
+              onChange={(e) => setLocalisation(e.target.value)}
+              className={styles.input}
+              placeholder="Ex: Paris, France"
+              required
+              disabled={isLoading}
+            />
+          </div>
+        </div>
+
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Contenu de l'annonce</h2>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="description" className={styles.label}>
+              Description *
+            </label>
+            <FormattedTextArea
+              value={description}
+              onChange={setDescription}
+              placeholder="Décrivez votre expertise et ce que vous pouvez apporter..."
+              readOnly={isLoading}
+              fieldName="description"
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="ceQueJePropose" className={styles.label}>
+              Ce que je propose (optionnel)
+            </label>
+            <FormattedTextArea
+              value={ceQueJePropose}
+              onChange={setCeQueJePropose}
+              placeholder="Décrivez concrètement ce que vous proposez : accompagnement, ressources, méthodes..."
+              readOnly={isLoading}
+              fieldName="ceQueJePropose"
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="profilRecherche" className={styles.label}>
+              Profil recherché (optionnel)
+            </label>
+            <FormattedTextArea
+              value={profilRecherche}
+              onChange={setProfilRecherche}
+              placeholder="Décrivez le profil idéal : niveau d'études, expérience, motivation, objectifs..."
+              readOnly={isLoading}
+              fieldName="profilRecherche"
+            />
+          </div>
+        </div>
+
+        <div className={styles.section}>
+          <h2 className={styles.sectionTitle}>Image (optionnel)</h2>
+          
+          <div className={styles.formGroup}>
+            <label htmlFor="image" className={styles.label}>
+              Ajouter une image
+            </label>
+            <div className={styles.uploadArea}>
+              <input
+                type="file"
+                id="image"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className={styles.hiddenInput}
+                disabled={isLoading || isUploading}
+              />
+              <label htmlFor="image" className={`${styles.uploadButton} ${(isLoading || isUploading) ? styles.disabled : ''}`}>
+                <Image src="/upload.svg" width={20} height={20} alt="" />
+                <span>{isUploading ? 'Téléchargement...' : 'Choisir une image'}</span>
+              </label>
+              
+              {imageUrl && (
+                <div className={styles.preview}>
+                  <Image
+                    src={imageUrl}
+                    alt="Aperçu"
+                    width={200}
+                    height={120}
+                    className={styles.previewImage}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.actions}>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className={styles.secondaryButton}
+            disabled={isLoading}
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            disabled={isLoading || isUploading}
+            className={styles.primaryButton}
+          >
+            {isLoading ? 'Envoi...' : initialData ? 'Mettre à jour' : 'Créer l\'annonce'}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

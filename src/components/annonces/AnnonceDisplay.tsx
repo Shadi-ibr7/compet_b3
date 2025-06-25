@@ -14,6 +14,22 @@ export default function AnnonceDisplay({ annonce, onEdit, onDelete }: AnnonceDis
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const stripHtmlAndTruncate = (html: string, maxLength: number) => {
+    // Supprimer les balises HTML
+    const textOnly = html.replace(/<[^>]*>/g, '');
+    // Décoder les entités HTML
+    const decodedText = textOnly
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+    
+    if (decodedText.length <= maxLength) return decodedText;
+    return decodedText.substring(0, maxLength) + '...';
+  };
+
   const handleDelete = async () => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer cette annonce ?')) {
       return;
@@ -53,7 +69,7 @@ export default function AnnonceDisplay({ annonce, onEdit, onDelete }: AnnonceDis
 
         <div>
           <h4 className="text-sm font-medium text-gray-700">Description</h4>
-          <p className="mt-1 text-sm text-gray-900 whitespace-pre-wrap">{annonce.description}</p>
+          <p className="mt-1 text-sm text-gray-900 whitespace-pre-wrap">{stripHtmlAndTruncate(annonce.description, 200)}</p>
         </div>
       </div>
 

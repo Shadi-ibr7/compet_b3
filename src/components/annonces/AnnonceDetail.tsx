@@ -262,18 +262,18 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
           
           <div className={styles.annonceDescription}>
             <h2 className={styles.sectionTitle}>Description du poste</h2>
-            <p className={styles.description}>
-              {annonce.description}
-            </p>
+            <div className={styles.description}>
+              <div dangerouslySetInnerHTML={{ __html: annonce.description || '' }} />
+            </div>
           </div>
 
           {/* Section Ce que je propose - Conditionnelle */}
           {annonce.ceQueJePropose && annonce.ceQueJePropose.trim() && (
             <div className={styles.annonceDescription}>
               <h2 className={styles.sectionTitle}>Ce que je propose</h2>
-              <p className={styles.description}>
-                {annonce.ceQueJePropose}
-              </p>
+              <div className={styles.description}>
+                <div dangerouslySetInnerHTML={{ __html: annonce.ceQueJePropose || '' }} />
+              </div>
             </div>
           )}
 
@@ -281,9 +281,9 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
           {annonce.profilRecherche && annonce.profilRecherche.trim() && (
             <div className={styles.annonceDescription}>
               <h2 className={styles.sectionTitle}>Profil recherché</h2>
-              <p className={styles.description}>
-                {annonce.profilRecherche}
-              </p>
+              <div className={styles.description}>
+                <div dangerouslySetInnerHTML={{ __html: annonce.profilRecherche || '' }} />
+              </div>
             </div>
           )}
         </div>
