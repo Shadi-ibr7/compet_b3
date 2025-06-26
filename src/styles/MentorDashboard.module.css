@@ -1,0 +1,575 @@
+/* MentorDashboard - Style simple comme UserProfile */
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #FEFFF3;
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.main {
+  width: 100%;
+  max-width: 430px;
+  padding: 20px;
+  position: relative;
+}
+
+.loadingContainer, .errorContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 18px;
+  color: #06104A;
+  gap: 16px;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #06104A;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingText {
+  margin: 0;
+  font-size: 16px;
+  color: #06104A;
+  opacity: 0.8;
+}
+
+.error {
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.backButton, .retryButton {
+  padding: 8px 16px;
+  border: 1px solid #06104A;
+  border-radius: 4px;
+  background: none;
+  color: #06104A;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.backButton:hover, .retryButton:hover {
+  background-color: #06104A;
+  color: white;
+}
+
+/* Page Header */
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  color: #06104A;
+  margin: 0;
+  font-weight: 600;
+}
+
+.mentorBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #BEF9DE;
+  color: #06104A;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Profile Section */
+.profileSection {
+  background: #FEFFF3;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.profileCard {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.profileAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.profileInfo {
+  flex: 1;
+}
+
+.profileInfo h2 {
+  font-size: 20px;
+  color: #06104A;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.profileStatus {
+  font-size: 14px;
+  color: #06104A;
+  opacity: 0.5;
+  margin: 0 0 12px 0;
+}
+
+.profileLocation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #06104A;
+  opacity: 0.5;
+  font-size: 14px;
+}
+
+/* Stats Section */
+.statsSection {
+  background: #FEFFF3;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  color: #06104A;
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  position: relative;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 0;
+  height: 8px;
+  background-color: #BEF9DE;
+  z-index: -1;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  padding: 16px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.statIcon {
+  font-size: 24px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.statNumber {
+  font-size: 24px;
+  font-weight: 600;
+  color: #06104A;
+  margin: 0 0 4px 0;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #06104A;
+  opacity: 0.5;
+  margin: 0;
+}
+
+/* Management Section */
+.managementSection {
+  background: #FEFFF3;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.managementCard {
+  margin-bottom: 30px;
+}
+
+.managementCard:last-child {
+  margin-bottom: 0;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  color: #06104A;
+  margin: 0;
+  font-weight: 600;
+  position: relative;
+}
+
+.cardTitle::after {
+  content: '';
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 0;
+  height: 6px;
+  background-color: #BEF9DE;
+  z-index: -1;
+}
+
+/* Annonce Card */
+.annonceCard {
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.annonceHeader {
+  margin-bottom: 12px;
+}
+
+.annonceHeader h3 {
+  font-size: 16px;
+  color: #06104A;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.etablissement {
+  background-color: #BEF9DE;
+  color: #06104A;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.type, .location, .description {
+  font-size: 14px;
+  color: #06104A;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.location {
+  opacity: 0.7;
+}
+
+.additionalSection {
+  margin: 12px 0;
+  padding: 12px;
+  background-color: rgba(190, 249, 222, 0.1);
+  border-radius: 6px;
+}
+
+.additionalSection h4 {
+  font-size: 14px;
+  color: #06104A;
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+
+.additionalSection p {
+  font-size: 14px;
+  color: #06104A;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.imageContainer {
+  text-align: center;
+  margin: 12px 0;
+}
+
+.annonceImage {
+  border-radius: 6px;
+  max-width: 100%;
+  height: auto;
+}
+
+.annonceFooter {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.date {
+  font-size: 12px;
+  color: #06104A;
+  opacity: 0.5;
+  font-style: italic;
+}
+
+/* Profile Card */
+.profileCard {
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.profileHeader {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.profileHeader .profileAvatar {
+  width: 60px;
+  height: 60px;
+}
+
+.profileHeader .profileInfo h3 {
+  font-size: 16px;
+  color: #06104A;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.job {
+  font-size: 14px;
+  color: #06104A;
+  opacity: 0.7;
+  margin: 0 0 4px 0;
+}
+
+.profileDescription {
+  font-size: 14px;
+  color: #06104A;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+}
+
+.profileNote {
+  padding-top: 12px;
+  border-top: 1px solid #E5E7EB;
+}
+
+/* Actions */
+.cardActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  padding: 8px 16px;
+  border: 1px solid #06104A;
+  border-radius: 4px;
+  background: #06104A;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.primaryButton:hover {
+  background: #04082e;
+  border-color: #04082e;
+}
+
+.secondaryButton {
+  padding: 8px 16px;
+  border: 1px solid #06104A;
+  border-radius: 4px;
+  background: none;
+  color: #06104A;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.secondaryButton:hover {
+  background: #06104A;
+  color: white;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 32px 16px;
+  color: #06104A;
+  opacity: 0.7;
+}
+
+.emptyState p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 8px 0;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modalContent h3 {
+  font-size: 18px;
+  color: #06104A;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+.modalContent p {
+  font-size: 14px;
+  color: #06104A;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.cancelButton {
+  padding: 8px 16px;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  background: none;
+  color: #06104A;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.cancelButton:hover {
+  background: #f9fafb;
+}
+
+.confirmDeleteButton {
+  padding: 8px 16px;
+  border: 1px solid #dc2626;
+  border-radius: 4px;
+  background: #dc2626;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.confirmDeleteButton:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+/* Responsive */
+@media (min-width: 431px) and (max-width: 768px) {
+  .container {
+    padding: 0 24px;
+  }
+  
+  .main {
+    max-width: 500px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 0 32px;
+  }
+  
+  .main {
+    max-width: 600px;
+    padding: 32px;
+  }
+  
+  .pageTitle {
+    font-size: 28px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .container {
+    padding: 0 40px;
+  }
+  
+  .main {
+    max-width: 800px;
+    padding: 40px;
+  }
+  
+  .pageTitle {
+    font-size: 32px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .managementGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  
+  .cardActions {
+    justify-content: flex-start;
+  }
+} 

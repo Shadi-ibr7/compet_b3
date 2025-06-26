@@ -17,7 +17,13 @@ export default function AdminDashboard() {
     totalUsers: 0,
     totalMentors: 0,
     totalAnnonces: 0,
-    totalArticles: 0
+    totalArticles: 0,
+    trends: {
+      usersThisMonth: 0,
+      mentorsThisMonth: 0,
+      annoncesThisMonth: 0,
+      articlesThisMonth: 0,
+    }
   });
 
   useEffect(() => {
@@ -30,16 +36,32 @@ export default function AdminDashboard() {
 
   const loadStats = async () => {
     try {
-      // Ici on pourrait charger de vraies statistiques depuis l'API
-      // Pour l'instant, on simule des données
-      setStats({
-        totalUsers: 156,
-        totalMentors: 23,
-        totalAnnonces: 45,
-        totalArticles: 12
-      });
+      console.log('📊 Chargement des statistiques réelles...');
+      const response = await fetch('/api/stats');
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors du chargement des statistiques');
+      }
+      
+      const data = await response.json();
+      console.log('✅ Statistiques reçues:', data);
+      setStats(data);
     } catch (error) {
-      console.error('Erreur lors du chargement des statistiques:', error);
+      console.error('❌ Erreur lors du chargement des statistiques:', error);
+      setError('Erreur lors du chargement des statistiques');
+      // Fallback avec des données par défaut en cas d'erreur
+      setStats({
+        totalUsers: 0,
+        totalMentors: 0,
+        totalAnnonces: 0,
+        totalArticles: 0,
+        trends: {
+          usersThisMonth: 0,
+          mentorsThisMonth: 0,
+          annoncesThisMonth: 0,
+          articlesThisMonth: 0,
+        }
+      });
     }
   };
 
@@ -137,7 +159,7 @@ export default function AdminDashboard() {
               <div className={styles.statLabel}>Utilisateurs</div>
             </div>
             <div className={styles.statTrend}>
-              <span className={styles.trendUp}>+12%</span>
+              <span className={styles.trendUp}>+{stats.trends.usersThisMonth} ce mois</span>
             </div>
           </div>
           
@@ -148,7 +170,7 @@ export default function AdminDashboard() {
               <div className={styles.statLabel}>Mentors</div>
             </div>
             <div className={styles.statTrend}>
-              <span className={styles.trendUp}>+8%</span>
+              <span className={styles.trendUp}>+{stats.trends.mentorsThisMonth} ce mois</span>
             </div>
           </div>
           
@@ -159,7 +181,7 @@ export default function AdminDashboard() {
               <div className={styles.statLabel}>Annonces</div>
             </div>
             <div className={styles.statTrend}>
-              <span className={styles.trendUp}>+15%</span>
+              <span className={styles.trendUp}>+{stats.trends.annoncesThisMonth} ce mois</span>
             </div>
           </div>
           
@@ -170,7 +192,7 @@ export default function AdminDashboard() {
               <div className={styles.statLabel}>Articles</div>
             </div>
             <div className={styles.statTrend}>
-              <span className={styles.trendUp}>+5%</span>
+              <span className={styles.trendUp}>+{stats.trends.articlesThisMonth} ce mois</span>
             </div>
           </div>
         </div>
