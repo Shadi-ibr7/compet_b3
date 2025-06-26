@@ -426,6 +426,10 @@
   transition: all 0.3s ease;
   margin-top: 8px;
   box-shadow: 0 4px 12px rgba(6, 16, 74, 0.1);
+  text-decoration: none;
+  color: #06104a;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
 }
 
 .crerMonAvenirWrapper:hover,
@@ -433,6 +437,7 @@
   background: #3ec28f;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(6, 16, 74, 0.2);
+  text-decoration: none;
 }
 
 .crerMonAvenir {
