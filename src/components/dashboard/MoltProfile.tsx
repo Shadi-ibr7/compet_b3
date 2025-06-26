@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import type { IMolt } from '@/types/interfaces/molt.interface';
 import type { Experience } from '@/types/common';
+import { useSafeInput } from '@/hooks/useSafeInput';
+import { sanitizeProfile } from '@/lib/security';
 import ExperiencesSection from './ExperiencesSection';
 import PhotoUpload from './PhotoUpload';
 import styles from '@/styles/UserProfile.module.css';
@@ -22,15 +24,13 @@ export default function MoltProfile() {
   const [selectedPhotoFile, setSelectedPhotoFile] = useState<File | null>(null);
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(null);
 
-  // Form state pour l'édition du profil
-  const [editForm, setEditForm] = useState({
-    name: '',
-    linkedin: '',
-    city: '',
-    jobTitle: '',
-    motivation: '',
-    linkPhoto: ''
-  });
+  // Form state sécurisé pour l'édition du profil
+  const name = useSafeInput('', 'name');
+  const linkedin = useSafeInput('', 'url');
+  const city = useSafeInput('', 'city');
+  const jobTitle = useSafeInput('', 'title');
+  const motivation = useSafeInput('', 'motivation');
+  const linkPhoto = useSafeInput('', 'url');
 
   // Redirection si non authentifié
   useEffect(() => {
@@ -52,14 +52,13 @@ export default function MoltProfile() {
       if (response.ok) {
         const data = await response.json();
         setMoltProfile(data);
-        setEditForm({
-          name: data.name || '',
-          linkedin: data.linkedin || '',
-          city: data.city || '',
-          jobTitle: data.jobTitle || '',
-          motivation: data.motivation || '',
-          linkPhoto: data.linkPhoto || ''
-        });
+        // Initialiser les champs sécurisés avec les données
+        name.setInitialValue(data.name || '');
+        linkedin.setInitialValue(data.linkedin || '');
+        city.setInitialValue(data.city || '');
+        jobTitle.setInitialValue(data.jobTitle || '');
+        motivation.setInitialValue(data.motivation || '');
+        linkPhoto.setInitialValue(data.linkPhoto || '');
       } else if (response.status === 404) {
         // Profil Molt n'existe pas encore, créer un profil par défaut
         const defaultProfile: IMolt = {
@@ -74,14 +73,13 @@ export default function MoltProfile() {
           experiences: []
         };
         setMoltProfile(defaultProfile);
-        setEditForm({
-          name: session.user.name || '',
-          linkedin: '',
-          city: '',
-          jobTitle: '',
-          motivation: '',
-          linkPhoto: ''
-        });
+        // Initialiser avec les données par défaut
+        name.setInitialValue(session.user.name || '');
+        linkedin.setInitialValue('');
+        city.setInitialValue('');
+        jobTitle.setInitialValue('');
+        motivation.setInitialValue('');
+        linkPhoto.setInitialValue('');
       } else {
         throw new Error('Erreur lors du chargement du profil');
       }
@@ -99,7 +97,15 @@ export default function MoltProfile() {
 
     setIsUpdatingProfile(true);
     try {
-      let updateData = { ...editForm };
+      // Rassembler les données sécurisées
+      let updateData = {
+        name: name.value,
+        linkedin: linkedin.value,
+        city: city.value,
+        jobTitle: jobTitle.value,
+        motivation: motivation.value,
+        linkPhoto: linkPhoto.value
+      };
 
       // Upload de la photo si une nouvelle photo a été sélectionnée
       if (selectedPhotoFile) {
@@ -141,14 +147,13 @@ export default function MoltProfile() {
   const handleProfileCancel = () => {
     setIsEditingProfile(false);
     if (moltProfile) {
-      setEditForm({
-        name: moltProfile.name || '',
-        linkedin: moltProfile.linkedin || '',
-        city: moltProfile.city || '',
-        jobTitle: moltProfile.jobTitle || '',
-        motivation: moltProfile.motivation || '',
-        linkPhoto: moltProfile.linkPhoto || ''
-      });
+      // Restaurer les valeurs originales
+      name.setInitialValue(moltProfile.name || '');
+      linkedin.setInitialValue(moltProfile.linkedin || '');
+      city.setInitialValue(moltProfile.city || '');
+      jobTitle.setInitialValue(moltProfile.jobTitle || '');
+      motivation.setInitialValue(moltProfile.motivation || '');
+      linkPhoto.setInitialValue(moltProfile.linkPhoto || '');
     }
     // Nettoyer les états de photo
     handlePhotoRemove();
@@ -161,14 +166,8 @@ export default function MoltProfile() {
     return linkedinRegex.test(url);
   };
 
-  const handleFormChange = (field: keyof typeof editForm, value: string) => {
-    setEditForm(prev => ({ ...prev, [field]: value }));
-    if (field === 'linkedin' && value && !validateLinkedInUrl(value)) {
-      setError('Format d\'URL LinkedIn invalide. Exemple: https://linkedin.com/in/votre-profil');
-    } else {
-      setError(null);
-    }
-  };
+  // Validation LinkedIn intégrée dans le hook useSafeInput
+  // (supprimée car gérée automatiquement par sanitizeFormField)
 
   // Fonction utilitaire pour formater la date de création
   const formatCreationDate = (dateCreation: Date | string | number | { seconds: number } | null | undefined): string => {
@@ -348,7 +347,7 @@ export default function MoltProfile() {
               />
             )}
             <div className={styles.profileInfo}>
-              <h2>{editForm.name || session.user.name}</h2>
+              <h2>{name.value || session.user.name}</h2>
               <p className={styles.jobTitle}>
                 {moltProfile.paid ? '✅ Membre Molty Premium' : '⏳ Membre Molty (Gratuit)'}
               </p>
@@ -359,7 +358,7 @@ export default function MoltProfile() {
                   height={16} 
                   alt=""
                 />
-                <span>{editForm.city || 'Ville non renseignée'}</span>
+                <span>{city.value || 'Ville non renseignée'}</span>
                 {moltProfile.linkedin && (
                   <a 
                     href={moltProfile.linkedin} 
@@ -385,8 +384,8 @@ export default function MoltProfile() {
                 <label>Nom complet</label>
                 <input
                   type="text"
-                  value={editForm.name}
-                  onChange={(e) => handleFormChange('name', e.target.value)}
+                  value={name.value}
+                  onChange={(e) => name.setValue(e.target.value)}
                   className={styles.input}
                   placeholder="Ex: Marie Dupont"
                   required
@@ -396,8 +395,8 @@ export default function MoltProfile() {
                 <label>Titre/Poste actuel</label>
                 <input
                   type="text"
-                  value={editForm.jobTitle}
-                  onChange={(e) => handleFormChange('jobTitle', e.target.value)}
+                  value={jobTitle.value}
+                  onChange={(e) => jobTitle.setValue(e.target.value)}
                   className={styles.input}
                   placeholder="Ex: Étudiant en informatique, Développeur Junior..."
                 />
@@ -406,8 +405,8 @@ export default function MoltProfile() {
                 <label>Ville</label>
                 <input
                   type="text"
-                  value={editForm.city}
-                  onChange={(e) => handleFormChange('city', e.target.value)}
+                  value={city.value}
+                  onChange={(e) => city.setValue(e.target.value)}
                   className={styles.input}
                   placeholder="Ex: Paris, Lyon, Marseille..."
                 />
@@ -416,8 +415,8 @@ export default function MoltProfile() {
                 <label>Profil LinkedIn (optionnel)</label>
                 <input
                   type="url"
-                  value={editForm.linkedin}
-                  onChange={(e) => handleFormChange('linkedin', e.target.value)}
+                  value={linkedin.value}
+                  onChange={(e) => linkedin.setValue(e.target.value)}
                   className={styles.input}
                   placeholder="https://linkedin.com/in/votre-profil"
                 />
@@ -425,8 +424,8 @@ export default function MoltProfile() {
               <div className={styles.formGroup}>
                 <label>Motivation pour trouver un mentor</label>
                 <textarea
-                  value={editForm.motivation}
-                  onChange={(e) => handleFormChange('motivation', e.target.value)}
+                  value={motivation.value}
+                  onChange={(e) => motivation.setValue(e.target.value)}
                   className={styles.textarea}
                   rows={4}
                   placeholder="Décrivez vos objectifs, ce que vous recherchez chez un mentor..."
@@ -516,17 +515,17 @@ export default function MoltProfile() {
                 <p>Status: {moltProfile.paid ? 'Premium' : 'Gratuit'}</p>
               </div>
             </div>
-            {editForm.jobTitle && (
+            {jobTitle.value && (
               <div className={styles.infoItem}>
                 <Image src="/briefcase.svg" width={20} height={20} alt="" />
-                <span>{editForm.jobTitle}</span>
+                <span>{jobTitle.value}</span>
               </div>
             )}
             <div className={styles.infoItem}>
               <Image src="/linkedin.svg" width={20} height={20} alt="" />
-              {editForm.linkedin ? (
+              {linkedin.value ? (
                 <a 
-                  href={editForm.linkedin} 
+                  href={linkedin.value} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className={styles.linkedinLink}
@@ -547,7 +546,7 @@ export default function MoltProfile() {
         </div>
 
         {/* Motivation Section */}
-        {editForm.motivation && (
+        {motivation.value && (
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
               <div className={styles.titleWithHighlight}>
@@ -558,7 +557,7 @@ export default function MoltProfile() {
               Pourquoi je cherche un mentor ?
             </p>
             <p className={styles.content}>
-              {editForm.motivation}
+              {motivation.value}
             </p>
           </div>
         )}

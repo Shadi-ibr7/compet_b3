@@ -46,6 +46,22 @@ export default function AdminArticleCard({ article, onDelete }: AdminArticleCard
     return text.substring(0, maxLength) + '...';
   };
 
+  const stripHtmlAndTruncate = (html: string, maxLength: number) => {
+    // Supprimer les balises HTML
+    const textOnly = html.replace(/<[^>]*>/g, '');
+    // Décoder les entités HTML
+    const decodedText = textOnly
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+    
+    if (decodedText.length <= maxLength) return decodedText;
+    return decodedText.substring(0, maxLength) + '...';
+  };
+
   return (
     <>
       <div className={styles.articleCard}>
@@ -93,7 +109,7 @@ export default function AdminArticleCard({ article, onDelete }: AdminArticleCard
           <div className={styles.articleDetails}>
             {article.content && (
               <p className={styles.articleDescription}>
-                {truncateText(article.content, 150)}
+                {stripHtmlAndTruncate(article.content, 150)}
               </p>
             )}
             

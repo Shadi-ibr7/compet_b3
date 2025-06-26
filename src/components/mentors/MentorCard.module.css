@@ -101,21 +101,33 @@
   cursor: pointer;
   transition: background 0.2s;
   font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  display: block;
+  text-align: center;
 }
 
 .cta:hover {
   background: #a6e7c7;
 }
 
+@media (max-width: 768px) {
+  .card {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
 @media (max-width: 500px) {
   .card {
     max-width: 98vw;
     padding: 20px;
-    gap: 10px;
+    gap: 14px;
+    margin: 0 auto;
   }
   
   .cardHeader {
     gap: 12px;
+    flex-direction: row;
   }
   
   .avatar {
@@ -123,8 +135,13 @@
     height: 80px;
   }
   
+  .cardInfo {
+    gap: 6px;
+  }
+  
   .name {
     font-size: 18px;
+    line-height: 1.3;
   }
   
   .subtitle, .location {
@@ -133,10 +150,49 @@
   
   .description {
     font-size: 14px;
+    line-height: 1.5;
   }
   
   .cta {
     font-size: 0.98rem;
     padding: 12px 0;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 380px) {
+  .card {
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .cardHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .avatar {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .name {
+    font-size: 16px;
+  }
+  
+  .subtitle, .location {
+    font-size: 13px;
+  }
+  
+  .description {
+    font-size: 13px;
+    text-align: left;
+  }
+  
+  .cta {
+    font-size: 0.9rem;
+    padding: 10px 0;
   }
 }
