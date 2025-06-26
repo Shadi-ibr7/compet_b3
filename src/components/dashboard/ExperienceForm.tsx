@@ -191,19 +191,19 @@ export default function ExperienceForm({ experience, onSave, onCancel, isLoading
           </div>
         </div>
 
-        {formData.type === 'pro' && (
-          <div className={styles.formGroup}>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={formData.isCurrentPosition}
-                onChange={(e) => handleInputChange('isCurrentPosition', e.target.checked)}
-                disabled={isLoading}
-              />
-              <span>Je travaille actuellement ici</span>
-            </label>
-          </div>
-        )}
+        <div className={styles.formGroup}>
+          <label className={styles.checkboxLabel}>
+            <input
+              type="checkbox"
+              checked={formData.isCurrentPosition}
+              onChange={(e) => handleInputChange('isCurrentPosition', e.target.checked)}
+              disabled={isLoading}
+            />
+            <span>
+              {formData.type === 'pro' ? 'Je travaille actuellement ici' : 'Formation en cours'}
+            </span>
+          </label>
+        </div>
 
         <div className={styles.editActions}>
           <button

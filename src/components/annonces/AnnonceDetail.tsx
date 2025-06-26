@@ -268,22 +268,22 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
               <div className={styles.jobTitleSection}>
                 <h1 className={styles.jobTitle}>{annonce.nomMetier}</h1>
                 <div className={styles.companyName}>
-                  <Image src="/Group1.svg" alt="" width={16} height={16} />
+                  <Image src="/building.svg" alt="" width={16} height={16} />
                   {annonce.nomEtablissement}
                 </div>
               </div>
               
               <div className={styles.jobMeta}>
                 <div className={styles.metaItem}>
-                  <Image src="/Union.svg" alt="Localisation" width={16} height={20} />
+                  <Image src="/map-pin.svg" alt="Localisation" width={16} height={16} />
                   <span>{annonce.localisation}</span>
                 </div>
                 <div className={styles.metaItem}>
-                  <Image src="/Group.svg" alt="Type" width={16} height={16} />
+                  <Image src="/briefcase.svg" alt="Type" width={16} height={16} />
                   <span>{annonce.type}</span>
                 </div>
                 <div className={styles.metaItem}>
-                  <Image src="/Vector.svg" alt="Date" width={16} height={16} />
+                  <Image src="/calendar.svg" alt="Date" width={16} height={16} />
                   <span>Publié {daysSincePosted === 0 ? 'aujourd\'hui' : 
                     daysSincePosted === 1 ? 'hier' : 
                     `il y a ${daysSincePosted} jours`}</span>
@@ -293,7 +293,7 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
               {/* Quick Actions */}
               <div className={styles.quickActions}>
                 <button className={styles.shareButton}>
-                  <Image src="/Vector.svg" alt="" width={16} height={16} />
+                  <Image src="/share.svg" alt="" width={16} height={16} />
                   Partager
                 </button>
               </div>

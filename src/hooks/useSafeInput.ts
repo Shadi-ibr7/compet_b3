@@ -34,6 +34,7 @@ interface UseSafeInputReturn {
   error: string | null;
   characterCount: number;
   maxLength: number;
+  getTrimmedValue: () => string;
 }
 
 /**
@@ -80,7 +81,8 @@ export function useSafeInput(options: UseSafeInputOptions): UseSafeInputReturn {
     if (fieldType === 'description' || fieldType === 'motivation') {
       sanitized = sanitizeTextMessage(newValue, preserveWhitespace);
     } else {
-      sanitized = sanitizeFormField(newValue, fieldType);
+      // Preserve trailing spaces during typing, only trim for validation
+      sanitized = sanitizeFormField(newValue, fieldType, true);
     }
 
     // Enforce max length
@@ -88,16 +90,17 @@ export function useSafeInput(options: UseSafeInputOptions): UseSafeInputReturn {
       sanitized = sanitized.slice(0, maxLength);
     }
 
-    // Validation
+    // Validation (use trimmed value for validation checks)
     let newError: string | null = null;
+    const trimmedValue = sanitized.trim();
     
-    if (required && !sanitized.trim()) {
+    if (required && !trimmedValue) {
       newError = 'Ce champ est requis';
-    } else if (fieldType === 'email' && sanitized && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sanitized)) {
+    } else if (fieldType === 'email' && trimmedValue && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedValue)) {
       newError = 'Format d\'email invalide';
-    } else if (fieldType === 'url' && sanitized && !/^https?:\/\/.+/.test(sanitized)) {
+    } else if (fieldType === 'url' && trimmedValue && !/^https?:\/\/.+/.test(trimmedValue)) {
       newError = 'URL invalide (doit commencer par http:// ou https://)';
-    } else if (fieldType === 'phone' && sanitized && !/^[\d\s\-\+\(\)\.]+$/.test(sanitized)) {
+    } else if (fieldType === 'phone' && trimmedValue && !/^[\d\s\-\+\(\)\.]+$/.test(trimmedValue)) {
       newError = 'Numéro de téléphone invalide';
     }
 
@@ -109,6 +112,10 @@ export function useSafeInput(options: UseSafeInputOptions): UseSafeInputReturn {
     setValue(event.target.value);
   }, [setValue]);
 
+  const getTrimmedValue = useCallback(() => {
+    return sanitizeFormField(value, fieldType, false); // false = apply trim
+  }, [value, fieldType]);
+
   const isValid = !error && (!required || value.trim().length > 0);
 
   return {
@@ -118,6 +125,7 @@ export function useSafeInput(options: UseSafeInputOptions): UseSafeInputReturn {
     isValid,
     error,
     characterCount: value.length,
-    maxLength
+    maxLength,
+    getTrimmedValue
   };
 }

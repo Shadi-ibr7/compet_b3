@@ -72,18 +72,21 @@ const JobCard = ({ job, annonce }: JobCardProps) => {
         />
       </div>
       <div className={styles.cardContent}>
-        <div className={styles.cardTitle}>{displayData.title}</div>
+        <div className={styles.cardTitle}>
+          <Image width={14} height={14} alt="Établissement" src="/building.svg" style={{marginRight: '6px'}} />
+          {displayData.title}
+        </div>
         <div className={styles.cardJob}>{displayData.job}</div>
         <div className={styles.cardDesc}>
           <span className={styles.cardDescLabel}>Description :</span> {displayData.desc}
         </div>
         <div className={styles.cardInfos}>
           <div className={styles.cardInfo}>
-            <Image className={styles.groupIcon} width={16} height={16} alt="Type" src="/Group.svg" /> 
+            <Image className={styles.groupIcon} width={16} height={16} alt="Type" src="/briefcase.svg" /> 
             <span className={styles.cardInfoText}>{displayData.type}</span>
           </div>
           <div className={styles.cardInfo}>
-            <Image className={styles.unionIcon} width={13} height={16} alt="Localisation" src="/Union.svg" /> 
+            <Image className={styles.unionIcon} width={16} height={16} alt="Localisation" src="/map-pin.svg" /> 
             <span className={styles.cardInfoText}>{displayData.location}</span>
           </div>
         </div>

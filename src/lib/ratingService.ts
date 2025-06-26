@@ -41,16 +41,14 @@ export async function getMentorRating(mentorId: string): Promise<IMentorRating> 
 
 /**
  * Vérifie si un Molt peut noter un mentor
- * @param moltId - ID du Molt
  * @param mentorId - ID du mentor
  * @returns Promise<IRatingEligibility> - Éligibilité à noter
  */
 export async function checkRatingEligibility(
-  moltId: string,
   mentorId: string
 ): Promise<IRatingEligibility> {
   try {
-    const response = await fetch(`/api/ratings/check/${moltId}/${mentorId}`, {
+    const response = await fetch(`/api/ratings/check/current/${mentorId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -93,16 +91,29 @@ export async function createRating(
   comment?: string
 ): Promise<boolean> {
   try {
+    // Debug logging pour tracer les données
+    console.log('[DEBUG] createRating appelé avec:', {
+      mentorId,
+      rating,
+      comment,
+      mentorIdType: typeof mentorId,
+      ratingType: typeof rating
+    });
+
+    const payload = {
+      mentorId,
+      rating,
+      comment,
+    };
+
+    console.log('[DEBUG] Payload à envoyer:', payload);
+
     const response = await fetch('/api/ratings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        mentorId,
-        rating,
-        comment,
-      }),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {

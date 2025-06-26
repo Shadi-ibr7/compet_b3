@@ -21,18 +21,53 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ error: 'Seuls les Molts peuvent noter' }, { status: 403 });
         }
 
-        // Utiliser les données sanitisées par le middleware
-        const { mentorId, rating, comment } = sanitizedBody || {};
+        // Utiliser le body sanitisé passé par le middleware
+        if (!sanitizedBody) {
+          return NextResponse.json({ error: 'Corps de requête manquant' }, { status: 400 });
+        }
+        
+        const { mentorId, rating, comment } = sanitizedBody;
 
-        if (!mentorId || !rating || typeof rating !== 'number' || rating < 1 || rating > 5) {
+        // Debug logging pour tracer les données reçues
+        console.log('[DEBUG] Données reçues dans API ratings:', {
+          sanitizedBody,
+          mentorId,
+          rating,
+          comment,
+          mentorIdType: typeof mentorId,
+          ratingType: typeof rating
+        });
+
+        // Vérification et conversion sécurisée des types
+        if (!mentorId || typeof mentorId !== 'string') {
+          console.log('[DEBUG] mentorId invalide:', { mentorId, type: typeof mentorId });
           return NextResponse.json(
-            { error: 'mentorId et rating (1-5) sont requis' },
+            { error: 'mentorId valide requis' },
+            { status: 400 }
+          );
+        }
+
+        // Convertir rating en nombre si c'est une chaîne
+        let validRating = rating;
+        if (typeof rating === 'string') {
+          validRating = parseInt(rating, 10);
+        }
+
+        if (!validRating || typeof validRating !== 'number' || validRating < 1 || validRating > 5) {
+          console.log('[DEBUG] Rating invalide:', { 
+            originalRating: rating, 
+            validRating, 
+            type: typeof validRating 
+          });
+          
+          return NextResponse.json(
+            { error: 'rating valide (1-5) requis' },
             { status: 400 }
           );
         }
 
         // Vérifier que le mentor existe
-        const mentorDoc = await adminDb.collection('mentors').doc(mentorId as string).get();
+        const mentorDoc = await adminDb.collection('mentors').doc(mentorId).get();
         if (!mentorDoc.exists) {
           return NextResponse.json(
             { error: 'Mentor non trouvé' },
@@ -86,9 +121,9 @@ export async function POST(request: NextRequest) {
         // Créer la nouvelle note
         const ratingData: Omit<IRating, 'id'> = {
           moltId: session.user.id,
-          mentorId: mentorId as string,
+          mentorId: mentorId,
           applicationId,
-          rating: Math.round(rating as number), // S'assurer que c'est un entier
+          rating: Math.round(validRating), // Utiliser validRating déjà vérifié
           comment: comment ? String(comment).trim() || undefined : undefined,
           dateCreated: new Date()
         };

@@ -34,7 +34,7 @@ const MentorDetail = ({ mentor, annonces }: MentorDetailProps) => {
 
           // Vérifier éligibilité si utilisateur connecté
           if (session?.user?.id && session.user.role === 'molt') {
-            const eligible = await checkRatingEligibility(session.user.id, mentor.id);
+            const eligible = await checkRatingEligibility(mentor.id);
             setEligibility(eligible);
           }
         }
@@ -55,7 +55,7 @@ const MentorDetail = ({ mentor, annonces }: MentorDetailProps) => {
       setMentorRating(rating);
       
       if (session?.user?.id) {
-        const eligible = await checkRatingEligibility(session.user.id, mentor.id);
+        const eligible = await checkRatingEligibility(mentor.id);
         setEligibility(eligible);
       }
     }

@@ -1,6 +1,7 @@
 // Security middleware for API routes
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth/credentials-config';
 import { sanitizeProfile } from '@/lib/security';
 
 // Rate limiting store (in production, use Redis or similar)
@@ -84,7 +85,7 @@ function sanitizeRequestBody(body: unknown): unknown {
  */
 export async function securityMiddleware(
   request: NextRequest,
-  handler: (req: NextRequest) => Promise<NextResponse>,
+  handler: (req: NextRequest, sanitizedBody?: Record<string, unknown>) => Promise<NextResponse>,
   options: {
     requireAuth?: boolean;
     allowedRoles?: string[];
@@ -113,7 +114,7 @@ export async function securityMiddleware(
 
     // Authentication check
     if (requireAuth) {
-      const session = await getServerSession();
+      const session = await getServerSession(authOptions);
       
       if (!session || !session.user) {
         return NextResponse.json(
@@ -138,13 +139,8 @@ export async function securityMiddleware(
         const body = await request.json();
         const sanitizedBody = sanitizeRequestBody(body);
         
-        // Replace the original request with sanitized data
-        const newRequest = new NextRequest(request.url, {
-          ...request,
-          body: JSON.stringify(sanitizedBody)
-        });
-        
-        return handler(newRequest);
+        // Pass sanitized body to handler instead of recreating request
+        return handler(request, sanitizedBody);
       } catch (error) {
         // If body parsing fails, continue with original request
         return handler(request);

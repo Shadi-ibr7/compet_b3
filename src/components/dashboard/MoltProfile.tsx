@@ -473,7 +473,7 @@ export default function MoltProfile() {
                 <button 
                   onClick={handleProfileSave} 
                   className={styles.saveButton} 
-                  disabled={isUpdatingProfile || (!!editForm.linkedin && !validateLinkedInUrl(editForm.linkedin))}
+                  disabled={isUpdatingProfile || (!!linkedin.value && !validateLinkedInUrl(linkedin.value))}
                 >
                   {isUpdatingProfile ? 'Sauvegarde...' : 'Sauvegarder'}
                 </button>

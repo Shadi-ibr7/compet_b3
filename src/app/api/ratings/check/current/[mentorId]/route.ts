@@ -5,32 +5,22 @@ import { securityMiddleware } from '@/lib/middleware/security';
 import { adminDb } from '@/lib/firebase-admin';
 import type { IRatingEligibility } from '@/types/interfaces/rating.interface';
 
-// GET /api/ratings/check/[moltId]/[mentorId] - Vérifier l'éligibilité pour noter
+// GET /api/ratings/check/current/[mentorId] - Vérifier l'éligibilité pour noter
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ moltId: string; mentorId: string }> }
+  { params }: { params: Promise<{ mentorId: string }> }
 ) {
   return securityMiddleware(
     request,
     async (req: NextRequest) => {
       try {
+        // La session est déjà vérifiée par le middleware, récupérer les données
         const session = await getServerSession(authOptions);
         const resolvedParams = await params;
         
-        if (!session?.user?.id) {
-          return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
-        }
-
-        if (session.user.role !== 'molt') {
-          return NextResponse.json({ error: 'Seuls les Molts peuvent noter' }, { status: 403 });
-        }
-
-        // Vérifier que l'utilisateur demande bien ses propres données
-        if (session.user.id !== resolvedParams.moltId) {
-          return NextResponse.json({ error: 'Accès non autorisé' }, { status: 403 });
-        }
-
-        const { moltId, mentorId } = resolvedParams;
+        // Le middleware a déjà vérifié l'auth et le rôle, utiliser directement la session
+        const moltId = session!.user.id;
+        const { mentorId } = resolvedParams;
 
         // Vérifier que le mentor existe
         const mentorDoc = await adminDb.collection('mentors').doc(mentorId).get();

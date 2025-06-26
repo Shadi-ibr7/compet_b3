@@ -50,7 +50,7 @@ export function sanitizeHtml(content: string, variant: 'basic' | 'full' = 'basic
 /**
  * Sanitize form field input based on field type
  */
-export function sanitizeFormField(value: string, fieldType: string): string {
+export function sanitizeFormField(value: string, fieldType: string, preserveTrailingSpaces: boolean = true): string {
   if (!value || typeof value !== 'string') {
     return '';
   }
@@ -74,7 +74,9 @@ export function sanitizeFormField(value: string, fieldType: string): string {
   };
 
   const maxLength = limits[fieldType] || 200;
-  let sanitized = value.trim().slice(0, maxLength);
+  
+  // Only trim if we don't want to preserve trailing spaces (for final validation)
+  let sanitized = preserveTrailingSpaces ? value.slice(0, maxLength) : value.trim().slice(0, maxLength);
 
   // Remove dangerous patterns
   sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
@@ -188,25 +190,25 @@ export function sanitizeProfile(profileData: Record<string, unknown>): Record<st
           sanitized[key] = sanitizeTextMessage(value, true);
           break;
         case 'email':
-          sanitized[key] = sanitizeFormField(value, 'email');
+          sanitized[key] = sanitizeFormField(value, 'email', false); // Trim emails
           break;
         case 'name':
         case 'nom':
-          sanitized[key] = sanitizeFormField(value, 'name');
+          sanitized[key] = sanitizeFormField(value, 'name', false); // Trim names
           break;
         case 'job':
-          sanitized[key] = sanitizeFormField(value, 'job');
+          sanitized[key] = sanitizeFormField(value, 'job', false); // Trim job titles
           break;
         case 'localisation':
         case 'location':
-          sanitized[key] = sanitizeFormField(value, 'location');
+          sanitized[key] = sanitizeFormField(value, 'location', false); // Trim locations
           break;
         case 'linkPhoto':
         case 'imageUrl':
-          sanitized[key] = sanitizeFormField(value, 'url');
+          sanitized[key] = sanitizeFormField(value, 'url', false); // Trim URLs
           break;
         default:
-          sanitized[key] = sanitizeFormField(value, 'text');
+          sanitized[key] = sanitizeFormField(value, 'text', false); // Trim text
       }
     } else {
       sanitized[key] = value;

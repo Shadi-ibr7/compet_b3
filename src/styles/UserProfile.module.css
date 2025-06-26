@@ -269,6 +269,366 @@
   opacity: 1;
 }
 
+/* Experiences Section Styles */
+.experiencesList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.emptyExperiences {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 16px;
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  background: rgba(190, 249, 222, 0.05);
+}
+
+.emptyExperiences p {
+  margin: 8px 0;
+  color: #06104a;
+  font-size: 14px;
+}
+
+.emptyExperiences p strong {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.addExperienceButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #06104a;
+  color: #fefff3;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 16px;
+}
+
+.addExperienceButton:hover {
+  background: #0a1758;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(6, 16, 74, 0.2);
+}
+
+.addExperienceButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Experience Card Styles */
+.experienceCard {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.experienceCard:hover {
+  box-shadow: 0 2px 8px rgba(6, 16, 74, 0.1);
+  border-color: #BEF9DE;
+}
+
+.experienceHeader {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.experienceIcon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(6, 16, 74, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.experienceContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.experienceTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #06104a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.experienceSubtitle {
+  font-size: 14px;
+  color: #666666;
+  margin: 0;
+}
+
+.experienceDate {
+  font-size: 13px;
+  color: #999999;
+  margin: 0;
+  font-weight: 500;
+}
+
+.experienceActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.experienceEditButton,
+.experienceDeleteButton {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.experienceEditButton:hover {
+  background: #06104a;
+  border-color: #06104a;
+}
+
+.experienceEditButton:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.experienceDeleteButton:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.experienceDeleteButton:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.experienceDeleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  margin: 20px;
+}
+
+.modalContent h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #06104a;
+  margin: 0 0 12px 0;
+}
+
+.modalContent p {
+  font-size: 14px;
+  color: #333333;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.cancelButton,
+.confirmDeleteButton {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.cancelButton {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #e5e7eb;
+}
+
+.cancelButton:hover {
+  background: #e5e7eb;
+}
+
+.confirmDeleteButton {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.confirmDeleteButton:hover {
+  background: #b91c1c;
+}
+
+.confirmDeleteButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Form Styles for Experience Form */
+.editForm {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.formGroup {
+  margin-bottom: 16px;
+}
+
+.formGroup label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #06104a;
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #06104a;
+  background: #fefff3;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #06104a;
+  box-shadow: 0 0 0 3px rgba(6, 16, 74, 0.1);
+}
+
+.inputError {
+  border-color: #dc2626;
+}
+
+.errorText {
+  display: block;
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 4px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400 !important;
+  cursor: pointer;
+}
+
+.radioLabel input[type="radio"] {
+  width: auto;
+  margin: 0;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400 !important;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.editActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.saveButton {
+  background: #06104a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.saveButton:hover {
+  background: #0a1758;
+}
+
+.saveButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .aPropos {
   width: 100%;
   position: relative;

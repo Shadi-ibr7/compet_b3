@@ -33,6 +33,15 @@ const RatingForm = ({ mentorId, mentorName, onSuccess, onCancel }: RatingFormPro
       return;
     }
 
+    // Debug logging pour tracer les valeurs avant l'envoi
+    console.log('[DEBUG] RatingForm handleSubmit avec:', {
+      mentorId,
+      mentorIdType: typeof mentorId,
+      rating,
+      ratingType: typeof rating,
+      comment: comment.trim() || undefined
+    });
+
     setIsSubmitting(true);
     setError(null);
 
