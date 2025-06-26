@@ -95,7 +95,6 @@ const JobSection = () => {
   return (
     <section ref={sectionRef} className={styles.jobSectionBg}>
       <div className={styles.sectionTitleWrapper}>
-        <span className={styles.lesAnnoncesQuiFontTournerChild}></span>
         <h2 className={styles.lesAnnoncesQui}>
           Les annonces qui font tourner <span className={styles.accent}>la vie locale.</span>
         </h2>

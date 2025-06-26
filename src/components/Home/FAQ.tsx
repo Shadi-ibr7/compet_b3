@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     question: "Combien coûte l'abonnement Premium ?",
-    answer: "L'abonnement Premium est à 29€/mois et vous donne accès à des fonctionnalités avancées comme la messagerie illimitée et la priorité dans les mises en relation."
+    answer: "L'abonnement Premium est à 9€/mois et vous donne accès à des fonctionnalités avancées comme la messagerie illimitée et la priorité dans les mises en relation."
   },
   {
     question: "Comment choisir son mentor ?",

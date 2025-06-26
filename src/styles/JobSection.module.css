@@ -57,7 +57,7 @@
 .accent {
   background: #BEF9DE;
   border-radius: 6px;
-  padding: 0 10px;
+  padding: 0px 5px;
 }
 
 .jobSectionBg:global(.animate-in-view) .accent {
