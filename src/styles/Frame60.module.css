@@ -421,4 +421,101 @@
   .section:global(.animate-in-view) .highlight::after {
     width: 100%;
   }
+}
+
+/* ============================
+   ÉTATS DE CHARGEMENT ET ERREUR
+   ============================ */
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 20px;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.section:global(.animate-in-view) .loadingContainer {
+  animation: containerFadeIn 0.8s ease-out 0.7s forwards;
+}
+
+.loadingSpinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #06104a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorContainer,
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.section:global(.animate-in-view) .errorContainer,
+.section:global(.animate-in-view) .emptyContainer {
+  animation: containerFadeIn 0.8s ease-out 0.7s forwards;
+}
+
+.errorMessage,
+.emptyMessage {
+  color: #06104a;
+  font-size: 18px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.retryButton {
+  background: #06104a;
+  color: #fefff3;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.retryButton:hover {
+  background: #bef9de;
+  color: #06104a;
+  transform: translateY(-1px);
+}
+
+@keyframes containerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 } 
