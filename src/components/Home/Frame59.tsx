@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import styles from "@/styles/Frame59.module.css";
@@ -8,79 +8,134 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
+import RatingDisplay from '@/components/rating/RatingDisplay';
+import { getMentorRating } from '@/lib/ratingService';
+import type { IMentorRating } from '@/types/interfaces/rating.interface';
+import type { IMentor } from "@/types/interfaces/mentor.interface";
 
-const jobs = [
+// Données de secours en cas d'erreur de chargement
+const fallbackMentors: IMentor[] = [
   {
-    id: 1,
+    id: "1",
+    role: "mentor",
+    nom: 'Mathieu Fournel',
+    email: 'mathieu.fournel@example.com',
     name: 'Mathieu Fournel',
-    subtitle: 'Boulangerie artisanale',
-    location: 'Troyes, France',
-    image: '/image2.png',
+    job: 'Boulangerie artisanale',
+    localisation: 'Troyes, France',
+    linkPhoto: '/image2.png',
     description: "On pétrit chaque jour du bon pain, fait maison, avec des farines locales et beaucoup d'amour. Baguettes croustillantes, pains spéciaux, viennoiseries dorées…",
-    stars: 4.5,
-    cta: 'Voir le profil',
+    dateCreation: new Date()
   },
   {
-    id: 2,
+    id: "2",
+    role: "mentor",
+    nom: 'Sophie Martin',
+    email: 'sophie.martin@example.com',
     name: 'Sophie Martin',
-    subtitle: 'Épicerie fine',
-    location: 'Lyon, France',
-    image: '/image2.png',
+    job: 'Épicerie fine',
+    localisation: 'Lyon, France',
+    linkPhoto: '/image2.png',
     description: "Produits du terroir, épices rares, accueil chaleureux et conseils personnalisés pour tous les gourmets.",
-    stars: 5,
-    cta: 'Voir le profil',
+    dateCreation: new Date()
   },
   {
-    id: 3,
+    id: "3",
+    role: "mentor",
+    nom: 'Karim Benali',
+    email: 'karim.benali@example.com',
     name: 'Karim Benali',
-    subtitle: 'Librairie indépendante',
-    location: 'Marseille, France',
-    image: '/image2.png',
+    job: 'Librairie indépendante',
+    localisation: 'Marseille, France',
+    linkPhoto: '/image2.png',
     description: "Un large choix de livres, des rencontres d'auteurs et un coin lecture convivial pour petits et grands.",
-    stars: 4,
-    cta: 'Voir le profil',
-  },
-  {
-    id: 4,
-    name: 'Julie Dupont',
-    subtitle: 'Fleuriste',
-    location: 'Bordeaux, France',
-    image: '/image2.png',
-    description: "Bouquets sur-mesure, fleurs locales et conseils pour embellir tous vos événements.",
-    stars: 4.5,
-    cta: 'Voir le profil',
-  },
-  {
-    id: 5,
-    name: 'Paul Lambert',
-    subtitle: 'Boucherie familiale',
-    location: 'Dijon, France',
-    image: '/image2.png',
-    description: "Viandes locales, recettes traditionnelles et conseils pour cuisiner comme un chef.",
-    stars: 5,
-    cta: 'Voir le profil',
-  },
-  
+    dateCreation: new Date()
+  }
 ];
 
-const Card = ({ job }: { job: typeof jobs[0] }) => (
-  <article className={styles.card}>
-    <div className={styles.cardHeader}>
-      <Image src={job.image} alt={job.name} width={104} height={104} className={styles.avatar} />
-      <div className={styles.cardInfo}>
-        <h3 className={styles.name}>{job.name}</h3>
-        <div className={styles.subtitle}>{job.subtitle}</div>
-        <div className={styles.location}><Image src="/Union.svg" alt="" width={13} height={16} /> <span>{job.location}</span></div>
-        <div className={styles.stars}>{'★'.repeat(Math.floor(job.stars))}{job.stars % 1 ? '☆' : ''}</div>
+const Card = ({ mentor }: { mentor: IMentor }) => {
+  const [mentorRating, setMentorRating] = useState<IMentorRating | null>(null);
+  
+  useEffect(() => {
+    const fetchRating = async () => {
+      if (mentor.id) {
+        try {
+          const rating = await getMentorRating(mentor.id);
+          setMentorRating(rating);
+        } catch (error) {
+          console.error('Erreur lors du chargement de la note:', error);
+        }
+      }
+    };
+    
+    fetchRating();
+  }, [mentor.id]);
+  
+  return (
+    <article className={styles.card}>
+      <div className={styles.cardHeader}>
+        <Image 
+          src={mentor.linkPhoto || '/image2.png'} 
+          alt={mentor.nom || ''} 
+          width={104} 
+          height={104} 
+          className={styles.avatar}
+          onError={(e) => {
+            // Fallback en cas d'erreur de chargement d'image
+            const target = e.target as HTMLImageElement;
+            target.src = '/image2.png';
+          }}
+        />
+        <div className={styles.cardInfo}>
+          <h3 className={styles.name}>{mentor.nom}</h3>
+          <div className={styles.subtitle}>{mentor.job || ''}</div>
+          <div className={styles.location}><Image src="/Union.svg" alt="" width={13} height={16} /> <span>{mentor.localisation}</span></div>
+          <div className={styles.ratingContainer}>
+            <RatingDisplay 
+              averageRating={mentorRating?.averageRating || null}
+              totalRatings={mentorRating?.totalRatings || 0}
+              showText={true}
+              size="small"
+            />
+          </div>
+        </div>
       </div>
-    </div>
-    <div className={styles.description}><b>Description :</b> {job.description}</div>
-    <button className={styles.cta}>{job.cta}</button>
-  </article>
-);
+      <div className={styles.description}><b>Description :</b> {mentor.description || 'Ce mentor n\'a pas encore ajouté de description.'}</div>
+      <button className={styles.cta} onClick={() => window.location.href = `/mentors/${mentor.id}`}>Voir le profil</button>
+    </article>
+  );
+};
 
 const Frame59: NextPage = () => {
+  const [mentors, setMentors] = useState<IMentor[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    // Récupérer les vrais mentors depuis l'API
+    const fetchMentors = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch('/api/mentors');
+        if (!response.ok) {
+          throw new Error('Erreur lors du chargement des mentors');
+        }
+        const data = await response.json();
+        // Prendre les 5 premiers mentors pour la homepage
+        setMentors(data.length > 0 ? data.slice(0, 5) : fallbackMentors);
+      } catch (err) {
+        console.error('Erreur:', err);
+        setError('Impossible de charger les mentors');
+        setMentors(fallbackMentors);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMentors();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -108,25 +163,35 @@ const Frame59: NextPage = () => {
           Les postes qui font tourner <span className={styles.highlight}>la vie locale.</span>
         </h2>
       </div>
-      <Swiper
-        className={styles.cardsScroller}
-        modules={[Pagination]}
-        spaceBetween={24}
-        pagination={{ clickable: true }}
-        centeredSlides={true}
-        breakpoints={{
-          0: { slidesPerView: 1 },
-          700: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 }
-        }}
-      >
-        {jobs.map((job) => (
-          <SwiperSlide key={job.id}>
-            <Card job={job} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <button className={styles.mentorsCta}>Découvrir nos mentors</button>
+      {loading ? (
+        <div className={styles.loading}>Chargement des mentors...</div>
+      ) : error ? (
+        <div className={styles.error}>{error}</div>
+      ) : mentors.length === 0 ? (
+        <div className={styles.noMentors}>Aucun mentor disponible pour le moment</div>
+      ) : (
+        <>
+          <Swiper
+            className={styles.cardsScroller}
+            modules={[Pagination]}
+            spaceBetween={24}
+            pagination={{ clickable: true }}
+            centeredSlides={true}
+            breakpoints={{
+              0: { slidesPerView: 1 },
+              700: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 }
+            }}
+          >
+            {mentors.map((mentor) => (
+              <SwiperSlide key={mentor.id}>
+                <Card mentor={mentor} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <button className={styles.mentorsCta} onClick={() => window.location.href = '/mentors'}>Découvrir nos mentors</button>
+        </>
+      )}
     </section>
   );
 };

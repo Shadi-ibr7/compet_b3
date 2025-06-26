@@ -1,12 +1,14 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import styles from "./AnnoncesSection.module.css";
 import JobCard, { Job } from "./JobCard";
 
 const AnnoncesSection = () => {
-  const [search, setSearch] = useState("");
+  const searchParams = useSearchParams();
+  const [search, setSearch] = useState(searchParams?.get("search") || "");
   const [showLocation, setShowLocation] = useState(false);
   const [showSector, setShowSector] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
@@ -17,6 +19,24 @@ const AnnoncesSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const filterAnnonces = React.useCallback(() => {
+    if (!search.trim()) {
+      setFilteredAnnonces(annonces);
+      return;
+    }
+
+    const searchLower = search.toLowerCase();
+    const filtered = annonces.filter(annonce => 
+      annonce.nomMetier?.toLowerCase().includes(searchLower) ||
+      annonce.nomEtablissement?.toLowerCase().includes(searchLower) ||
+      annonce.description?.toLowerCase().includes(searchLower) ||
+      annonce.type?.toLowerCase().includes(searchLower) ||
+      annonce.localisation?.toLowerCase().includes(searchLower)
+    );
+    
+    setFilteredAnnonces(filtered);
+  }, [search, annonces]);
+
   // Charger les annonces depuis l'API
   useEffect(() => {
     fetchAnnonces();
@@ -25,7 +45,13 @@ const AnnoncesSection = () => {
   // Filtrer les annonces quand la recherche change
   useEffect(() => {
     filterAnnonces();
-  }, [search, annonces]);
+  }, [filterAnnonces]);
+
+  // Mettre à jour la recherche quand l'URL change
+  useEffect(() => {
+    const searchFromUrl = searchParams?.get("search") || "";
+    setSearch(searchFromUrl);
+  }, [searchParams]);
 
   const fetchAnnonces = async () => {
     try {
@@ -48,23 +74,7 @@ const AnnoncesSection = () => {
     }
   };
 
-  const filterAnnonces = () => {
-    if (!search.trim()) {
-      setFilteredAnnonces(annonces);
-      return;
-    }
 
-    const searchLower = search.toLowerCase();
-    const filtered = annonces.filter(annonce => 
-      annonce.nomMetier?.toLowerCase().includes(searchLower) ||
-      annonce.nomEtablissement?.toLowerCase().includes(searchLower) ||
-      annonce.description?.toLowerCase().includes(searchLower) ||
-      annonce.type?.toLowerCase().includes(searchLower) ||
-      annonce.localisation?.toLowerCase().includes(searchLower)
-    );
-    
-    setFilteredAnnonces(filtered);
-  };
 
   const BlocFinAnnonces = () => (
     <div className={styles.blocFinWrapper}>
