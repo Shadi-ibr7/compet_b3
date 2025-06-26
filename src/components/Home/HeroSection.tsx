@@ -1,10 +1,13 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import styles from "@/styles/HeroSection.module.css";
 
 const HeroSection = () => {
+  const router = useRouter();
   const sectionRef = useRef<HTMLElement>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -56,10 +59,26 @@ const HeroSection = () => {
             type="text"
             placeholder="Rechercher une annonce par domaine"
             className={styles.texte}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter' && searchTerm.trim()) {
+                router.push(`/annonces?search=${encodeURIComponent(searchTerm.trim())}`);
+              }
+            }}
           />
         </div>
 
-        <button className={styles.trouverMonMentor}>
+        <button 
+          className={styles.trouverMonMentor}
+          onClick={() => {
+            if (searchTerm.trim()) {
+              router.push(`/annonces?search=${encodeURIComponent(searchTerm.trim())}`);
+            } else {
+              router.push('/annonces');
+            }
+          }}
+        >
           Trouver une annonce
         </button>
 
