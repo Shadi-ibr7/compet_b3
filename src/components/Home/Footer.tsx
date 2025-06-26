@@ -1,6 +1,7 @@
 import React from "react";
 import type { NextPage } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from "@/styles/Footer.module.css";
 
 const Footer: NextPage = () => {
@@ -41,9 +42,9 @@ const Footer: NextPage = () => {
           <div className={styles.footerTitle}>Menu</div>
           <div className={styles.footerLinks}>
             <a href="#" className={styles.footerLink}>Accueil</a>
-            <a href="/annonces" className={styles.footerLink}>Annonces</a>
-            <a href="/mentors" className={styles.footerLink}>Mentors</a>
-            <a href="/blog" className={styles.footerLink}>Blog</a>
+            <Link href="/annonces" className={styles.footerLink}>Annonces</Link>
+            <Link href="/mentors" className={styles.footerLink}>Mentors</Link>
+            <Link href="/blog" className={styles.footerLink}>Blog</Link>
           </div>
         </div>
       </div>

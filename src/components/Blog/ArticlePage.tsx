@@ -67,7 +67,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
               
               <div className={styles.readingTime}>
                 <Image src="/cake.svg" width={16} height={16} alt="Temps de lecture" />
-                <span>{Math.max(1, Math.ceil(article.content.length / 1000))} min de lecture</span>
+                <span>{Math.max(1, Math.ceil((article.content || '').length / 1000))} min de lecture</span>
               </div>
             </div>
 
@@ -96,7 +96,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
         <div className={styles.contentSection}>
           <div className={styles.contentWrapper}>
             <div className={styles.articleContent}>
-              <div className={styles.content} dangerouslySetInnerHTML={{ __html: article.content }} />
+              <div className={styles.content} dangerouslySetInnerHTML={{ __html: article.content || '' }} />
             </div>
 
             {/* Section Podcast */}

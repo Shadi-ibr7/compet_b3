@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { IArticle } from '@/types/interfaces/article.interface';
 import ArticlePage from '@/components/Blog/ArticlePage';
 
@@ -63,7 +64,7 @@ export default function BlogArticlePage({ params }: { params: Promise<{ id: stri
         }}>
           {error || 'Article non trouvé'}
         </h1>
-        <a 
+        <Link 
           href="/blog" 
           style={{
             color: '#3ec28f',
@@ -73,7 +74,7 @@ export default function BlogArticlePage({ params }: { params: Promise<{ id: stri
           }}
         >
           ← Retour aux articles
-        </a>
+        </Link>
       </div>
     );
   }

@@ -140,7 +140,7 @@ export async function securityMiddleware(
         const sanitizedBody = sanitizeRequestBody(body);
         
         // Pass sanitized body to handler instead of recreating request
-        return handler(request, sanitizedBody);
+        return handler(request, sanitizedBody as Record<string, unknown>);
       } catch (error) {
         // If body parsing fails, continue with original request
         return handler(request);
