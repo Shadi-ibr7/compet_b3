@@ -40,10 +40,10 @@ export default function UserMenu() {
     );
   }
 
-  // Séparer les éléments du menu en fonction du rôle
+  // Éléments du menu pour tous les utilisateurs
   const renderMenuItems = () => {
-    const commonItems = (
-      <>
+    return (
+      <div className={styles.menuItems}>
         <button
           onClick={() => {
             router.push('/dashboard');
@@ -62,25 +62,6 @@ export default function UserMenu() {
         >
           Se déconnecter
         </button>
-      </>
-    );
-
-    const adminItems = session.user.role === 'admin' ? (
-      <button
-        onClick={() => {
-          router.push('/dashboard');
-          setIsOpen(false);
-        }}
-        className={`${styles.menuItem} ${styles.adminItem}`}
-      >
-        Dashboard Admin
-      </button>
-    ) : null;
-
-    return (
-      <div className={styles.menuItems}>
-        {commonItems}
-        {adminItems}
       </div>
     );
   };

@@ -1,71 +1,178 @@
 .container {
   min-height: 100vh;
-  background: #fefff3;
+  background: #FEFFF3;
   font-family: 'Montserrat', sans-serif;
-  color: #06104A;
+  color: #06104a;
 }
 
-/* Annonce Section */
-.annonceSection {
-  background: linear-gradient(135deg, #fefff3 0%, #f8fff0 100%);
-  padding: 60px 20px;
-  border-bottom: 1px solid rgba(6, 16, 74, 0.1);
+/* Breadcrumb Navigation */
+.breadcrumbNav {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 16px 24px;
 }
 
-.annonceContent {
+.breadcrumbContent {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  gap: 40px;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
 }
 
-.annonceHeader {
+.breadcrumbLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #06104a;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: #0a1758;
+}
+
+.breadcrumbSeparator {
+  color: #666666;
+  margin: 0 4px;
+}
+
+.breadcrumbCurrent {
+  color: #666666;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+/* Hero Section */
+.heroSection {
+  background: #FEFFF3;
+  padding: 40px 24px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.jobHeader {
   display: flex;
   gap: 40px;
   align-items: flex-start;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 16px rgba(6, 16, 74, 0.08);
+  border: 1px solid #f0f0f0;
 }
 
-.annonceImage {
+.jobImageContainer {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.jobImage {
   border-radius: 12px;
   object-fit: cover;
-  width: 300px;
+  width: 280px;
   height: 200px;
-  flex-shrink: 0;
-  border: 2px solid #06104A;
-  box-shadow: 0 8px 24px rgba(6, 16, 74, 0.15);
+  border: 2px solid #06104a;
+  box-shadow: 0 4px 20px rgba(6, 16, 74, 0.12);
 }
 
-.annonceInfo {
+.placeholderImage {
+  width: 280px;
+  height: 200px;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+}
+
+.recentBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #22c55e;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.recentDot {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.jobInfo {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
   flex: 1;
 }
 
-.annonceTitle {
-  color: #06104A;
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.annonceCompany {
-  color: #23306a;
-  font-size: 1.3rem;
-  font-weight: 600;
-  opacity: 0.9;
-}
-
-.annonceDetails {
+.jobTitleSection {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.annonceDetail {
-  color: #23306a;
+.jobTitle {
+  font-family: 'AconchegoTextTest', sans-serif;
+  color: #06104a;
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.companyName {
+  color: #06104a;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: #BEF9DE;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+}
+
+.jobMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metaItem {
+  color: #666666;
+  font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
   font-weight: 500;
   display: flex;
@@ -73,299 +180,558 @@
   gap: 8px;
 }
 
-.annonceDescription {
-  background: rgba(255, 255, 255, 0.7);
-  padding: 32px;
+.quickActions {
+  display: flex;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.shareButton, .saveButton {
+  background: #f8f9fa;
+  color: #06104a;
+  border: 1px solid #e9ecef;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.shareButton:hover, .saveButton:hover {
+  background: #06104a;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Main Content */
+.mainContent {
+  padding: 60px 24px;
+  background: #FEFFF3;
+}
+
+.contentGrid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 48px;
+  align-items: start;
+}
+
+.leftColumn, .rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Job Details Section */
+.jobDetailsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.detailCard {
+  background: #ffffff;
   border-radius: 12px;
-  border: 1px solid rgba(6, 16, 74, 0.1);
+  padding: 32px;
+  box-shadow: 0 2px 16px rgba(6, 16, 74, 0.08);
+  border: 1px solid #f0f0f0;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .sectionTitle {
-  color: #06104A;
-  font-size: 1.8rem;
+  font-family: 'AconchegoTextTest', sans-serif;
+  color: #06104a;
+  font-size: 1.6rem;
   font-weight: 700;
-  margin: 0 0 20px 0;
-}
-
-.description {
-  color: #06104A;
-  font-size: 1.2rem;
-  line-height: 1.7;
-  font-weight: 500;
   margin: 0;
+  line-height: 1.3;
 }
 
-/* Rich text content styling for annonces */
-.description p {
+.sectionDivider {
+  width: 60px;
+  height: 3px;
+  background: #BEF9DE;
+  border-radius: 2px;
+}
+
+.contentText {
+  color: #333333;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.contentText p {
   margin-bottom: 1rem;
-  color: #06104A;
+  color: #333333;
 }
 
-.description strong {
+.contentText strong {
   font-weight: 600;
-  color: #06104A;
+  color: #06104a;
 }
 
-.description em {
+.contentText em {
   font-style: italic;
-  color: #06104A;
+  color: #333333;
 }
 
-.description ul,
-.description ol {
+.contentText ul, .contentText ol {
   margin: 1rem 0;
   padding-left: 1.5rem;
-  color: #06104A;
+  color: #333333;
 }
 
-.description li {
+.contentText li {
   margin-bottom: 0.5rem;
-  color: #06104A;
+  color: #333333;
 }
 
-/* Mentor Section */
-.mentorSection {
-  padding: 60px 20px;
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.mentorContent {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
+/* Mentor Card */
 .mentorCard {
-  background: #fefff3;
-  border: 1.5px solid #06104A;
+  background: #ffffff;
   border-radius: 12px;
-  padding: 24px;
-  margin-top: 24px;
-  box-shadow: 0 4px 12px rgba(6, 16, 74, 0.08);
+  padding: 32px;
+  box-shadow: 0 2px 16px rgba(6, 16, 74, 0.08);
+  border: 1px solid #f0f0f0;
+  position: sticky;
+  top: 24px;
 }
 
-.mentorLink {
+.mentorProfile {
   display: flex;
   gap: 16px;
   align-items: flex-start;
   text-decoration: none;
   color: inherit;
-  margin-bottom: 16px;
-  transition: transform 0.2s;
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
 }
 
-.mentorLink:hover {
+.mentorProfile:hover {
+  background: #f8f9fa;
+  border-color: #BEF9DE;
   transform: translateY(-2px);
 }
 
+.mentorAvatarContainer {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .mentorAvatar {
-  border-radius: 8px;
+  border-radius: 12px;
   object-fit: cover;
   width: 80px;
   height: 80px;
-  flex-shrink: 0;
-  border: 2px solid #06104A;
+  border: 2px solid #06104a;
+  box-shadow: 0 4px 12px rgba(6, 16, 74, 0.15);
+}
+
+.mentorBadge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #22c55e;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
 }
 
 .mentorInfo {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   flex: 1;
 }
 
 .mentorName {
-  color: #06104A;
-  font-size: 1.3rem;
+  font-family: 'AconchegoTextTest', sans-serif;
+  font-size: 1.2rem;
   font-weight: 700;
+  color: #06104a;
   margin: 0;
+  line-height: 1.3;
 }
 
-.mentorJob {
-  color: #23306a;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.mentorLocation {
-  color: #23306a;
-  font-size: 0.9rem;
-  font-weight: 500;
+.mentorRole, .mentorLocation {
   display: flex;
   align-items: center;
   gap: 6px;
+  color: #666666;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .mentorRating {
-  color: #06104A;
-  font-size: 0.9rem;
-  font-weight: 700;
+  margin-top: 4px;
 }
 
 .mentorDescription {
-  color: #06104A;
-  font-size: 1rem;
-  line-height: 1.6;
-  font-weight: 500;
-  padding-top: 16px;
-  border-top: 1px solid rgba(6, 16, 74, 0.1);
-}
-
-/* Application Section */
-.applicationSection {
-  padding: 40px 20px;
-  background: #fefff3;
-}
-
-.applicationContent {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.applicationCard {
-  background: #fefff3;
-  border: 1px solid rgba(6, 16, 74, 0.2);
+  padding: 16px 20px;
+  background: #f8f9fa;
   border-radius: 8px;
-  padding: 30px;
-  text-align: center;
+  border: 1px solid #e9ecef;
+  margin-bottom: 20px;
 }
 
-.applicationTitle {
-  color: #06104A;
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin: 0 0 24px 0;
+.mentorDescription p {
+  color: #333333;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
-.statusMessage {
+.mentorActions {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 24px;
-  border-radius: 12px;
-  margin-bottom: 24px;
-  text-align: center;
+  justify-content: center;
 }
 
-.statusMessage.login {
+.viewProfileBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #06104a;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 10px 16px;
+  border: 1px solid #06104a;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.viewProfileBtn:hover {
+  background: #06104a;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Application Card */
+.applicationCard {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 16px rgba(6, 16, 74, 0.08);
+  border: 1px solid #f0f0f0;
+}
+
+.applicationStatus {
+  margin-bottom: 24px;
+}
+
+.statusAlert {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.statusAlert.login {
   background: rgba(255, 193, 7, 0.1);
   border: 1px solid rgba(255, 193, 7, 0.3);
 }
 
-.statusMessage.upgrade {
+.statusAlert.upgrade {
   background: rgba(0, 123, 255, 0.1);
   border: 1px solid rgba(0, 123, 255, 0.3);
 }
 
-.statusMessage.payment {
+.statusAlert.payment {
   background: rgba(220, 53, 69, 0.1);
   border: 1px solid rgba(220, 53, 69, 0.3);
 }
 
-.statusMessage p {
-  color: #06104A;
+.statusAlert.alreadyApplied {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.statusIcon {
+  width: 40px;
+  height: 40px;
+  background: rgba(6, 16, 74, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.statusContent {
+  flex: 1;
+}
+
+.statusTitle {
+  font-family: 'AconchegoTextTest', sans-serif;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
+  color: #06104a;
+  margin: 0 0 6px 0;
+  line-height: 1.3;
+}
+
+.statusMessage {
+  color: #666666;
+  font-size: 0.95rem;
+  line-height: 1.5;
   margin: 0;
 }
 
+.applicationSuccess {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 20px;
+  background: rgba(190, 249, 222, 0.3);
+  border: 1px solid #BEF9DE;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.successIcon {
+  width: 40px;
+  height: 40px;
+  background: #22c55e;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.successIcon img {
+  filter: brightness(0) invert(1);
+}
+
+.successContent {
+  flex: 1;
+}
+
+.successTitle {
+  font-family: 'AconchegoTextTest', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #06104a;
+  margin: 0 0 6px 0;
+  line-height: 1.3;
+}
+
+.successMessage {
+  color: #666666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Message Section */
+.messageSection {
+  margin: 24px 0;
+}
+
+.messageLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #06104a;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.messageTextarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  color: #06104a;
+  background: #FEFFF3;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.messageTextarea:focus {
+  border-color: #06104a;
+  box-shadow: 0 0 0 3px rgba(6, 16, 74, 0.1);
+}
+
+.messageTextarea::placeholder {
+  color: #666666;
+}
+
+.characterCount {
+  font-size: 0.8rem;
+  color: #666666;
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Application Action */
+.applicationAction {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .applicationButton {
-  background: #06104A;
-  color: #fefff3;
+  background: #06104a;
+  color: #ffffff;
   border: none;
   border-radius: 6px;
-  padding: 12px 24px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s;
+  padding: 14px 24px;
   font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin: 0 auto;
-  min-width: 180px;
+  min-height: 50px;
 }
 
 .applicationButton.enabled {
-  background: #06104A;
+  background: #06104a;
 }
 
 .applicationButton.enabled:hover {
-  background: #23306a;
+  background: #0a1758;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(6, 16, 74, 0.25);
 }
 
 .applicationButton.disabled {
-  background: #bef9de;
-  color: #06104A;
+  background: #BEF9DE;
+  color: #06104a;
 }
 
 .applicationButton.disabled:hover {
-  background: #a6e7c7;
+  background: #a7e9c7;
   transform: translateY(-1px);
 }
 
 .applicationButton.alreadyApplied {
-  background: linear-gradient(135deg, #4caf50, #81c784);
+  background: #22c55e;
   color: #ffffff;
   cursor: default;
-  position: relative;
 }
 
 .applicationButton.alreadyApplied:hover {
-  background: linear-gradient(135deg, #4caf50, #81c784);
+  background: #22c55e;
   transform: none;
 }
 
-.applicationButton.alreadyApplied:before {
-  content: "✓";
-  position: absolute;
-  left: 20px;
-  font-weight: bold;
-  font-size: 1.2em;
+.loadingSpinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .applicationNote {
-  color: #23306a;
-  font-size: 0.9rem;
-  font-style: italic;
-  margin: 16px 0 0 0;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Messages de notification */
-.notificationMessage {
   display: flex;
   align-items: center;
+  gap: 8px;
+  color: #666666;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 0;
+  text-align: center;
   justify-content: center;
+}
+
+/* Notification Messages */
+.notificationMessage {
+  display: flex;
+  align-items: flex-start;
   gap: 12px;
-  padding: 16px 24px;
+  padding: 16px 20px;
   border-radius: 8px;
   margin: 16px 0;
-  font-weight: 600;
   animation: slideIn 0.3s ease-out;
 }
 
 .notificationMessage.success {
-  background-color: rgba(190, 249, 222, 0.8);
-  border: 1px solid #bef9de;
-  color: #06104A;
+  background: rgba(190, 249, 222, 0.8);
+  border: 1px solid #BEF9DE;
 }
 
 .notificationMessage.error {
-  background-color: rgba(220, 53, 69, 0.1);
+  background: rgba(220, 53, 69, 0.1);
   border: 1px solid rgba(220, 53, 69, 0.3);
-  color: #dc3545;
 }
 
-.notificationMessage p {
+.notificationIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notificationMessage.success .notificationIcon {
+  background: #22c55e;
+}
+
+.notificationMessage.error .notificationIcon {
+  background: #dc3545;
+}
+
+.notificationMessage.success .notificationIcon img,
+.notificationMessage.error .notificationIcon img {
+  filter: brightness(0) invert(1);
+}
+
+.notificationContent {
+  flex: 1;
+}
+
+.notificationContent p {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.4;
+  color: #06104a;
+  font-weight: 500;
 }
 
 @keyframes slideIn {
@@ -379,176 +745,128 @@
   }
 }
 
-/* Message Section */
-.messageSection {
-  margin: 20px 0;
-  text-align: left;
-}
-
-.messageLabel {
-  display: block;
-  color: #06104A;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.messageTextarea {
-  width: 100%;
-  min-height: 100px;
-  padding: 12px;
-  border: 1px solid rgba(6, 16, 74, 0.3);
-  border-radius: 6px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  color: #06104A;
-  background: #fefff3;
-  resize: vertical;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.messageTextarea:focus {
-  border-color: #06104A;
-}
-
-.messageTextarea::placeholder {
-  color: rgba(6, 16, 74, 0.5);
-}
-
-.characterCount {
-  font-size: 12px;
-  color: rgba(6, 16, 74, 0.6);
-  text-align: right;
-  margin-top: 4px;
-}
-
-/* Navigation Section */
-.navigationSection {
-  padding: 40px 20px;
-  border-top: 1px solid rgba(6, 16, 74, 0.1);
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.backButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  color: #06104A;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.1rem;
-  padding: 12px 24px;
-  border-radius: 8px;
-  transition: all 0.2s;
-  margin: 0 auto;
-  max-width: 1200px;
-}
-
-.backButton:hover {
-  background: rgba(6, 16, 74, 0.1);
-  transform: translateX(-4px);
-}
-
 /* Responsive Design */
-@media (max-width: 768px) {
-  .annonceSection {
-    padding: 40px 16px;
+@media (max-width: 1024px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
   
-  .annonceHeader {
+  .mentorCard, .applicationCard {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 32px 16px;
+  }
+  
+  .jobHeader {
     flex-direction: column;
     text-align: center;
     gap: 24px;
+    padding: 32px 24px;
   }
   
-  .annonceImage {
+  .jobImage, .placeholderImage {
     width: 100%;
     max-width: 300px;
     height: 200px;
     align-self: center;
   }
   
-  .annonceTitle {
-    font-size: 2rem;
+  .jobTitle {
+    font-size: 2.2rem;
+    text-align: center;
   }
   
-  .annonceCompany {
-    font-size: 1.2rem;
+  .companyName {
+    align-self: center;
   }
   
-  .annonceDetails {
+  .jobMeta {
     align-items: center;
   }
   
-  .mentorSection {
+  .quickActions {
+    justify-content: center;
+  }
+  
+  .mainContent {
     padding: 40px 16px;
   }
   
-  .mentorLink {
+  .detailCard, .mentorCard, .applicationCard {
+    padding: 24px 20px;
+  }
+  
+  .sectionTitle {
+    font-size: 1.4rem;
+  }
+  
+  .breadcrumbContent {
+    padding: 0 16px;
+  }
+  
+  .breadcrumbCurrent {
+    max-width: 200px;
+  }
+
+  .mentorProfile {
     flex-direction: column;
     text-align: center;
     align-items: center;
   }
-  
+
   .mentorInfo {
     align-items: center;
-  }
-  
-  .applicationSection {
-    padding: 40px 16px;
-  }
-  
-  .applicationCard {
-    padding: 24px;
-  }
-  
-  .annonceDescription {
-    padding: 24px;
-  }
-  
-  .sectionTitle {
-    font-size: 1.5rem;
-  }
-  
-  .description {
-    font-size: 1.1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .annonceImage {
-    width: 100%;
+  .jobImage, .placeholderImage {
     height: 150px;
   }
   
-  .annonceTitle {
-    font-size: 1.8rem;
+  .jobTitle {
+    font-size: 1.9rem;
   }
   
-  .annonceCompany {
-    font-size: 1.1rem;
-  }
-  
-  .applicationCard {
+  .detailCard, .mentorCard, .applicationCard {
     padding: 20px;
   }
   
-  .applicationTitle {
-    font-size: 1.5rem;
+  .breadcrumbContent {
+    font-size: 0.8rem;
   }
   
+  .breadcrumbCurrent {
+    max-width: 150px;
+  }
+
+  .quickActions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .shareButton, .saveButton {
+    width: 100%;
+    justify-content: center;
+  }
+
   .applicationButton {
-    font-size: 1rem;
-    padding: 14px 24px;
-    min-width: 180px;
+    font-size: 0.9rem;
+    padding: 12px 20px;
   }
-  
-  .mentorCard {
-    padding: 20px;
+
+  .statusAlert, .applicationSuccess {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
   }
-  
-  .annonceDescription {
-    padding: 20px;
+
+  .statusIcon, .successIcon {
+    align-self: center;
   }
 }
