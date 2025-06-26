@@ -45,7 +45,8 @@ export default function FormattedTextArea({
         const sanitizedContent = sanitizeHtml(rawContent, variant);
         
         // Valider le contenu
-        if (validateContent(sanitizedContent, variant)) {
+        const validation = validateContent(sanitizedContent);
+        if (validation.isValid) {
           // Seulement mettre à jour si le contenu sanitisé est différent de la valeur actuelle
           if (sanitizedContent !== value) {
             onChange(sanitizedContent);

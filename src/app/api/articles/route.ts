@@ -41,8 +41,7 @@ export async function POST(request: NextRequest) {
     },
     {
       requireAuth: true,
-      allowedRoles: ['admin'],
-      variant: 'full' // Articles peuvent avoir plus de formatage
+      allowedRoles: ['admin']
     }
   );
 }

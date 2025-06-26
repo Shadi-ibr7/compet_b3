@@ -25,12 +25,12 @@ export default function MoltProfile() {
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(null);
 
   // Form state sécurisé pour l'édition du profil
-  const name = useSafeInput('', 'name');
-  const linkedin = useSafeInput('', 'url');
-  const city = useSafeInput('', 'city');
-  const jobTitle = useSafeInput('', 'title');
-  const motivation = useSafeInput('', 'motivation');
-  const linkPhoto = useSafeInput('', 'url');
+  const name = useSafeInput({ fieldType: 'name', initialValue: '' });
+  const linkedin = useSafeInput({ fieldType: 'url', initialValue: '' });
+  const city = useSafeInput({ fieldType: 'city', initialValue: '' });
+  const jobTitle = useSafeInput({ fieldType: 'title', initialValue: '' });
+  const motivation = useSafeInput({ fieldType: 'motivation', initialValue: '', preserveWhitespace: true });
+  const linkPhoto = useSafeInput({ fieldType: 'url', initialValue: '' });
 
   // Redirection si non authentifié
   useEffect(() => {
@@ -53,12 +53,12 @@ export default function MoltProfile() {
         const data = await response.json();
         setMoltProfile(data);
         // Initialiser les champs sécurisés avec les données
-        name.setInitialValue(data.name || '');
-        linkedin.setInitialValue(data.linkedin || '');
-        city.setInitialValue(data.city || '');
-        jobTitle.setInitialValue(data.jobTitle || '');
-        motivation.setInitialValue(data.motivation || '');
-        linkPhoto.setInitialValue(data.linkPhoto || '');
+        name.setValue(data.name || '');
+        linkedin.setValue(data.linkedin || '');
+        city.setValue(data.city || '');
+        jobTitle.setValue(data.jobTitle || '');
+        motivation.setValue(data.motivation || '');
+        linkPhoto.setValue(data.linkPhoto || '');
       } else if (response.status === 404) {
         // Profil Molt n'existe pas encore, créer un profil par défaut
         const defaultProfile: IMolt = {
@@ -74,12 +74,12 @@ export default function MoltProfile() {
         };
         setMoltProfile(defaultProfile);
         // Initialiser avec les données par défaut
-        name.setInitialValue(session.user.name || '');
-        linkedin.setInitialValue('');
-        city.setInitialValue('');
-        jobTitle.setInitialValue('');
-        motivation.setInitialValue('');
-        linkPhoto.setInitialValue('');
+        name.setValue(session.user.name || '');
+        linkedin.setValue('');
+        city.setValue('');
+        jobTitle.setValue('');
+        motivation.setValue('');
+        linkPhoto.setValue('');
       } else {
         throw new Error('Erreur lors du chargement du profil');
       }
@@ -148,12 +148,12 @@ export default function MoltProfile() {
     setIsEditingProfile(false);
     if (moltProfile) {
       // Restaurer les valeurs originales
-      name.setInitialValue(moltProfile.name || '');
-      linkedin.setInitialValue(moltProfile.linkedin || '');
-      city.setInitialValue(moltProfile.city || '');
-      jobTitle.setInitialValue(moltProfile.jobTitle || '');
-      motivation.setInitialValue(moltProfile.motivation || '');
-      linkPhoto.setInitialValue(moltProfile.linkPhoto || '');
+      name.setValue(moltProfile.name || '');
+      linkedin.setValue(moltProfile.linkedin || '');
+      city.setValue(moltProfile.city || '');
+      jobTitle.setValue(moltProfile.jobTitle || '');
+      motivation.setValue(moltProfile.motivation || '');
+      linkPhoto.setValue(moltProfile.linkPhoto || '');
     }
     // Nettoyer les états de photo
     handlePhotoRemove();

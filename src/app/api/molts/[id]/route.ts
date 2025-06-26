@@ -160,7 +160,6 @@ export async function PUT(
     {
       requireAuth: true,
       allowedRoles: ['molt', 'admin'],
-      variant: 'basic'
     }
   );
 }

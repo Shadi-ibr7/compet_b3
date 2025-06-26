@@ -23,7 +23,8 @@ export default function SafeHtml({
     if (!html) return '';
     
     try {
-      return sanitizeHtml(html, variant, maxLength);
+      const sanitized = sanitizeHtml(html, variant);
+      return maxLength && sanitized.length > maxLength ? sanitized.substring(0, maxLength) + '...' : sanitized;
     } catch (error) {
       console.error('Erreur lors de la sanitisation pour affichage:', error);
       return ''; // Retourner contenu vide en cas d'erreur

@@ -1,239 +1,204 @@
+// Security middleware for API routes
 import { NextRequest, NextResponse } from 'next/server';
-import { sanitizeHtml, validateContent, sanitizeTextMessage, sanitizeFormField } from '@/lib/security';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth/credentials-config';
+import { sanitizeProfile } from '@/lib/security';
 
-// Rate limiting simple en mémoire (en production, utilisez Redis)
-const rateLimitMap = new Map<string, { count: number; lastReset: number }>();
+// Rate limiting store (in production, use Redis or similar)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-const RATE_LIMIT_MAX_REQUESTS = 50; // 50 requêtes par minute
+const RATE_LIMIT_MAX_REQUESTS = 50;
 
 /**
- * Rate limiting middleware
+ * Get client IP address from request
  */
-function checkRateLimit(identifier: string): boolean {
+function getClientIP(request: NextRequest): string {
+  const forwarded = request.headers.get('x-forwarded-for');
+  const realIP = request.headers.get('x-real-ip');
+  
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+  
+  if (realIP) {
+    return realIP;
+  }
+  
+  return 'unknown';
+}
+
+/**
+ * Check rate limit for an IP
+ */
+function checkRateLimit(ip: string): boolean {
   const now = Date.now();
-  const userLimit = rateLimitMap.get(identifier);
-
-  if (!userLimit) {
-    rateLimitMap.set(identifier, { count: 1, lastReset: now });
-    return true;
-  }
-
-  // Reset si la fenêtre est expirée
-  if (now - userLimit.lastReset > RATE_LIMIT_WINDOW) {
-    rateLimitMap.set(identifier, { count: 1, lastReset: now });
-    return true;
-  }
-
-  // Incrémenter le compteur
-  userLimit.count++;
-
-  // Vérifier la limite
-  if (userLimit.count > RATE_LIMIT_MAX_REQUESTS) {
-    console.warn(`🚨 Rate limit dépassé pour ${identifier}:`, {
-      count: userLimit.count,
-      timestamp: new Date().toISOString()
+  const record = rateLimitStore.get(ip);
+  
+  if (!record || now > record.resetTime) {
+    rateLimitStore.set(ip, {
+      count: 1,
+      resetTime: now + RATE_LIMIT_WINDOW
     });
+    return true;
+  }
+  
+  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
     return false;
   }
-
+  
+  record.count++;
   return true;
 }
 
 /**
- * Sanitise le body d'une requête contenant du HTML
+ * Sanitize request body recursively
  */
-function sanitizeRequestBody(body: Record<string, unknown>, variant: 'basic' | 'full' = 'basic'): Record<string, unknown> {
+function sanitizeRequestBody(body: unknown): unknown {
   if (!body || typeof body !== 'object') {
     return body;
   }
-
-  const sanitizedBody = { ...body };
-
-  // Champs à sanitiser selon le type de contenu
-  const htmlFields = ['description', 'content', 'ceQueJePropose', 'profilRecherche'];
-  const textFields = ['customMessage', 'title', 'auteur', 'nomEtablissement', 'nomMetier', 'localisation', 'name', 'nom', 'job', 'city', 'jobTitle', 'motivation', 'linkedinUrl', 'phone', 'address', 'comment'];
-
-  // Sanitiser les champs HTML
-  htmlFields.forEach(field => {
-    if (sanitizedBody[field] && typeof sanitizedBody[field] === 'string') {
-      try {
-        const fieldValue = sanitizedBody[field] as string;
-        sanitizedBody[field] = sanitizeHtml(fieldValue, variant);
-        
-        // Valider le contenu
-        if (!validateContent(sanitizedBody[field] as string, variant)) {
-          throw new Error(`Contenu non valide dans le champ ${field}`);
-        }
-      } catch (error) {
-        console.error(`Erreur sanitisation ${field}:`, error);
-        throw new Error(`Contenu invalide dans le champ ${field}`);
-      }
-    }
-  });
-
-  // Sanitiser les champs texte simple avec les bons types
-  textFields.forEach(field => {
-    if (sanitizedBody[field] && typeof sanitizedBody[field] === 'string') {
-      try {
-        const fieldValue = sanitizedBody[field] as string;
-        
-        // Détecter le type approprié pour sanitizeFormField
-        let fieldType: 'text' | 'email' | 'phone' | 'url' | 'motivation' | 'job' | 'city' | 'name' = 'text';
-        if (field.includes('email')) fieldType = 'email';
-        else if (field.includes('phone')) fieldType = 'phone';
-        else if (field.includes('url') || field.includes('linkedin')) fieldType = 'url';
-        else if (field === 'customMessage' || field === 'motivation' || field === 'comment') fieldType = 'motivation';
-        else if (field === 'job' || field === 'jobTitle') fieldType = 'job';
-        else if (field === 'city' || field === 'localisation') fieldType = 'city';
-        else if (field === 'name' || field === 'nom') fieldType = 'name';
-        
-        // Utiliser sanitizeFormField au lieu de sanitizeTextMessage
-        sanitizedBody[field] = sanitizeFormField(fieldValue, fieldType);
-      } catch (error) {
-        console.error(`Erreur sanitisation ${field}:`, error);
-        throw new Error(`Contenu invalide dans le champ ${field}`);
-      }
-    }
-  });
-
-  // Gérer les champs numériques (rating, etc.)
-  if (sanitizedBody.rating !== undefined) {
-    const rating = Number(sanitizedBody.rating);
-    if (isNaN(rating) || rating < 1 || rating > 5) {
-      throw new Error('Rating invalide - doit être un nombre entre 1 et 5');
-    }
-    sanitizedBody.rating = rating;
+  
+  if (Array.isArray(body)) {
+    return body.map(sanitizeRequestBody);
   }
-
-  // Sanitiser les métadonnées
-  if (sanitizedBody.meta && typeof sanitizedBody.meta === 'object') {
-    const meta = sanitizedBody.meta as Record<string, unknown>;
-    if (meta.title && typeof meta.title === 'string') {
-      meta.title = sanitizeTextMessage(meta.title, 100);
-    }
-    if (meta.description && typeof meta.description === 'string') {
-      meta.description = sanitizeTextMessage(meta.description, 300);
-    }
-    if (meta.keywords && Array.isArray(meta.keywords)) {
-      meta.keywords = meta.keywords
-        .map((keyword: unknown) => typeof keyword === 'string' ? sanitizeTextMessage(keyword, 50) : '')
-        .filter(keyword => keyword.length > 0);
+  
+  const sanitized: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(body)) {
+    if (typeof value === 'string') {
+      // Apply basic sanitization to prevent XSS
+      sanitized[key] = value
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/javascript:/gi, '')
+        .replace(/on\w+\s*=/gi, '');
+    } else if (typeof value === 'object') {
+      sanitized[key] = sanitizeRequestBody(value);
+    } else {
+      sanitized[key] = value;
     }
   }
-
-  return sanitizedBody;
+  
+  return sanitized;
 }
 
 /**
- * Middleware de sécurité pour les APIs
+ * Security middleware for API routes
  */
 export async function securityMiddleware(
   request: NextRequest,
-  handler: (req: NextRequest, sanitizedBody?: Record<string, unknown>) => Promise<NextResponse>,
+  handler: (req: NextRequest) => Promise<NextResponse>,
   options: {
     requireAuth?: boolean;
     allowedRoles?: string[];
-    variant?: 'basic' | 'full';
-    skipRateLimit?: boolean;
+    rateLimited?: boolean;
   } = {}
 ): Promise<NextResponse> {
+  const {
+    requireAuth = false,
+    allowedRoles = [],
+    rateLimited = true
+  } = options;
+
   try {
-    // 1. Rate limiting
-    if (!options.skipRateLimit) {
-      const clientIP = request.headers.get('x-forwarded-for') || 
-                      request.headers.get('x-real-ip') || 
-                      'unknown';
+    // Rate limiting
+    if (rateLimited) {
+      const clientIP = getClientIP(request);
       
       if (!checkRateLimit(clientIP)) {
+        console.warn(`[SECURITY] Rate limit exceeded for IP: ${clientIP}`);
         return NextResponse.json(
-          { error: 'Trop de requêtes. Veuillez réessayer plus tard.' },
+          { error: 'Trop de requêtes, veuillez réessayer plus tard' },
           { status: 429 }
         );
       }
     }
 
-    // 2. Vérification de l'authentification
-    if (options.requireAuth) {
-      const session = await getServerSession(authOptions);
+    // Authentication check
+    if (requireAuth) {
+      const session = await getServerSession();
       
-      if (!session?.user) {
+      if (!session || !session.user) {
         return NextResponse.json(
           { error: 'Authentification requise' },
           { status: 401 }
         );
       }
 
-      // Vérification des rôles
-      if (options.allowedRoles && !options.allowedRoles.includes(session.user.role)) {
+      // Role-based access control
+      if (allowedRoles.length > 0 && !allowedRoles.includes(session.user.role)) {
+        console.warn(`[SECURITY] Unauthorized role access: ${session.user.role} not in ${allowedRoles.join(', ')}`);
         return NextResponse.json(
-          { error: 'Accès non autorisé pour ce rôle' },
+          { error: 'Accès non autorisé' },
           { status: 403 }
         );
       }
     }
 
-    // 3. Sanitisation du body pour les requêtes POST/PUT
-    let sanitizedBody;
+    // Sanitize request body for POST/PUT requests
     if (request.method === 'POST' || request.method === 'PUT') {
       try {
         const body = await request.json();
-        sanitizedBody = sanitizeRequestBody(body, options.variant || 'basic');
+        const sanitizedBody = sanitizeRequestBody(body);
+        
+        // Replace the original request with sanitized data
+        const newRequest = new NextRequest(request.url, {
+          ...request,
+          body: JSON.stringify(sanitizedBody)
+        });
+        
+        return handler(newRequest);
       } catch (error) {
-        if (error instanceof Error && error.message.includes('Contenu invalide')) {
-          return NextResponse.json(
-            { error: error.message },
-            { status: 400 }
-          );
-        }
-        // Si ce n'est pas une erreur de parsing JSON, continuer sans body
-        sanitizedBody = undefined;
+        // If body parsing fails, continue with original request
+        return handler(request);
       }
     }
 
-    // 4. Headers de sécurité
-    const response = await handler(request, sanitizedBody);
+    // Add security headers to response
+    const response = await handler(request);
     
-    // Ajouter les headers de sécurité
+    response.headers.set('X-XSS-Protection', '1; mode=block');
     response.headers.set('X-Content-Type-Options', 'nosniff');
     response.headers.set('X-Frame-Options', 'DENY');
-    response.headers.set('X-XSS-Protection', '1; mode=block');
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-
+    
     return response;
 
   } catch (error) {
-    console.error('Erreur dans le middleware de sécurité:', error);
+    console.error('[SECURITY] Security middleware error:', error);
     return NextResponse.json(
-      { error: 'Erreur de sécurité' },
+      { error: 'Erreur interne du serveur' },
       { status: 500 }
     );
   }
 }
 
 /**
- * Helper pour les logs de sécurité
+ * Higher-order function to wrap API handlers with security middleware
  */
-export function logSecurityEvent(
-  event: string,
-  details: Record<string, unknown>,
-  level: 'info' | 'warn' | 'error' = 'info'
-) {
-  const logData = {
-    timestamp: new Date().toISOString(),
-    event,
-    ...details
-  };
-
-  switch (level) {
-    case 'error':
-      console.error('🚨 SECURITY EVENT:', logData);
-      break;
-    case 'warn':
-      console.warn('⚠️ SECURITY WARNING:', logData);
-      break;
-    default:
-      console.info('ℹ️ SECURITY INFO:', logData);
+export function withSecurity(
+  handler: (req: NextRequest) => Promise<NextResponse>,
+  options?: {
+    requireAuth?: boolean;
+    allowedRoles?: string[];
+    rateLimited?: boolean;
   }
+) {
+  return async (request: NextRequest) => {
+    return securityMiddleware(request, handler, options);
+  };
+}
+
+/**
+ * Clean up old rate limit entries
+ */
+export function cleanupRateLimit() {
+  const now = Date.now();
+  for (const [ip, record] of rateLimitStore.entries()) {
+    if (now > record.resetTime) {
+      rateLimitStore.delete(ip);
+    }
+  }
+}
+
+// Clean up rate limit store every 5 minutes
+if (typeof global !== 'undefined') {
+  setInterval(cleanupRateLimit, 5 * 60 * 1000);
 }

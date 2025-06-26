@@ -119,7 +119,6 @@ export async function GET(
     {
       requireAuth: true,
       allowedRoles: ['molt'],
-      variant: 'basic'
     }
   );
 }

@@ -17,8 +17,8 @@ interface RegisterStepTwoProps {
 
 export default function RegisterStepTwo({ onSubmit, isLoading, error }: RegisterStepTwoProps) {
   // Form state sécurisé avec useSafeInput
-  const address = useSafeInput("", "address");
-  const city = useSafeInput("", "city");
+  const address = useSafeInput({ fieldType: "address", initialValue: "" });
+  const city = useSafeInput({ fieldType: "city", initialValue: "" });
   const [role, setRole] = useState<"molt" | "mentor">("molt");
 
   const handleSubmit = async (e: React.FormEvent) => {

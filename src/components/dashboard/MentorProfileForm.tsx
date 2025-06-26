@@ -19,11 +19,11 @@ export default function MentorProfileForm({
   isLoading = false 
 }: MentorProfileFormProps) {
   // Form state sécurisé avec useSafeInput
-  const nom = useSafeInput(mentor.nom || '', 'name');
-  const job = useSafeInput(mentor.job || '', 'job');
-  const localisation = useSafeInput(mentor.localisation || '', 'location');
-  const description = useSafeInput(mentor.description || '', 'description');
-  const linkPhoto = useSafeInput(mentor.linkPhoto || '', 'url');
+  const nom = useSafeInput({ fieldType: 'name', initialValue: mentor.nom || '' });
+  const job = useSafeInput({ fieldType: 'job', initialValue: mentor.job || '' });
+  const localisation = useSafeInput({ fieldType: 'location', initialValue: mentor.localisation || '' });
+  const description = useSafeInput({ fieldType: 'description', initialValue: mentor.description || '', preserveWhitespace: true });
+  const linkPhoto = useSafeInput({ fieldType: 'url', initialValue: mentor.linkPhoto || '' });
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

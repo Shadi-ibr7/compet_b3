@@ -115,7 +115,6 @@ export async function POST(request: NextRequest) {
     {
       requireAuth: true,
       allowedRoles: ['molt'],
-      variant: 'basic'
     }
   );
 }

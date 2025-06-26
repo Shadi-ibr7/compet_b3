@@ -10,9 +10,9 @@ import styles from "@/styles/Login.module.css";
 
 export default function SignupPage() {
   // Form state sécurisé avec useSafeInput
-  const email = useSafeInput('', 'email');
-  const password = useSafeInput('', 'password');
-  const confirmPassword = useSafeInput('', 'password');
+  const email = useSafeInput({ fieldType: 'email', initialValue: '' });
+  const password = useSafeInput({ fieldType: 'password', initialValue: '' });
+  const confirmPassword = useSafeInput({ fieldType: 'password', initialValue: '' });
   const [error, setError] = useState('');
   const router = useRouter();
 

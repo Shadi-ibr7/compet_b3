@@ -383,12 +383,12 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
                   value={customMessage}
                   onChange={(e) => {
                     try {
-                      const sanitizedMessage = sanitizeTextMessage(e.target.value, 500);
+                      const sanitizedMessage = sanitizeTextMessage(e.target.value, true);
                       setCustomMessage(sanitizedMessage);
                     } catch (error) {
                       console.warn('Message trop long, troncature appliquée');
                       const truncated = e.target.value.substring(0, 500);
-                      setCustomMessage(sanitizeTextMessage(truncated, 500));
+                      setCustomMessage(sanitizeTextMessage(truncated, true));
                     }
                   }}
                   placeholder="Ajoutez un message personnalisé pour vous présenter..."

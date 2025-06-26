@@ -70,8 +70,7 @@ export async function POST(request: NextRequest) {
     },
     {
       requireAuth: true,
-      allowedRoles: ['mentor'],
-      variant: 'basic' // Annonces ont un formatage basique
+      allowedRoles: ['mentor']
     }
   );
 }

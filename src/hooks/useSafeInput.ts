@@ -1,94 +1,123 @@
+// Custom hook for secure form input handling
 import { useState, useCallback } from 'react';
-import { sanitizeFormField, type FieldType } from '@/lib/security';
+import { sanitizeFormField, sanitizeTextMessage } from '@/lib/security';
 
-/**
- * Hook pour gérer la saisie sécurisée dans les formulaires
- * @param initialValue - Valeur initiale
- * @param fieldType - Type de champ pour la validation appropriée
- * @returns Objet avec value, setValue sécurisé, et error si applicable
- */
-export function useSafeInput(initialValue: string = '', fieldType: FieldType = 'text') {
-  const [value, setValue] = useState(sanitizeFormField(initialValue, fieldType));
-  const [error, setError] = useState<string | null>(null);
+export type FieldType = 
+  | 'name' 
+  | 'email' 
+  | 'phone' 
+  | 'city' 
+  | 'address' 
+  | 'url' 
+  | 'job' 
+  | 'description' 
+  | 'motivation' 
+  | 'company' 
+  | 'title' 
+  | 'location' 
+  | 'password' 
+  | 'text';
 
-  const safeSetValue = useCallback((newValue: string) => {
-    try {
-      const sanitized = sanitizeFormField(newValue, fieldType);
-      setValue(sanitized);
-      setError(null);
-      
-      // Log si le contenu a été modifié pour alerter l'utilisateur
-      if (sanitized !== newValue && newValue.length > 0) {
-        console.warn('⚠️ Contenu modifié par sécurité:', {
-          original: newValue.substring(0, 50),
-          sanitized: sanitized.substring(0, 50),
-          fieldType
-        });
-      }
-      
-      return sanitized;
-    } catch (err) {
-      const errorMessage = `Erreur de validation pour le champ ${fieldType}`;
-      setError(errorMessage);
-      console.error('❌ Erreur useSafeInput:', err);
-      return value; // Garder la valeur précédente en cas d'erreur
-    }
-  }, [fieldType, value]);
+interface UseSafeInputOptions {
+  fieldType: FieldType;
+  preserveWhitespace?: boolean;
+  initialValue?: string;
+  maxLength?: number;
+  required?: boolean;
+}
 
-  // Fonction pour définir la valeur sans sanitisation (pour l'initialisation)
-  const setInitialValue = useCallback((newValue: string) => {
-    setValue(sanitizeFormField(newValue, fieldType));
-    setError(null);
-  }, [fieldType]);
-
-  return {
-    value,
-    setValue: safeSetValue,
-    setInitialValue,
-    error,
-    clearError: () => setError(null)
-  };
+interface UseSafeInputReturn {
+  value: string;
+  setValue: (value: string) => void;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  isValid: boolean;
+  error: string | null;
+  characterCount: number;
+  maxLength: number;
 }
 
 /**
- * Hook spécialisé pour les arrays (comme les expériences)
- * @param initialArray - Array initial
- * @param itemFieldType - Type de champ pour les éléments de l'array
- * @returns Gestion sécurisée d'un array
+ * Custom hook for safe input handling with automatic sanitization
  */
-export function useSafeArray<T extends Record<string, unknown>>(
-  initialArray: T[] = [], 
-  sanitizeItem: (item: T) => T
-) {
-  const [items, setItems] = useState<T[]>(initialArray.map(sanitizeItem));
+export function useSafeInput(options: UseSafeInputOptions): UseSafeInputReturn {
+  const {
+    fieldType,
+    preserveWhitespace = false,
+    initialValue = '',
+    maxLength: customMaxLength,
+    required = false
+  } = options;
 
-  const addItem = useCallback((item: T) => {
-    const sanitizedItem = sanitizeItem(item);
-    setItems(prev => [...prev, sanitizedItem]);
-    return sanitizedItem;
-  }, [sanitizeItem]);
+  // Default max lengths by field type
+  const defaultMaxLengths: Record<FieldType, number> = {
+    name: 100,
+    email: 150,
+    phone: 20,
+    city: 100,
+    address: 200,
+    url: 300,
+    job: 100,
+    description: 1000,
+    motivation: 500,
+    company: 100,
+    title: 100,
+    location: 100,
+    password: 128,
+    text: 200
+  };
 
-  const updateItem = useCallback((index: number, item: T) => {
-    const sanitizedItem = sanitizeItem(item);
-    setItems(prev => prev.map((existingItem, i) => 
-      i === index ? sanitizedItem : existingItem
-    ));
-    return sanitizedItem;
-  }, [sanitizeItem]);
+  const maxLength = customMaxLength || defaultMaxLengths[fieldType];
+  
+  const [value, setInternalValue] = useState<string>(
+    sanitizeFormField(initialValue, fieldType)
+  );
+  const [error, setError] = useState<string | null>(null);
 
-  const removeItem = useCallback((index: number) => {
-    setItems(prev => prev.filter((_, i) => i !== index));
-  }, []);
+  const setValue = useCallback((newValue: string) => {
+    let sanitized: string;
 
-  const setAllItems = useCallback((newItems: T[]) => {
-    setItems(newItems.map(sanitizeItem));
-  }, [sanitizeItem]);
+    // Use appropriate sanitization method
+    if (fieldType === 'description' || fieldType === 'motivation') {
+      sanitized = sanitizeTextMessage(newValue, preserveWhitespace);
+    } else {
+      sanitized = sanitizeFormField(newValue, fieldType);
+    }
+
+    // Enforce max length
+    if (sanitized.length > maxLength) {
+      sanitized = sanitized.slice(0, maxLength);
+    }
+
+    // Validation
+    let newError: string | null = null;
+    
+    if (required && !sanitized.trim()) {
+      newError = 'Ce champ est requis';
+    } else if (fieldType === 'email' && sanitized && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(sanitized)) {
+      newError = 'Format d\'email invalide';
+    } else if (fieldType === 'url' && sanitized && !/^https?:\/\/.+/.test(sanitized)) {
+      newError = 'URL invalide (doit commencer par http:// ou https://)';
+    } else if (fieldType === 'phone' && sanitized && !/^[\d\s\-\+\(\)\.]+$/.test(sanitized)) {
+      newError = 'Numéro de téléphone invalide';
+    }
+
+    setInternalValue(sanitized);
+    setError(newError);
+  }, [fieldType, preserveWhitespace, maxLength, required]);
+
+  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setValue(event.target.value);
+  }, [setValue]);
+
+  const isValid = !error && (!required || value.trim().length > 0);
 
   return {
-    items,
-    addItem,
-    updateItem,
-    removeItem,
-    setAllItems
+    value,
+    setValue,
+    handleChange,
+    isValid,
+    error,
+    characterCount: value.length,
+    maxLength
   };
 }

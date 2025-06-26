@@ -134,8 +134,7 @@ export async function PUT(
     },
     {
       requireAuth: true,
-      allowedRoles: ['mentor', 'admin'],
-      variant: 'basic'
+      allowedRoles: ['mentor', 'admin']
     }
   );
 }
