@@ -53,7 +53,7 @@ function sanitizeRequestBody(body: Record<string, unknown>, variant: 'basic' | '
 
   // Champs à sanitiser selon le type de contenu
   const htmlFields = ['description', 'content', 'ceQueJePropose', 'profilRecherche'];
-  const textFields = ['customMessage', 'title', 'auteur', 'nomEtablissement', 'nomMetier', 'localisation', 'name', 'nom', 'job', 'city', 'jobTitle', 'motivation', 'linkedinUrl', 'phone', 'address'];
+  const textFields = ['customMessage', 'title', 'auteur', 'nomEtablissement', 'nomMetier', 'localisation', 'name', 'nom', 'job', 'city', 'jobTitle', 'motivation', 'linkedinUrl', 'phone', 'address', 'comment'];
 
   // Sanitiser les champs HTML
   htmlFields.forEach(field => {
@@ -84,7 +84,7 @@ function sanitizeRequestBody(body: Record<string, unknown>, variant: 'basic' | '
         if (field.includes('email')) fieldType = 'email';
         else if (field.includes('phone')) fieldType = 'phone';
         else if (field.includes('url') || field.includes('linkedin')) fieldType = 'url';
-        else if (field === 'customMessage' || field === 'motivation') fieldType = 'motivation';
+        else if (field === 'customMessage' || field === 'motivation' || field === 'comment') fieldType = 'motivation';
         else if (field === 'job' || field === 'jobTitle') fieldType = 'job';
         else if (field === 'city' || field === 'localisation') fieldType = 'city';
         else if (field === 'name' || field === 'nom') fieldType = 'name';
@@ -97,6 +97,15 @@ function sanitizeRequestBody(body: Record<string, unknown>, variant: 'basic' | '
       }
     }
   });
+
+  // Gérer les champs numériques (rating, etc.)
+  if (sanitizedBody.rating !== undefined) {
+    const rating = Number(sanitizedBody.rating);
+    if (isNaN(rating) || rating < 1 || rating > 5) {
+      throw new Error('Rating invalide - doit être un nombre entre 1 et 5');
+    }
+    sanitizedBody.rating = rating;
+  }
 
   // Sanitiser les métadonnées
   if (sanitizedBody.meta && typeof sanitizedBody.meta === 'object') {
