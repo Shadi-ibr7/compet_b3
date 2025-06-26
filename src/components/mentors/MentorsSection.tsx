@@ -67,9 +67,8 @@ const detecterSecteurMentor = (job: string): string => {
 
 const MentorsSection = () => {
   const [search, setSearch] = useState("");
-  const [showLocation, setShowLocation] = useState(false);
-  const [showSector, setShowSector] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
+  // State centralisé pour les dropdowns - seul un peut être ouvert
+  const [activeDropdown, setActiveDropdown] = useState<'location' | 'sector' | 'filters' | null>(null);
   
   // Nouveaux states pour les filtres
   const [selectedLocation, setSelectedLocation] = useState('Toutes les villes');
@@ -90,6 +89,24 @@ const MentorsSection = () => {
   useEffect(() => {
     filterMentors();
   }, [search, selectedLocation, selectedSector, mentors]);
+
+  // Fermer les dropdowns quand on clique ailleurs
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('[class*="filterContainer"]') && !target.closest('[class*="dropdownMenu"]')) {
+        setActiveDropdown(null);
+      }
+    };
+
+    if (activeDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [activeDropdown]);
 
   const fetchMentors = async () => {
     try {
@@ -174,26 +191,81 @@ const MentorsSection = () => {
         </div>
       </div>
       <div className={styles.filtersRow}>
-        <button 
-          className={`${styles.filterBtn} ${selectedLocation !== 'Toutes les villes' ? styles.filterBtnActive : ''}`}
-          onClick={() => setShowLocation(v => !v)}
-        >
-          <Image src="/Union.svg" alt="" width={13} height={16} className={styles.filterIcon} />
-          <span>Localisation</span>
-          {selectedLocation !== 'Toutes les villes' && <span className={styles.filterDot}></span>}
-        </button>
-        <button 
-          className={`${styles.filterBtn} ${selectedSector !== 'Tous les secteurs' ? styles.filterBtnActive : ''}`}
-          onClick={() => setShowSector(v => !v)}
-        >
-          <Image src="/Vector2.svg" alt="" width={16} height={16} className={styles.filterIcon} />
-          <span>Secteur</span>
-          {selectedSector !== 'Tous les secteurs' && <span className={styles.filterDot}></span>}
-        </button>
-        <button className={styles.filterBtnDark} onClick={() => setShowFilters(v => !v)}>
-          <Image src="/Vector_Stroke.svg" alt="" width={16} height={11} className={styles.filterIcon} />
-          <span>Plus de filtres</span>
-        </button>
+        <div className={styles.filterContainer}>
+          <button 
+            className={`${styles.filterBtn} ${selectedLocation !== 'Toutes les villes' ? styles.filterBtnActive : ''}`}
+            onClick={() => setActiveDropdown(activeDropdown === 'location' ? null : 'location')}
+          >
+            <Image src="/Union.svg" alt="" width={13} height={16} className={styles.filterIcon} />
+            <span>Localisation</span>
+            {selectedLocation !== 'Toutes les villes' && <span className={styles.filterDot}></span>}
+          </button>
+          {/* Dropdown Localisation */}
+          {activeDropdown === 'location' && (
+            <div className={styles.dropdownMenu}>
+              <div className={styles.filterHeader}>Sélectionnez une localisation</div>
+              <div className={styles.filterOptions}>
+                {VILLES_FRANCE.map((ville) => (
+                  <button
+                    key={ville}
+                    className={`${styles.filterOption} ${selectedLocation === ville ? styles.filterOptionActive : ''}`}
+                    onClick={() => {
+                      setSelectedLocation(ville);
+                      setActiveDropdown(null);
+                    }}
+                  >
+                    {ville}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <div className={styles.filterContainer}>
+          <button 
+            className={`${styles.filterBtn} ${selectedSector !== 'Tous les secteurs' ? styles.filterBtnActive : ''}`}
+            onClick={() => setActiveDropdown(activeDropdown === 'sector' ? null : 'sector')}
+          >
+            <Image src="/Vector2.svg" alt="" width={16} height={16} className={styles.filterIcon} />
+            <span>Secteur</span>
+            {selectedSector !== 'Tous les secteurs' && <span className={styles.filterDot}></span>}
+          </button>
+          {/* Dropdown Secteur */}
+          {activeDropdown === 'sector' && (
+            <div className={styles.dropdownMenu}>
+              <div className={styles.filterHeader}>Sélectionnez un secteur d'expertise</div>
+              <div className={styles.filterOptions}>
+                {SECTEURS_COMMERCE.map((secteur) => (
+                  <button
+                    key={secteur}
+                    className={`${styles.filterOption} ${selectedSector === secteur ? styles.filterOptionActive : ''}`}
+                    onClick={() => {
+                      setSelectedSector(secteur);
+                      setActiveDropdown(null);
+                    }}
+                  >
+                    {secteur}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        
+        <div className={styles.filterContainer}>
+          <button className={styles.filterBtnDark} onClick={() => setActiveDropdown(activeDropdown === 'filters' ? null : 'filters')}>
+            <Image src="/Vector_Stroke.svg" alt="" width={16} height={11} className={styles.filterIcon} />
+            <span>Plus de filtres</span>
+          </button>
+          {/* Filtres avancés placeholder */}
+          {activeDropdown === 'filters' && (
+            <div className={styles.dropdownMenu}>
+              <div className={styles.filterHeader}>Filtres avancés</div>
+              <p>Fonctionnalité à venir...</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Indicateur et reset des filtres actifs */}
@@ -215,62 +287,11 @@ const MentorsSection = () => {
             onClick={() => {
               setSelectedLocation('Toutes les villes');
               setSelectedSector('Tous les secteurs');
-              setShowLocation(false);
-              setShowSector(false);
+              setActiveDropdown(null);
             }}
           >
             ✕ Effacer tous les filtres
           </button>
-        </div>
-      )}
-      
-      {/* Dropdown Localisation */}
-      {showLocation && (
-        <div className={styles.menuPopup}>
-          <div className={styles.filterHeader}>Sélectionnez une localisation</div>
-          <div className={styles.filterOptions}>
-            {VILLES_FRANCE.map((ville) => (
-              <button
-                key={ville}
-                className={`${styles.filterOption} ${selectedLocation === ville ? styles.filterOptionActive : ''}`}
-                onClick={() => {
-                  setSelectedLocation(ville);
-                  setShowLocation(false);
-                }}
-              >
-                {ville}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Dropdown Secteur */}
-      {showSector && (
-        <div className={styles.menuPopup}>
-          <div className={styles.filterHeader}>Sélectionnez un secteur d'expertise</div>
-          <div className={styles.filterOptions}>
-            {SECTEURS_COMMERCE.map((secteur) => (
-              <button
-                key={secteur}
-                className={`${styles.filterOption} ${selectedSector === secteur ? styles.filterOptionActive : ''}`}
-                onClick={() => {
-                  setSelectedSector(secteur);
-                  setShowSector(false);
-                }}
-              >
-                {secteur}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Filtres avancés placeholder */}
-      {showFilters && (
-        <div className={styles.menuPopup}>
-          <div className={styles.filterHeader}>Filtres avancés</div>
-          <p>Fonctionnalité à venir...</p>
         </div>
       )}
       <div className={styles.mentorsGrid}>
@@ -306,6 +327,7 @@ const MentorsSection = () => {
                   setSearch('');
                   setSelectedLocation('Toutes les villes');
                   setSelectedSector('Tous les secteurs');
+                  setActiveDropdown(null);
                 }}
                 className={styles.clearFiltersButton}
               >

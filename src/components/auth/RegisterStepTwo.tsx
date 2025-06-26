@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/Register.module.css";
+import { useSafeInput } from "@/hooks/useSafeInput";
 
 interface RegisterStepTwoProps {
   onSubmit: (data: {
@@ -55,11 +56,12 @@ export default function RegisterStepTwo({ onSubmit, isLoading, error }: Register
               className={styles.input} 
               type="text" 
               placeholder="Entrez votre adresse ici" 
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              value={address.value}
+              onChange={address.handleChange}
               required
               disabled={isLoading}
             />
+            {address.error && <span className={styles.fieldError}>{address.error}</span>}
           </div>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Ville</label>
@@ -67,11 +69,12 @@ export default function RegisterStepTwo({ onSubmit, isLoading, error }: Register
               className={styles.input} 
               type="text" 
               placeholder="Entrez votre ville ici" 
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
+              value={city.value}
+              onChange={city.handleChange}
               required
               disabled={isLoading}
             />
+            {city.error && <span className={styles.fieldError}>{city.error}</span>}
           </div>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Je souhaite m&apos;inscrire en tant que :</label>

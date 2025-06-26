@@ -6,30 +6,35 @@ import Link from "next/link";
 import styles from "@/styles/Register.module.css";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSafeInput } from "@/hooks/useSafeInput";
 import RegisterStepTwo from "./RegisterStepTwo";
 
 export default function RegisterPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    address: "",
-    city: "",
-    role: "molt" as "molt" | "mentor"
-  });
+  const [role, setRole] = useState<"molt" | "mentor">("molt");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Form state sécurisé avec useSafeInput
+  const name = useSafeInput({ fieldType: "name", initialValue: "", required: true });
+  const email = useSafeInput({ fieldType: "email", initialValue: "", required: true });
+  const password = useSafeInput({ fieldType: "password", initialValue: "", required: true });
 
   const handleStepOne = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     try {
-      if (formData.password.length < 6) {
+      // Validation des champs
+      if (!name.isValid || !email.isValid || !password.isValid) {
+        throw new Error("Veuillez corriger les erreurs dans le formulaire");
+      }
+      
+      if (password.value.length < 6) {
         throw new Error("Le mot de passe doit contenir au moins 6 caractères");
       }
+      
       setCurrentStep(2);
     } catch (err) {
       console.error("Erreur lors de la première étape:", err);
@@ -42,21 +47,12 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     try {
-      // On met à jour les données du formulaire avec les nouvelles informations
-      const updatedFormData = {
-        ...formData,
-        address: data.address,
-        city: data.city,
-        role: data.role
-      };
-      setFormData(updatedFormData);
-
       // On utilise les champs supportés par le backend
       const result = await signIn("credentials", {
-        email: updatedFormData.email,
-        password: updatedFormData.password,
-        name: updatedFormData.name,
-        role: updatedFormData.role,
+        email: email.value,
+        password: password.value,
+        name: name.value,
+        role: data.role,
         isSignup: "true",
         redirect: false,
         callbackUrl: "/dashboard",
@@ -117,10 +113,11 @@ export default function RegisterPage() {
               className={styles.input} 
               type="text" 
               placeholder="Entrez votre nom ici" 
-              value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              value={name.value}
+              onChange={name.handleChange}
               required
             />
+            {name.error && <span className={styles.fieldError}>{name.error}</span>}
           </div>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Mail</label>
@@ -128,10 +125,11 @@ export default function RegisterPage() {
               className={styles.input} 
               type="email" 
               placeholder="Entrez votre mail ici" 
-              value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              value={email.value}
+              onChange={email.handleChange}
               required
             />
+            {email.error && <span className={styles.fieldError}>{email.error}</span>}
           </div>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Mot de passe</label>
@@ -139,10 +137,11 @@ export default function RegisterPage() {
               className={styles.input} 
               type="password" 
               placeholder="Entrez votre mot de passe ici" 
-              value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              value={password.value}
+              onChange={password.handleChange}
               required
             />
+            {password.error && <span className={styles.fieldError}>{password.error}</span>}
           </div>
           <button 
             type="submit" 
