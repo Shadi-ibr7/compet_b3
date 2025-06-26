@@ -62,6 +62,8 @@
   transition: box-shadow 0.2s, transform 0.2s;
   overflow: hidden;
   width: 100%;
+  text-decoration: none;
+  color: inherit;
 }
 .jobCard:hover {
   box-shadow: 0 8px 24px 0 rgba(6,16,74,0.13);
@@ -176,6 +178,7 @@
   transition: background 0.2s;
   width: auto;
   max-width: 100%;
+  text-decoration: none;
 }
 .ctaBtn:hover {
   background: #BEF9DE;
@@ -617,6 +620,25 @@
   cursor: pointer;
   padding: 8px;
   z-index: 2;
+}
+
+.loading,
+.error,
+.noAnnonces {
+  width: 100%;
+  max-width: 1400px;
+  text-align: center;
+  padding: 48px 24px;
+  font-size: 18px;
+  color: #06104a;
+  background: #FFFFFF;
+  border-radius: 16px;
+  margin: 24px auto;
+}
+
+.error {
+  color: #dc2626;
+  background: #fee2e2;
 }
 
 .dcouvrirLesAnnoncesWrapper {

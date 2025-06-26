@@ -4,9 +4,14 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { getMentorRating } from '@/lib/ratingService';
+import { useSafeInput } from '@/hooks/useSafeInput';
+import { sanitizeProfile } from '@/lib/security';
 import type { IAnnonce } from '@/types/interfaces/annonce.interface';
 import type { IMentor } from '@/types/interfaces/mentor.interface';
+import type { IMentorRating } from '@/types/interfaces/rating.interface';
 import MentorProfileForm from './MentorProfileForm';
+import RatingDisplay from '@/components/rating/RatingDisplay';
 import styles from '@/styles/AdminDashboard.module.css';
 
 export default function MentorDashboard() {
@@ -19,6 +24,7 @@ export default function MentorDashboard() {
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [isDeletingAnnonce, setIsDeletingAnnonce] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [mentorRating, setMentorRating] = useState<IMentorRating | null>(null);
 
   const fetchMentorData = async () => {
     try {
@@ -40,15 +46,20 @@ export default function MentorDashboard() {
           id: session?.user?.id || '',
           name: session?.user?.name || '',
           linkPhoto: session?.user?.image || '',
-          number: '',
+          email: session?.user?.email || '',
           role: 'mentor' as const,
           dateCreation: new Date(),
           nom: session?.user?.name || '',
           job: '',
           localisation: '',
-          description: '',
-          note: 0
+          description: ''
         });
+      }
+
+      // Charger la note du mentor
+      if (session?.user?.id) {
+        const rating = await getMentorRating(session.user.id);
+        setMentorRating(rating);
       }
     } catch (error) {
       console.error('Erreur lors du chargement des données:', error);
@@ -184,6 +195,23 @@ export default function MentorDashboard() {
                 <p className={styles.type}>Type: {annonce.type}</p>
                 <p className={styles.location}>📍 {annonce.localisation}</p>
                 <p className={styles.description}>{annonce.description}</p>
+                
+                {/* Section Ce que je propose */}
+                {annonce.ceQueJePropose && annonce.ceQueJePropose.trim() && (
+                  <div className={styles.additionalSection}>
+                    <h4>Ce que je propose</h4>
+                    <p>{annonce.ceQueJePropose}</p>
+                  </div>
+                )}
+
+                {/* Section Profil recherché */}
+                {annonce.profilRecherche && annonce.profilRecherche.trim() && (
+                  <div className={styles.additionalSection}>
+                    <h4>Profil recherché</h4>
+                    <p>{annonce.profilRecherche}</p>
+                  </div>
+                )}
+
                 {annonce.imageUrl && (
                   <div className={styles.imageContainer}>
                     <Image
@@ -249,11 +277,14 @@ export default function MentorDashboard() {
                 <div className={styles.profileDescription}>
                   <p>{mentor.description || 'Description non renseignée'}</p>
                 </div>
-                {mentor.note && (
-                  <div className={styles.profileNote}>
-                    <span>Note: {mentor.note}/5</span>
-                  </div>
-                )}
+                <div className={styles.profileNote}>
+                  <RatingDisplay 
+                    averageRating={mentorRating?.averageRating || null}
+                    totalRatings={mentorRating?.totalRatings || 0}
+                    showText={true}
+                    size="small"
+                  />
+                </div>
               </div>
             ) : (
               <div className={styles.emptyState}>

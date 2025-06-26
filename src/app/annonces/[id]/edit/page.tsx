@@ -120,22 +120,9 @@ export default function EditAnnoncePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white shadow rounded-lg p-6">
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">Modifier votre annonce</h1>
-            <p className="mt-2 text-gray-600">
-              Mettez à jour les informations de votre annonce de mentorat.
-            </p>
-          </div>
-          
-          <AnnonceForm 
-            onSubmit={handleSubmit} 
-            initialData={annonce}
-          />
-        </div>
-      </div>
-    </div>
+    <AnnonceForm 
+      onSubmit={handleSubmit} 
+      initialData={annonce}
+    />
   );
 }

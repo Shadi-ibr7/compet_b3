@@ -1,8 +1,11 @@
 'use client';
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { IMentor } from "@/types/interfaces/mentor.interface";
+import type { IMentorRating } from "@/types/interfaces/rating.interface";
+import { getMentorRating } from "@/lib/ratingService";
+import RatingDisplay from "@/components/rating/RatingDisplay";
 import styles from "./MentorCard.module.css";
 
 interface MentorCardProps {
@@ -10,22 +13,22 @@ interface MentorCardProps {
 }
 
 const MentorCard = ({ mentor }: MentorCardProps) => {
+  const [mentorRating, setMentorRating] = useState<IMentorRating | null>(null);
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      if (mentor.id) {
+        const rating = await getMentorRating(mentor.id);
+        setMentorRating(rating);
+      }
+    };
+    fetchRating();
+  }, [mentor.id]);
+
   if (!mentor) return null;
 
   // Créer un alt text descriptif pour l'accessibilité
   const altText = `Photo de ${mentor.nom || 'Mentor'}, ${mentor.job || 'Profession non renseignée'}`;
-
-  // Générer les étoiles pour la note (style homepage)
-  const renderStars = (note: number = 0) => {
-    const fullStars = Math.floor(note);
-    const hasHalfStar = note % 1 !== 0;
-    
-    return (
-      <div className={styles.stars}>
-        {'★'.repeat(fullStars)}{hasHalfStar ? '☆' : ''}
-      </div>
-    );
-  };
 
   return (
     <article className={styles.card}>
@@ -50,14 +53,21 @@ const MentorCard = ({ mentor }: MentorCardProps) => {
               <Image src="/Union.svg" alt="" width={13} height={16} /> 
               <span>{mentor.localisation || 'Localisation non renseignée'}</span>
             </div>
-            {mentor.note && mentor.note > 0 && renderStars(mentor.note)}
+            <RatingDisplay 
+              averageRating={mentorRating?.averageRating || null}
+              totalRatings={mentorRating?.totalRatings || 0}
+              showText={true}
+              size="small"
+            />
           </div>
         </div>
         <div className={styles.description}>
           <b>Description :</b> {mentor.description || 'Description non renseignée'}
         </div>
       </Link>
-      <button className={styles.cta}>Contacter le mentor</button>
+      <Link href={`/mentors/${mentor.id}`} className={styles.cta}>
+        Je vais voir son profil
+      </Link>
     </article>
   );
 };

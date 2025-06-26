@@ -7,6 +7,16 @@
   gap: 32px;
   background: #fefff3;
 }
+
+.content {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
 .header h2 {
     color: #06104A;
   font-size: 2rem;
@@ -36,6 +46,17 @@
   scroll-snap-align: start;
   color: #06104A;
   font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card * {
+  text-decoration: none;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(6,16,74,0.12);
 }
 .cardHeader {
   display: flex;
@@ -94,6 +115,10 @@
   margin-top: auto;
   cursor: pointer;
   transition: background 0.2s;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
 }
 .cta:hover {
   background: #a6e7c7;
@@ -110,6 +135,16 @@
   font-size: 1rem;
   margin: 0 auto;
   cursor: pointer;
+  text-align: center;
+  display: block;
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.mentorsCta:hover {
+  background: #a6e7c7;
+  color: #06104a;
 }
 @media (max-width: 500px) {
   .section {

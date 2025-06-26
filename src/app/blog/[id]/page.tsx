@@ -3,7 +3,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { IArticle } from '@/types/interfaces/article.interface';
+import SafeHtml from '@/components/Security/SafeHtml';
 import styles from '@/components/Blog/BlogPage.module.css';
+import ArticleRecommendations from '@/components/Blog/ArticleRecommendations';
+import AudioPlayer from '@/components/Blog/AudioPlayer';
 
 export default function ArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const [article, setArticle] = useState<IArticle | null>(null);
@@ -42,77 +45,77 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
   );
 
   return (
-    <main className={styles.main}>
-        <Link href="/blog" className={styles.backLink}>← Retour aux articles</Link>
-        
-        <article className={styles.singleArticle}>
-          <div className={styles.articleImageWrapper}>
+    <div className={styles.container}>
+      <main className={styles.main}>
+        <div className={styles.pageHeader}>
+          <Link href="/blog" className={styles.backLink}>← Blog</Link>
+        </div>
+
+        <div className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.titleWithHighlight}>
+              <h3>{article.title}</h3>
+            </div>
+          </div>
+          
+          <div className={styles.profileCard}>
             <Image
               src={article.imageUrl || '/placeholder_article.png'}
               alt={article.title}
-              width={800}
-              height={400}
-              className={styles.articleImage}
-              priority
+              width={80}
+              height={80}
+              className={styles.avatar}
               unoptimized={article.imageUrl?.startsWith('http')}
               onError={(e) => {
                 const img = e.target as HTMLImageElement;
                 img.src = '/placeholder_article.png';
               }}
             />
-          </div>
-
-          <div className={styles.articleContent}>
-            <h1 className={styles.articleTitle}>{article.title}</h1>
-            
-            <div className={styles.articleMeta}>
-              <span className={styles.articleAuthor}>Par {article.auteur}</span>
-              <span className={styles.articleDate}>
+            <div className={styles.profileInfo}>
+              <h2>{article.auteur}</h2>
+              <p className={styles.jobTitle}>
                 {new Date(article.date).toLocaleDateString('fr-FR', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
                 })}
-              </span>
-            </div>
-
-            {article.meta?.description && (
-              <p className={styles.articleDescription}>{article.meta.description}</p>
-            )}
-
-            {article.meta?.keywords && (
-              <div className={styles.articleTags}>
-                {article.meta.keywords.map((tag, index) => (
-                  <span key={index} className={styles.tag}>{tag}</span>
-                ))}
-              </div>
-            )}
-
-            <div className={styles.articleBody}>
-              {article.content}
-            </div>
-
-            {article.lienPodcast && (
-              <div className={styles.podcastSection}>
-                <h2 className={styles.podcastTitle}>Écouter le podcast</h2>
-                <div className={styles.podcastPlayer}>
-                  <audio controls className={styles.audioPlayer}>
-                    <source src={article.lienPodcast} type="audio/mpeg" />
-                    Votre navigateur ne supporte pas la lecture audio
-                  </audio>
-                  <a 
-                    href={article.lienPodcast}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.podcastDownload}
-                  >
-                    Télécharger le podcast
-                  </a>
+              </p>
+              {article.meta?.keywords && (
+                <div className={styles.location}>
+                  {article.meta.keywords.slice(0, 2).map((tag, index) => (
+                    <span key={index} className={styles.tagSimple}>{tag}</span>
+                  ))}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </article>
+
+          {article.meta?.description && (
+            <p className={styles.subtitle}>{article.meta.description}</p>
+          )}
+
+          <div className={styles.content}>
+            <SafeHtml 
+              html={article.content || ''} 
+              variant="full"
+              className={styles.htmlContent}
+              maxLength={10000}
+            />
+          </div>
+
+          {article.lienPodcast && (
+            <div>
+              <h4 className={styles.podcastTitle}>🎧 Podcast</h4>
+              <AudioPlayer 
+                src={article.lienPodcast} 
+                title={`Podcast - ${article.title}`}
+              />
+            </div>
+          )}
+        </div>
+
+        <ArticleRecommendations currentArticle={article} />
       </main>
+    </div>
   );
 }

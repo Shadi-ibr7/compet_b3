@@ -1,10 +1,15 @@
 'use client';
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import type { IMentor } from "@/types/interfaces/mentor.interface";
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
+import type { IMentorRating, IRatingEligibility } from "@/types/interfaces/rating.interface";
+import { getMentorRating, checkRatingEligibility } from "@/lib/ratingService";
 import JobCard from "@/components/annonces/JobCard";
+import RatingDisplay from "@/components/rating/RatingDisplay";
+import RatingForm from "@/components/rating/RatingForm";
 import styles from "./MentorDetail.module.css";
 
 interface MentorDetailProps {
@@ -13,20 +18,44 @@ interface MentorDetailProps {
 }
 
 const MentorDetail = ({ mentor, annonces }: MentorDetailProps) => {
+  const { data: session } = useSession();
+  const [mentorRating, setMentorRating] = useState<IMentorRating | null>(null);
+  const [eligibility, setEligibility] = useState<IRatingEligibility | null>(null);
+  const [showRatingForm, setShowRatingForm] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (mentor.id) {
+        const rating = await getMentorRating(mentor.id);
+        setMentorRating(rating);
+
+        // Vérifier éligibilité si utilisateur connecté
+        if (session?.user?.id && session.user.role === 'molt') {
+          const eligible = await checkRatingEligibility(session.user.id, mentor.id);
+          setEligibility(eligible);
+        }
+      }
+    };
+    fetchData();
+  }, [mentor.id, session?.user?.id, session?.user?.role]);
+
+  const handleRatingSuccess = async () => {
+    setShowRatingForm(false);
+    // Recharger les données
+    if (mentor.id) {
+      const rating = await getMentorRating(mentor.id);
+      setMentorRating(rating);
+      
+      if (session?.user?.id) {
+        const eligible = await checkRatingEligibility(session.user.id, mentor.id);
+        setEligibility(eligible);
+      }
+    }
+  };
+
   if (!mentor) return null;
 
   const altText = `Photo de ${mentor.nom || 'Mentor'}, ${mentor.job || 'Profession non renseignée'}`;
-
-  const renderStars = (note: number = 0) => {
-    const fullStars = Math.floor(note);
-    const hasHalfStar = note % 1 !== 0;
-    
-    return (
-      <div className={styles.stars}>
-        {'★'.repeat(fullStars)}{hasHalfStar ? '☆' : ''}
-      </div>
-    );
-  };
 
   return (
     <div className={styles.container}>
@@ -52,12 +81,14 @@ const MentorDetail = ({ mentor, annonces }: MentorDetailProps) => {
                 <Image src="/Union.svg" alt="Localisation" width={16} height={20} /> 
                 <span>{mentor.localisation || 'Localisation non renseignée'}</span>
               </div>
-              {mentor.note && mentor.note > 0 && (
-                <div className={styles.mentorRating}>
-                  {renderStars(mentor.note)}
-                  <span className={styles.ratingText}>({mentor.note}/5)</span>
-                </div>
-              )}
+              <div className={styles.mentorRating}>
+                <RatingDisplay 
+                  averageRating={mentorRating?.averageRating || null}
+                  totalRatings={mentorRating?.totalRatings || 0}
+                  showText={true}
+                  size="medium"
+                />
+              </div>
             </div>
           </div>
           
@@ -66,6 +97,76 @@ const MentorDetail = ({ mentor, annonces }: MentorDetailProps) => {
             <p className={styles.description}>
               {mentor.description || 'Description non renseignée'}
             </p>
+          </div>
+
+          {/* Section Notation */}
+          <div className={styles.ratingSection}>
+            <h2 className={styles.sectionTitle}>Avis et notes</h2>
+            
+            {mentorRating && mentorRating.totalRatings > 0 ? (
+              <div className={styles.ratingsOverview}>
+                <div className={styles.ratingsSummary}>
+                  <RatingDisplay 
+                    averageRating={mentorRating.averageRating}
+                    totalRatings={mentorRating.totalRatings}
+                    showText={true}
+                    size="large"
+                  />
+                </div>
+                
+                {mentorRating.ratings.slice(0, 3).map((rating) => (
+                  <div key={rating.id} className={styles.ratingItem}>
+                    <div className={styles.ratingHeader}>
+                      <RatingDisplay 
+                        averageRating={rating.rating}
+                        totalRatings={1}
+                        showText={false}
+                        size="small"
+                      />
+                      <span className={styles.ratingDate}>
+                        {new Date(rating.dateCreated).toLocaleDateString('fr-FR')}
+                      </span>
+                    </div>
+                    {rating.comment && (
+                      <p className={styles.ratingComment}>{rating.comment}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className={styles.noRatings}>Ce mentor n'a pas encore reçu d'avis.</p>
+            )}
+
+            {/* Bouton/Formulaire de notation */}
+            {eligibility?.canRate && !showRatingForm && (
+              <button 
+                onClick={() => setShowRatingForm(true)}
+                className={styles.rateButton}
+              >
+                Noter ce mentor
+              </button>
+            )}
+
+            {eligibility?.hasAlreadyRated && (
+              <p className={styles.alreadyRated}>
+                Vous avez déjà noté ce mentor
+              </p>
+            )}
+
+            {!eligibility?.canRate && !eligibility?.hasAlreadyRated && eligibility?.reason && (
+              <p className={styles.cannotRate}>
+                {eligibility.reason}
+              </p>
+            )}
+
+            {showRatingForm && (
+              <RatingForm 
+                mentorId={mentor.id!}
+                mentorName={mentor.nom}
+                onSuccess={handleRatingSuccess}
+                onCancel={() => setShowRatingForm(false)}
+              />
+            )}
           </div>
 
         </div>

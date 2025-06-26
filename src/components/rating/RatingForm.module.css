@@ -1,0 +1,185 @@
+.formContainer {
+  background-color: #ffffff;
+  border: 1px solid #BEF9DE;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(6, 16, 74, 0.1);
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  color: #06104A;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  color: #666666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ratingSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  color: #06104A;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.starsContainer {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.1s ease;
+  padding: 4px;
+  line-height: 1;
+}
+
+.star:hover {
+  transform: scale(1.1);
+}
+
+.starActive {
+  color: #ffd700;
+}
+
+.starInactive {
+  color: #e0e0e0;
+}
+
+.ratingText {
+  color: #06104A;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.commentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #BEF9DE;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.2s ease;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #06104A;
+  box-shadow: 0 0 0 2px rgba(6, 16, 74, 0.1);
+}
+
+.charCount {
+  color: #666666;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+.error {
+  background-color: #ffe6e6;
+  color: #d63031;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ff9999;
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.cancelButton {
+  background-color: #ffffff;
+  color: #06104A;
+  border: 1px solid #06104A;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: #f8f9fa;
+}
+
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #06104A, #BEF9DE);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(6, 16, 74, 0.2);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .formContainer {
+    padding: 20px;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+}

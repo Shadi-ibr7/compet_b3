@@ -1,8 +1,12 @@
-import React from "react";
+'use client';
+import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 import styles from "@/styles/HeroSection.module.css";
 
 const HeroSection = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
   return (
     <section className={styles.hero}>
       <div className={styles.heroContent}>
@@ -34,10 +38,26 @@ const HeroSection = () => {
             type="text"
             placeholder="Rechercher une annonce par domaine"
             className={styles.texte}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter' && searchQuery.trim()) {
+                router.push(`/annonces?search=${encodeURIComponent(searchQuery.trim())}`);
+              }
+            }}
           />
         </div>
 
-        <button className={styles.trouverMonMentor}>
+        <button 
+          className={styles.trouverMonMentor}
+          onClick={() => {
+            if (searchQuery.trim()) {
+              router.push(`/annonces?search=${encodeURIComponent(searchQuery.trim())}`);
+            } else {
+              router.push('/annonces');
+            }
+          }}
+        >
           Trouver une annonce
         </button>
 

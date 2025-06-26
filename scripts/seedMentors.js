@@ -26,9 +26,8 @@ const sampleMentors = [
     description: 'Passionnée par les produits du terroir, je vous aide à créer votre épicerie fine. 15 ans d\'expérience dans la sélection de produits artisanaux et l\'accompagnement client personnalisé.',
     role: 'mentor',
     name: 'Sophie Martin',
-    number: '+33 6 12 34 56 78',
+    email: 'sophie.martin@epicerie-terroir.fr',
     dateCreation: new Date(),
-    note: 4.8,
     linkPhoto: '/image2.png'
   },
   {
@@ -39,9 +38,8 @@ const sampleMentors = [
     description: 'Maître boulanger depuis 20 ans, je forme les futurs artisans boulangers. Spécialisé dans les pains biologiques et les techniques traditionnelles. Je vous accompagne dans la création de votre boulangerie.',
     role: 'mentor',
     name: 'Paul Dubois',
-    number: '+33 6 23 45 67 89',
+    email: 'paul.dubois@boulangerie-artisanale.fr',
     dateCreation: new Date(),
-    note: 4.9,
     linkPhoto: '/image2.png'
   },
   {
@@ -52,9 +50,8 @@ const sampleMentors = [
     description: 'Créatrice florale et coach en entrepreneuriat, j\'aide les passionnés de fleurs à lancer leur activité. Expertise en création de bouquets sur-mesure et développement commercial local.',
     role: 'mentor',
     name: 'Marie Leroy',
-    number: '+33 6 34 56 78 90',
+    email: 'marie.leroy@fleurs-creation.fr',
     dateCreation: new Date(),
-    note: 4.7,
     linkPhoto: '/image2.png'
   }
 ];

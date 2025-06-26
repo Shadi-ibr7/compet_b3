@@ -780,4 +780,379 @@
 .cancelButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Styles pour les expériences */
+.experienceCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #e9ecef;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.experienceCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.experienceHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.experienceIcon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: #f0f8ff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e6f3ff;
+}
+
+.experienceContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.experienceTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #06104A;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.experienceSubtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 4px 0;
+}
+
+.experienceDate {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+  font-weight: 500;
+}
+
+.experienceActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.experienceEditButton, .experienceDeleteButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.experienceEditButton:hover {
+  background: #f0f8ff;
+  border-color: #06104A;
+}
+
+.experienceDeleteButton:hover {
+  background: #fef2f2;
+  border-color: #dc2626;
+}
+
+.experienceDeleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.experiencesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 16px;
+}
+
+.addExperienceButton {
+  width: 100%;
+  padding: 16px;
+  border: 2px dashed #e9ecef;
+  border-radius: 8px;
+  background: none;
+  color: #06104A;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.addExperienceButton:hover {
+  border-color: #BEF9DE;
+  background: rgba(190, 249, 222, 0.05);
+}
+
+.emptyExperiences {
+  text-align: center;
+  padding: 32px 16px;
+  color: #666;
+}
+
+.emptyExperiences p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modalContent h3 {
+  color: #06104A;
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modalContent p {
+  color: #666;
+  margin: 0 0 20px 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.confirmDeleteButton {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.confirmDeleteButton:hover {
+  background-color: #b91c1c;
+}
+
+.confirmDeleteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Styles LinkedIn */
+.linkedinLink {
+  color: #0077B5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.linkedinLink:hover {
+  text-decoration: underline;
+}
+
+.linkedinEmpty {
+  color: #999;
+  font-style: italic;
+}
+
+/* Styles pour l'upload de photo */
+.photoUploadContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.photoUploadOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.photoUploadContainer:hover .photoUploadOverlay {
+  opacity: 1;
+}
+
+.photoUploadIcon {
+  color: white;
+  font-size: 24px;
+}
+
+.photoUploadButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.photoPreview {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 2px solid #BEF9DE;
+}
+
+.photoUploadSection {
+  margin-bottom: 16px;
+}
+
+.photoUploadZone {
+  border: 2px dashed #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.photoUploadZone:hover {
+  border-color: #BEF9DE;
+  background: rgba(190, 249, 222, 0.05);
+}
+
+.photoUploadZone.dragActive {
+  border-color: #BEF9DE;
+  background: rgba(190, 249, 222, 0.1);
+}
+
+.photoUploadContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+}
+
+.photoUploadText {
+  font-size: 14px;
+  margin: 0;
+}
+
+.photoUploadSubtext {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* Styles pour la date de création */
+.creationDate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #06104A;
+  opacity: 0.7;
+}
+
+.creationDate span:first-child {
+  font-size: 14px;
+}
+
+/* Styles pour la section premium */
+.premiumCard {
+  background: linear-gradient(135deg, #BEF9DE 0%, #E8F9F0 100%);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #BEF9DE;
+  margin-top: 16px;
+}
+
+.premiumContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.premiumIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.premiumText h4 {
+  font-size: 16px;
+  color: #06104A;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.premiumText p {
+  font-size: 14px;
+  color: #06104A;
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.upgradeButton {
+  width: 100%;
+  background-color: #06104A;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upgradeButton:hover {
+  background-color: #051B5E;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(6, 16, 74, 0.2);
 } 

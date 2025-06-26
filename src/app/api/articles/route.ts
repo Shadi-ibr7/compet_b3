@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllArticles, createArticle } from '@/lib/articles';
 import { IArticle } from '@/types/interfaces/article.interface';
+import { securityMiddleware } from '@/lib/middleware/security';
 
 export async function GET() {
   try {
@@ -16,24 +17,32 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json();
-    
-    // Validate required fields
-    if (!body.title || !body.auteur || !body.date || !body.meta) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
-    }
+  return securityMiddleware(
+    request,
+    async (req: NextRequest, sanitizedBody?: Record<string, unknown>) => {
+      try {
+        // Validate required fields
+        if (!sanitizedBody?.title || !sanitizedBody?.auteur || !sanitizedBody?.date || !sanitizedBody?.meta) {
+          return NextResponse.json(
+            { error: 'Missing required fields' },
+            { status: 400 }
+          );
+        }
 
-    const article = await createArticle(body as Omit<IArticle, 'id'>);
-    return NextResponse.json(article, { status: 201 });
-  } catch (error) {
-    console.error('Error creating article:', error);
-    return NextResponse.json(
-      { error: 'Failed to create article' },
-      { status: 500 }
-    );
-  }
+        const article = await createArticle(sanitizedBody as Omit<IArticle, 'id'>);
+        return NextResponse.json(article, { status: 201 });
+      } catch (error) {
+        console.error('Error creating article:', error);
+        return NextResponse.json(
+          { error: 'Failed to create article' },
+          { status: 500 }
+        );
+      }
+    },
+    {
+      requireAuth: true,
+      allowedRoles: ['admin'],
+      variant: 'full' // Articles peuvent avoir plus de formatage
+    }
+  );
 }

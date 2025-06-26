@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import AdminArticlesSection from './AdminArticlesSection';
 import styles from '@/styles/AdminDashboard.module.css';
 
 export default function AdminDashboard() {
@@ -50,22 +51,6 @@ export default function AdminDashboard() {
           </div>
         </div>
         <div className={styles.grid}>
-          {/* Section Articles */}
-          <div className={styles.section}>
-            <div className={styles.sectionHeader}>
-              <h2>Gestion des Articles</h2>
-              <button 
-                onClick={() => router.push('/articles/new')}
-                className={styles.addButton}
-              >
-                Nouvel Article
-              </button>
-            </div>
-            <p className={styles.description}>
-              Créez et gérez les articles du blog Molty
-            </p>
-          </div>
-
           {/* Section Utilisateurs */}
           <div className={styles.section}>
             <div className={styles.sectionHeader}>
@@ -73,16 +58,6 @@ export default function AdminDashboard() {
             </div>
             <p className={styles.description}>
               Gérez les comptes utilisateurs et leurs rôles
-            </p>
-          </div>
-
-          {/* Section Annonces */}
-          <div className={styles.section}>
-            <div className={styles.sectionHeader}>
-              <h2>Gestion des Annonces</h2>
-            </div>
-            <p className={styles.description}>
-              Modérez les annonces de mentorat
             </p>
           </div>
 
@@ -96,6 +71,9 @@ export default function AdminDashboard() {
             </p>
           </div>
         </div>
+
+        {/* Section Articles agrandie */}
+        <AdminArticlesSection />
       </main>
     </div>
   );

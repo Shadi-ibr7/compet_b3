@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { adminStorage } from '@/lib/firebase-admin';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth/credentials-config';
 
 export async function POST(request: Request) {
   try {
