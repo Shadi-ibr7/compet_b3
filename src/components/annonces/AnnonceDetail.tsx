@@ -296,10 +296,6 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
                   <Image src="/Vector.svg" alt="" width={16} height={16} />
                   Partager
                 </button>
-                <button className={styles.saveButton}>
-                  <Image src="/BookmarkMobile.svg" alt="" width={16} height={16} />
-                  Sauvegarder
-                </button>
               </div>
             </div>
           </div>

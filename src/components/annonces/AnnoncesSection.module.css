@@ -267,29 +267,6 @@
   transform: scale(1.05);
 }
 
-.bookmarkBtn {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(254, 255, 243, 0.95);
-  border: none;
-  padding: 8px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 2;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-.bookmarkBtn:hover {
-  background: #bef9de;
-  transform: scale(1.1);
-}
 
 .cardContent {
   width: 100%;

@@ -126,16 +126,6 @@
 .ellipseParent {
   display: none;
 }
-.favoriteButton {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 3;
-}
 .starIcon {
   width: 24px;
   height: 24px;
@@ -552,15 +542,6 @@
   margin: 0;
 }
 
-.bookmarkMobile {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
 
 .ellipseParent {
   display: none;
@@ -647,12 +628,6 @@
   }
   .cardContent {
     gap: 8px;
-  }
-  .bookmarkMobile {
-    top: 330px;
-    right: 12px;
-    width: 32px;
-    height: 32px;
   }
   .cardTitle, .cardJob, .cardDesc {
     margin-bottom: 6px;

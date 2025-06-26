@@ -187,7 +187,7 @@
   border-top: 1px solid #f0f0f0;
 }
 
-.shareButton, .saveButton {
+.shareButton {
   background: #f8f9fa;
   color: #06104a;
   border: 1px solid #e9ecef;
@@ -203,7 +203,7 @@
   transition: all 0.2s ease;
 }
 
-.shareButton:hover, .saveButton:hover {
+.shareButton:hover {
   background: #06104a;
   color: white;
   transform: translateY(-1px);

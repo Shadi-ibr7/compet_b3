@@ -86,9 +86,6 @@ const JobCard = ({ job, annonce }: JobCardProps) => {
             <Image className={styles.unionIcon} width={13} height={16} alt="Localisation" src="/Union.svg" /> 
             <span className={styles.cardInfoText}>{displayData.location}</span>
           </div>
-          <button className={styles.bookmarkBtn} aria-label="Ajouter aux favoris">
-            <Image src="/BookmarkMobile.svg" alt="Bookmark" width={24} height={24} />
-          </button>
         </div>
         <button className={styles.cardButton}>Postuler</button>
       </div>
