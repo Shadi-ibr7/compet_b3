@@ -33,9 +33,6 @@ export default function ArticleCard({ article }: { article: IArticle }) {
           {formattedDate}
         </div>
       </div>
-      <button className={styles.bookmarkBtn} aria-label="Ajouter aux favoris">
-        <Image src="/BookmarkMobile.svg" alt="Bookmark" width={20} height={20} />
-      </button>
     </div>
   );
 } 

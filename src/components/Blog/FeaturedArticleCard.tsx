@@ -27,9 +27,6 @@ export default function FeaturedArticleCard({ article }: { article: IArticle }) 
           priority
         />
       </div>
-      <button className={styles.bookmarkBtn} aria-label="Ajouter aux favoris">
-        <Image src="/BookmarkMobile.svg" alt="Bookmark" width={20} height={20} />
-      </button>
       <div className={styles.featuredContent}>
         <h2 className={styles.featuredTitle}>{article.title}</h2>
         {article.meta?.description && (

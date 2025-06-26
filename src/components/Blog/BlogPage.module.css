@@ -205,6 +205,20 @@
   margin: 0 auto 40px auto;
 }
 
+.searchInputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
 .searchBar {
   width: 100%;
   border-radius: 12px;
@@ -213,7 +227,7 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
   color: #06104a;
-  padding: 16px 20px;
+  padding: 16px 20px 16px 50px;
   outline: none;
   box-sizing: border-box;
   transition: all 0.3s ease;
@@ -224,6 +238,79 @@
   border-color: #3ec28f;
   box-shadow: 0 4px 16px rgba(6, 16, 74, 0.15);
   transform: translateY(-1px);
+}
+
+.clearButton {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #7b7b7b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.clearButton:hover {
+  background: #f0f0f0;
+  color: #06104a;
+}
+
+.searchResults {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  color: #7b7b7b;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.noResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+}
+
+.noResultsTitle {
+  font-family: 'AconchegoTextTest', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #06104a;
+  margin: 0 0 16px 0;
+}
+
+.noResultsText {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #7b7b7b;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.clearSearchBtn {
+  background: #06104a;
+  color: #fefff3;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(6, 16, 74, 0.2);
+}
+
+.clearSearchBtn:hover {
+  background: #3ec28f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(6, 16, 74, 0.3);
 }
 
 .sectionTitle {
@@ -457,8 +544,16 @@
   }
   
   .searchBar {
-    padding: 14px 16px;
+    padding: 14px 16px 14px 46px;
     font-size: 15px;
+  }
+  
+  .searchIcon {
+    left: 14px;
+  }
+  
+  .clearButton {
+    right: 14px;
   }
   
   .sectionTitle {
@@ -514,8 +609,16 @@
   }
   
   .searchBar {
-    padding: 12px 14px;
+    padding: 12px 14px 12px 44px;
     font-size: 14px;
+  }
+  
+  .searchIcon {
+    left: 12px;
+  }
+  
+  .clearButton {
+    right: 12px;
   }
   
   .sectionTitle {
