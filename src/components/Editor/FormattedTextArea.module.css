@@ -1,0 +1,172 @@
+.container {
+  width: 100%;
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  background: white;
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.toolbarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #06104a;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.toolbarButton:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.toolbarButton:active,
+.toolbarButton.active {
+  background: #06104a;
+  color: white;
+  border-color: #06104a;
+}
+
+.separator {
+  width: 1px;
+  height: 24px;
+  background: #ddd;
+  margin: 0 4px;
+}
+
+
+.editor {
+  width: 100%;
+  min-height: 150px;
+  max-height: 400px;
+  padding: 16px;
+  border: none;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #06104a;
+  background: white;
+  overflow-y: auto;
+  outline: none;
+  white-space: pre-wrap; /* Préserve les espaces et retours à la ligne */
+  word-wrap: break-word; /* Évite le débordement horizontal */
+}
+
+.editor:focus {
+  outline: none;
+}
+
+.editor:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  font-style: italic;
+  pointer-events: none;
+}
+
+/* Styles pour le contenu formaté */
+.editor p {
+  margin-bottom: 1rem;
+  color: #06104a;
+}
+
+.editor h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #06104a;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.editor h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #06104a;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.editor strong, .editor b {
+  font-weight: 600;
+  color: #06104a;
+}
+
+.editor em, .editor i {
+  font-style: italic;
+  color: #06104a;
+}
+
+.editor ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+  color: #06104a;
+}
+
+.editor li {
+  margin-bottom: 0.5rem;
+  color: #06104a;
+}
+
+.editor br {
+  line-height: 1.5;
+}
+
+.editor a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.editor a:hover {
+  color: #0056b3;
+}
+
+
+.help {
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-top: 1px solid #e1e5e9;
+  color: #666;
+  font-size: 12px;
+}
+
+/* États désactivés */
+.container:has(.textarea[readonly]) .toolbar {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .toolbar {
+    padding: 6px 8px;
+  }
+  
+  .toolbarButton {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+  
+  .textarea {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .preview {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

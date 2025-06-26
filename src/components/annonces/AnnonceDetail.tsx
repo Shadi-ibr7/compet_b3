@@ -3,10 +3,15 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { sendApplicationEmail, isEmailJSConfigured } from "@/lib/emailService";
+import { sendApplicationEmail, isEmailJSConfigured, checkApplicationExists } from "@/lib/emailService";
+import { getMentorRating } from "@/lib/ratingService";
 import type { IAnnonce } from "@/types/interfaces/annonce.interface";
 import type { IMentor } from "@/types/interfaces/mentor.interface";
 import type { IMolt } from "@/types/interfaces/molt.interface";
+import type { IMentorRating } from "@/types/interfaces/rating.interface";
+import RatingDisplay from "@/components/rating/RatingDisplay";
+import SafeHtml from "@/components/Security/SafeHtml";
+import { sanitizeTextMessage } from "@/lib/security";
 import styles from "./AnnonceDetail.module.css";
 
 interface AnnonceDetailProps {
@@ -20,6 +25,10 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
   const [isLoadingPaidStatus, setIsLoadingPaidStatus] = useState(false);
   const [isApplying, setIsApplying] = useState(false);
   const [applicationMessage, setApplicationMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
+  const [customMessage, setCustomMessage] = useState('');
+  const [hasApplied, setHasApplied] = useState(false);
+  const [isCheckingApplication, setIsCheckingApplication] = useState(false);
+  const [mentorRating, setMentorRating] = useState<IMentorRating | null>(null);
 
   // Récupérer le profil Molt pour vérifier le statut paid
   useEffect(() => {
@@ -43,6 +52,40 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
     fetchMoltProfile();
   }, [session?.user?.id, session?.user?.role]);
 
+  // Vérifier si l'utilisateur a déjà postulé
+  useEffect(() => {
+    const checkExistingApplication = async () => {
+      if (!session?.user?.id || !annonce.id || session.user.role !== 'molt') {
+        return;
+      }
+
+      setIsCheckingApplication(true);
+      try {
+        const applied = await checkApplicationExists(session.user.id, annonce.id);
+        setHasApplied(applied);
+      } catch (error) {
+        console.error('Erreur lors de la vérification de candidature:', error);
+        // En cas d'erreur, on n'affiche pas hasApplied pour ne pas bloquer
+      } finally {
+        setIsCheckingApplication(false);
+      }
+    };
+
+    checkExistingApplication();
+  }, [session?.user?.id, annonce.id, session?.user?.role]);
+
+  // Récupérer la note du mentor
+  useEffect(() => {
+    const fetchMentorRating = async () => {
+      if (mentor?.id) {
+        const rating = await getMentorRating(mentor.id);
+        setMentorRating(rating);
+      }
+    };
+
+    fetchMentorRating();
+  }, [mentor?.id]);
+
   // Format date
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('fr-FR', {
@@ -54,7 +97,7 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
 
   // Logic for application authorization
   const getApplicationStatus = () => {
-    if (status === 'loading' || isLoadingPaidStatus) {
+    if (status === 'loading' || isLoadingPaidStatus || isCheckingApplication) {
       return { canApply: false, message: 'Chargement...', type: 'loading' };
     }
 
@@ -73,6 +116,15 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
         message: 'Devenez membre Molt pour accéder aux opportunités', 
         type: 'upgrade',
         action: '/auth/signup'
+      };
+    }
+
+    // Vérifier si l'utilisateur a déjà postulé
+    if (hasApplied) {
+      return { 
+        canApply: false, 
+        message: 'Candidature déjà envoyée ✓', 
+        type: 'already-applied' 
       };
     }
 
@@ -133,13 +185,16 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
 
     try {
       console.log('📤 Appel de sendApplicationEmail...');
-      await sendApplicationEmail(moltProfile, annonce, mentor);
+      await sendApplicationEmail(moltProfile, annonce, mentor, customMessage, session?.user?.id);
       
       console.log('✅ Email envoyé avec succès depuis le composant');
       setApplicationMessage({
         type: 'success',
         text: 'Candidature envoyée avec succès ! Le mentor recevra votre profil par email.'
       });
+
+      // Marquer comme déjà postulé
+      setHasApplied(true);
 
       // Masquer le message de succès après 5 secondes
       setTimeout(() => {
@@ -209,18 +264,26 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
           
           <div className={styles.annonceDescription}>
             <h2 className={styles.sectionTitle}>Description du poste</h2>
-            <p className={styles.description}>
-              {annonce.description}
-            </p>
+            <div className={styles.description}>
+              <SafeHtml 
+                html={annonce.description || ''} 
+                variant="basic"
+                className={styles.htmlContent}
+              />
+            </div>
           </div>
 
           {/* Section Ce que je propose - Conditionnelle */}
           {annonce.ceQueJePropose && annonce.ceQueJePropose.trim() && (
             <div className={styles.annonceDescription}>
               <h2 className={styles.sectionTitle}>Ce que je propose</h2>
-              <p className={styles.description}>
-                {annonce.ceQueJePropose}
-              </p>
+              <div className={styles.description}>
+                <SafeHtml 
+                  html={annonce.ceQueJePropose || ''} 
+                  variant="basic"
+                  className={styles.htmlContent}
+                />
+              </div>
             </div>
           )}
 
@@ -228,9 +291,13 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
           {annonce.profilRecherche && annonce.profilRecherche.trim() && (
             <div className={styles.annonceDescription}>
               <h2 className={styles.sectionTitle}>Profil recherché</h2>
-              <p className={styles.description}>
-                {annonce.profilRecherche}
-              </p>
+              <div className={styles.description}>
+                <SafeHtml 
+                  html={annonce.profilRecherche || ''} 
+                  variant="basic"
+                  className={styles.htmlContent}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -261,11 +328,14 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
                     <Image src="/Union.svg" alt="Localisation" width={12} height={14} />
                     <span>{mentor.localisation}</span>
                   </div>
-                  {mentor.note && mentor.note > 0 && (
-                    <div className={styles.mentorRating}>
-                      {'★'.repeat(Math.floor(mentor.note))} ({mentor.note}/5)
-                    </div>
-                  )}
+                  <div className={styles.mentorRating}>
+                    <RatingDisplay 
+                      averageRating={mentorRating?.averageRating || null}
+                      totalRatings={mentorRating?.totalRatings || 0}
+                      showText={true}
+                      size="small"
+                    />
+                  </div>
                 </div>
               </Link>
               <div className={styles.mentorDescription}>
@@ -301,10 +371,44 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
               </div>
             )}
 
+            {/* Textarea pour message personnalisé - seulement pour les Molts Premium */}
+            {applicationStatus.canApply && moltProfile?.paid && (
+              <div className={styles.messageSection}>
+                <label htmlFor="customMessage" className={styles.messageLabel}>
+                  💬 Message personnalisé (optionnel)
+                </label>
+                <textarea
+                  id="customMessage"
+                  className={styles.messageTextarea}
+                  value={customMessage}
+                  onChange={(e) => {
+                    try {
+                      const sanitizedMessage = sanitizeTextMessage(e.target.value, true);
+                      setCustomMessage(sanitizedMessage);
+                    } catch (error) {
+                      console.warn('Message trop long, troncature appliquée');
+                      const truncated = e.target.value.substring(0, 500);
+                      setCustomMessage(sanitizeTextMessage(truncated, true));
+                    }
+                  }}
+                  placeholder="Ajoutez un message personnalisé pour vous présenter..."
+                  rows={4}
+                  maxLength={500}
+                />
+                <div className={styles.characterCount}>
+                  {customMessage.length}/500 caractères
+                </div>
+              </div>
+            )}
+
             <button 
-              className={`${styles.applicationButton} ${applicationStatus.canApply ? styles.enabled : styles.disabled}`}
+              className={`${styles.applicationButton} ${
+                applicationStatus.canApply ? styles.enabled : 
+                applicationStatus.type === 'already-applied' ? styles.alreadyApplied : 
+                styles.disabled
+              }`}
               onClick={handleApplication}
-              disabled={applicationStatus.type === 'loading' || isApplying}
+              disabled={applicationStatus.type === 'loading' || isApplying || applicationStatus.type === 'already-applied'}
             >
               {applicationStatus.type === 'loading' || isApplying ? (
                 isApplying ? 'Envoi en cours...' : 'Chargement...'
@@ -313,6 +417,8 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
                   <Image src="/Vector.svg" alt="Postuler" width={20} height={20} />
                   Postuler maintenant
                 </>
+              ) : applicationStatus.type === 'already-applied' ? (
+                'Candidature envoyée'
               ) : applicationStatus.type === 'login' ? (
                 'Se connecter'
               ) : applicationStatus.type === 'upgrade' ? (

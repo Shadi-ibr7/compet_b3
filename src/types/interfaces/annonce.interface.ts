@@ -1,7 +1,9 @@
+import { AnnonceType } from '@/types/enums/annonce-types.enum';
+
 export interface IAnnonce {
   id?: string;
   date: Date;
-  type: string;
+  type: AnnonceType | string; // Support des anciens types en string pour compatibilité
   nomEtablissement: string;
   nomMetier: string;
   description: string;

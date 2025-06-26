@@ -1,11 +1,194 @@
-.main {
+.container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 32px 24px;
   background: #fefff3 !important;
   min-height: 100vh;
+  position: relative;
+  font-family: 'Montserrat', sans-serif;
 }
+
+.main {
+  padding: 20px;
+  position: relative;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.section {
+  background: #FEFFF3;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.profileCard {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.profileInfo h2 {
+  font-size: 20px;
+  color: #06104A;
+  margin: 0 0 8px 0;
+}
+
+.jobTitle {
+  font-size: 14px;
+  color: #06104A;
+  opacity: 0.5;
+  margin: 0 0 12px 0;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #06104A;
+  opacity: 0.5;
+  font-size: 14px;
+}
+
+.tagSimple {
+  background: none;
+  color: #06104A;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #06104A;
+  opacity: 0.5;
+  margin: 0 0 16px 0;
+}
+
+.content {
+  font-size: 14px;
+  color: #000000;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Rich text content styling */
+.content h1,
+.content h2,
+.content h3 {
+  margin: 1.5rem 0 1rem 0;
+  font-weight: 600;
+  color: #06104a;
+}
+
+.content h1 {
+  font-size: 1.5rem;
+}
+
+.content h2 {
+  font-size: 1.25rem;
+}
+
+.content h3 {
+  font-size: 1.1rem;
+}
+
+.content p {
+  margin-bottom: 1rem;
+}
+
+.content strong {
+  font-weight: 600;
+}
+
+.content em {
+  font-style: italic;
+}
+
+.content ul,
+.content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.content li {
+  margin-bottom: 0.5rem;
+}
+
+.content a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.content a:hover {
+  color: #0056b3;
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #000000;
+}
+
+.infoItem span, .infoItem p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.linkedinLink {
+  color: #0077B5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.linkedinLink:hover {
+  text-decoration: underline;
+}
+
+.podcastTitle {
+  font-size: 16px;
+  color: #06104A;
+  margin: 20px 0 12px 0;
+  font-weight: 600;
+}
+
+.simpleAudioPlayer {
+  margin: 16px 0;
+}
+
+.audioControls {
+  width: 100%;
+  outline: none;
+}
+
 
 .title {
   font-family: 'Montserrat', sans-serif;

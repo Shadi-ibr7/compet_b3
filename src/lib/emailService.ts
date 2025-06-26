@@ -13,6 +13,7 @@ export interface EmailParams extends Record<string, unknown> {
   to_name: string;
   from_name: string;
   molt_name: string;
+  molt_initial: string;
   molt_email: string;
   molt_city: string;
   molt_job_title: string;
@@ -25,6 +26,42 @@ export interface EmailParams extends Record<string, unknown> {
   annonce_description: string;
   application_date: string;
   subject: string;
+  custom_message?: string;
+}
+
+/**
+ * Enregistre une candidature en base de données
+ * @param moltId - ID du Molt candidat
+ * @param annonceId - ID de l'annonce
+ * @param mentorId - ID du mentor
+ * @param customMessage - Message personnalisé optionnel
+ * @returns Promise<string> - ID de la candidature créée
+ */
+async function recordApplication(
+  moltId: string,
+  annonceId: string,
+  mentorId: string,
+  customMessage?: string
+): Promise<string> {
+  const response = await fetch('/api/applications', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      annonceId,
+      mentorId,
+      customMessage,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Erreur lors de l\'enregistrement de la candidature');
+  }
+
+  const data = await response.json();
+  return data.application.id;
 }
 
 /**
@@ -32,12 +69,16 @@ export interface EmailParams extends Record<string, unknown> {
  * @param moltProfile - Profil du Molt qui postule
  * @param annonce - Annonce pour laquelle le Molt postule
  * @param mentor - Mentor qui recevra l'email
+ * @param customMessage - Message personnalisé optionnel
+ * @param moltId - ID du Molt (de la session)
  * @returns Promise<boolean> - true si l'email a été envoyé avec succès
  */
 export async function sendApplicationEmail(
   moltProfile: IMolt,
   annonce: IAnnonce,
-  mentor: IMentor
+  mentor: IMentor,
+  customMessage?: string,
+  moltId?: string
 ): Promise<boolean> {
   try {
     console.log('📧 === DÉBUT ENVOI EMAIL ===');
@@ -76,6 +117,34 @@ export async function sendApplicationEmail(
 
     console.log('✅ Toutes les validations passées');
 
+    // Étape 1: Enregistrer la candidature en base de données
+    console.log('💾 Enregistrement de la candidature...');
+    
+    const effectiveMoltId = moltId || moltProfile.id;
+    if (!effectiveMoltId || !annonce.id) {
+      console.error('❌ IDs manquants:', { 
+        moltId: effectiveMoltId, 
+        annonceId: annonce.id,
+        moltProfileId: moltProfile.id,
+        sessionMoltId: moltId
+      });
+      throw new Error('IDs du Molt et de l\'annonce requis');
+    }
+
+    let applicationId: string;
+    try {
+      applicationId = await recordApplication(
+        effectiveMoltId,
+        annonce.id,
+        mentor.id || mentor.email, // Utiliser l'ID mentor ou email comme fallback
+        customMessage
+      );
+      console.log('✅ Candidature enregistrée avec ID:', applicationId);
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'enregistrement:', error);
+      throw new Error('Impossible d\'enregistrer la candidature: ' + (error as Error).message);
+    }
+
     // Formatage des expériences pour l'email
     const experiencesText = moltProfile.experiences && moltProfile.experiences.length > 0
       ? moltProfile.experiences.map(exp => {
@@ -92,6 +161,7 @@ export async function sendApplicationEmail(
       to_name: mentor.nom,
       from_name: moltProfile.name,
       molt_name: moltProfile.name,
+      molt_initial: moltProfile.name ? moltProfile.name.charAt(0).toUpperCase() : 'M',
       molt_email: moltProfile.email || 'Email non renseigné',
       molt_city: moltProfile.city || 'Ville non renseignée',
       molt_job_title: moltProfile.jobTitle || 'Poste non renseigné',
@@ -109,7 +179,8 @@ export async function sendApplicationEmail(
         hour: '2-digit',
         minute: '2-digit'
       }).format(new Date()),
-      subject: `🎯 Nouvelle candidature Molty : ${moltProfile.name} pour ${annonce.nomMetier} - ${annonce.nomEtablissement}`
+      subject: `🎯 Nouvelle candidature Molty : ${moltProfile.name} pour ${annonce.nomMetier} - ${annonce.nomEtablissement}`,
+      custom_message: customMessage && customMessage.trim() ? customMessage.trim() : "Aucun message personnalisé"
     };
 
     console.log('📤 Envoi de l\'email via EmailJS...');
@@ -137,6 +208,32 @@ export async function sendApplicationEmail(
   } catch (error) {
     console.error('Erreur lors de l\'envoi de l\'email:', error);
     throw error;
+  }
+}
+
+/**
+ * Vérifie si un Molt a déjà postulé à une annonce
+ * @param moltId - ID du Molt
+ * @param annonceId - ID de l'annonce
+ * @returns Promise<boolean> - true si candidature existe
+ */
+export async function checkApplicationExists(
+  moltId: string,
+  annonceId: string
+): Promise<boolean> {
+  try {
+    const response = await fetch(`/api/applications/check/${moltId}/${annonceId}`);
+    
+    if (!response.ok) {
+      console.error('Erreur lors de la vérification de candidature:', response.status);
+      return false; // En cas d'erreur, on autorise (fail-safe)
+    }
+
+    const data = await response.json();
+    return data.hasApplied;
+  } catch (error) {
+    console.error('Erreur lors de la vérification de candidature:', error);
+    return false; // En cas d'erreur, on autorise (fail-safe)
   }
 }
 

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from '@/styles/ArticleForm.module.css';
 import type { IArticle } from '@/types/interfaces/article.interface';
+import FormattedTextArea from '@/components/Editor/FormattedTextArea';
 
 interface ArticleFormProps {
   initialData?: IArticle;
@@ -135,12 +136,13 @@ export default function ArticleForm({ initialData, onSubmit }: ArticleFormProps)
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Contenu</label>
-            <textarea
+            <FormattedTextArea
               value={content}
-              onChange={(e) => setContent(e.target.value)}
-              rows={10}
-              className={styles.textarea}
-              placeholder="Contenu de l'article"
+              onChange={setContent}
+              placeholder="Rédigez le contenu de votre article..."
+              variant="full"
+              readOnly={isLoading}
+              fieldName="content"
             />
           </div>
 

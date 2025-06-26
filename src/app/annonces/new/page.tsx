@@ -106,12 +106,12 @@ export default function NewAnnoncePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-[#fefff3] py-8">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white shadow rounded-lg p-6">
           <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900">Créer votre annonce de mentorat</h1>
-            <p className="mt-2 text-gray-600">
+            <h1 className="text-2xl font-bold text-[#06104a]">Créer votre annonce de mentorat</h1>
+            <p className="mt-2 text-[#06104a] opacity-70">
               Partagez votre expertise et commencez à accompagner des élèves dans leur parcours.
             </p>
           </div>

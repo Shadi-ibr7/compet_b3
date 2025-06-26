@@ -52,7 +52,7 @@
                                 color: #FFFFFF;
                                 font-weight: bold;
                             ">
-                                {{molt_name.charAt(0).toUpperCase()}}
+                                {{molt_initial}}
                             </div>
                         </td>
                         <td style="vertical-align: top;">
@@ -88,6 +88,25 @@
                     color: #06104A;
                 ">
                     {{molt_motivation}}
+                </div>
+            </div>
+
+            <!-- Section message personnalisé -->
+            <div style="margin-bottom: 30px;">
+                <h3 style="color: #06104A; font-size: 16px; margin-bottom: 15px; font-weight: 600;">
+                    💬 Message personnalisé
+                </h3>
+                <div style="
+                    background: linear-gradient(135deg, #BEF9DE 0%, #E8F9F0 100%);
+                    border: 1px solid #BEF9DE;
+                    border-radius: 8px;
+                    padding: 20px;
+                    font-size: 14px;
+                    line-height: 1.6;
+                    color: #06104A;
+                    border-left: 4px solid #06104A;
+                ">
+                    {{custom_message}}
                 </div>
             </div>
 
@@ -210,6 +229,7 @@
         {{annonce_location}} - Localisation de l'annonce
         {{annonce_description}} - Description de l'annonce
         {{application_date}} - Date de candidature formatée
+        {{custom_message}} - Message personnalisé du candidat (optionnel)
         -->
     </div>
 

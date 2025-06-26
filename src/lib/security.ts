@@ -1,199 +1,217 @@
-// Configuration de sécurité stricte
-const SECURITY_CONFIG = {
-  ALLOWED_TAGS: [
-    'b', 'i', 'u', 'strong', 'em', 'p', 'br', 
-    'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
-  ],
+// Security utilities for XSS protection and content sanitization
+import DOMPurify from 'isomorphic-dompurify';
+
+// Configuration pour DOMPurify selon le type de contenu
+const BASIC_CONFIG = {
+  ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'b', 'i'],
   ALLOWED_ATTR: [],
-  ALLOW_DATA_ATTR: false,
-  ALLOW_UNKNOWN_PROTOCOLS: false,
-  SANITIZE_DOM: true,
   KEEP_CONTENT: true,
-  FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form', 'input'],
-  FORBID_ATTR: ['onclick', 'onload', 'onerror', 'onmouseover', 'style']
+  REMOVE_TAGS: ['script', 'style', 'iframe', 'object', 'embed'],
+  REMOVE_ATTR: ['onclick', 'onload', 'onerror', 'onmouseover', 'onfocus', 'onblur']
 };
 
-// Fonction pour sanitiser côté serveur (sans DOMPurify)
-function serverSanitize(html: string): string {
-  if (!html) return '';
-  
-  // Supprimer les balises dangereuses
-  let cleaned = html
-    .replace(/<script[^>]*>.*?<\/script>/gi, '')
-    .replace(/<iframe[^>]*>.*?<\/iframe>/gi, '')
-    .replace(/<object[^>]*>.*?<\/object>/gi, '')
-    .replace(/<embed[^>]*>.*?<\/embed>/gi, '')
-    .replace(/<form[^>]*>.*?<\/form>/gi, '')
-    .replace(/<input[^>]*>/gi, '')
-    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
-    .replace(/javascript:/gi, '')
-    .replace(/vbscript:/gi, '')
-    .replace(/data:(?!image)/gi, '');
-  
-  // Garder seulement les balises autorisées
-  const allowedTags = SECURITY_CONFIG.ALLOWED_TAGS.join('|');
-  const tagRegex = new RegExp(`<(?!\/?(?:${allowedTags})(?:\s|>))[^>]*>`, 'gi');
-  cleaned = cleaned.replace(tagRegex, '');
-  
-  return cleaned;
-}
-
-// Fonction pour sanitiser (utilise seulement la version serveur)
-function clientSanitize(html: string): string {
-  return serverSanitize(html);
-}
+const FULL_CONFIG = {
+  ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'b', 'i', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a'],
+  ALLOWED_ATTR: ['href', 'target', 'rel'],
+  KEEP_CONTENT: true,
+  REMOVE_TAGS: ['script', 'style', 'iframe', 'object', 'embed'],
+  REMOVE_ATTR: ['onclick', 'onload', 'onerror', 'onmouseover', 'onfocus', 'onblur']
+};
 
 /**
- * Nettoie et sécurise le contenu HTML
- * @param html - Le contenu HTML à nettoyer
- * @param maxLength - Longueur maximale autorisée (défaut: 5000)
- * @returns Le HTML nettoyé et sécurisé
+ * Sanitize HTML content using DOMPurify
  */
-export function sanitizeHtml(html: string, maxLength: number = 5000): string {
-  if (!html || typeof html !== 'string') {
+export function sanitizeHtml(content: string, variant: 'basic' | 'full' = 'basic'): string {
+  if (!content || typeof content !== 'string') {
     return '';
   }
 
-  // Vérifier la longueur
-  if (html.length > maxLength) {
-    throw new Error(`Le contenu dépasse la limite de ${maxLength} caractères`);
+  const config = variant === 'full' ? FULL_CONFIG : BASIC_CONFIG;
+  
+  try {
+    const cleaned = DOMPurify.sanitize(content, config);
+    
+    // Log potential security threats
+    if (cleaned !== content) {
+      console.warn('[SECURITY] HTML content was sanitized:', {
+        original: content.slice(0, 100) + '...',
+        cleaned: cleaned.slice(0, 100) + '...',
+        variant
+      });
+    }
+    
+    return cleaned;
+  } catch (error) {
+    console.error('[SECURITY] Error sanitizing HTML:', error);
+    return '';
+  }
+}
+
+/**
+ * Sanitize form field input based on field type
+ */
+export function sanitizeFormField(value: string, fieldType: string): string {
+  if (!value || typeof value !== 'string') {
+    return '';
   }
 
-  // Détection de patterns suspects
-  const suspiciousPatterns = [
+  // Character limits by field type
+  const limits: { [key: string]: number } = {
+    name: 100,
+    email: 150,
+    phone: 20,
+    city: 100,
+    address: 200,
+    url: 300,
+    job: 100,
+    description: 1000,
+    motivation: 500,
+    company: 100,
+    title: 100,
+    location: 100,
+    password: 128,
+    text: 200
+  };
+
+  const maxLength = limits[fieldType] || 200;
+  let sanitized = value.trim().slice(0, maxLength);
+
+  // Remove dangerous patterns
+  sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  sanitized = sanitized.replace(/javascript:/gi, '');
+  sanitized = sanitized.replace(/on\w+\s*=/gi, '');
+  sanitized = sanitized.replace(/data:text\/html/gi, '');
+
+  return sanitized;
+}
+
+/**
+ * Sanitize text messages with optional whitespace preservation
+ */
+export function sanitizeTextMessage(content: string, preserveWhitespace: boolean = false): string {
+  if (!content || typeof content !== 'string') {
+    return '';
+  }
+
+  let sanitized = content;
+
+  // Remove HTML tags and dangerous content
+  sanitized = sanitized.replace(/<[^>]*>/g, '');
+  sanitized = sanitized.replace(/javascript:/gi, '');
+  sanitized = sanitized.replace(/on\w+\s*=/gi, '');
+
+  if (!preserveWhitespace) {
+    sanitized = sanitized.trim().replace(/\s+/g, ' ');
+  }
+
+  return sanitized;
+}
+
+/**
+ * Sanitize rich content for text editors
+ */
+export function sanitizeRichContent(content: string): string {
+  return sanitizeHtml(content, 'full');
+}
+
+/**
+ * Validate content for malicious patterns
+ */
+export function validateContent(content: string): { isValid: boolean; threats: string[] } {
+  const threats: string[] = [];
+  
+  if (!content || typeof content !== 'string') {
+    return { isValid: true, threats: [] };
+  }
+
+  // Check for common XSS patterns
+  const xssPatterns = [
+    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
     /javascript:/gi,
-    /data:text\/html/gi,
-    /vbscript:/gi,
     /on\w+\s*=/gi,
-    /<script/gi,
     /<iframe/gi,
     /<object/gi,
-    /<embed/gi
+    /<embed/gi,
+    /eval\s*\(/gi,
+    /expression\s*\(/gi
   ];
 
-  for (const pattern of suspiciousPatterns) {
-    if (pattern.test(html)) {
-      console.warn('Tentative d\'injection détectée:', html.substring(0, 100));
-      // En production, vous pourriez logger ceci avec l'ID utilisateur
+  xssPatterns.forEach((pattern, index) => {
+    if (pattern.test(content)) {
+      threats.push(`XSS_PATTERN_${index + 1}`);
+    }
+  });
+
+  return {
+    isValid: threats.length === 0,
+    threats
+  };
+}
+
+/**
+ * Convert markdown-like text to safe HTML
+ */
+export function markdownToSafeHtml(text: string): string {
+  if (!text || typeof text !== 'string') {
+    return '';
+  }
+
+  let html = text;
+  
+  // Convert basic markdown to HTML
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+  html = `<p>${html}</p>`;
+
+  // Sanitize the result
+  return sanitizeHtml(html, 'full');
+}
+
+/**
+ * Safe profile sanitization for user data
+ */
+export function sanitizeProfile(profileData: Record<string, unknown>): Record<string, unknown> {
+  if (!profileData || typeof profileData !== 'object') {
+    return {};
+  }
+
+  const sanitized: Record<string, unknown> = {};
+
+  // Sanitize each field based on its type
+  for (const [key, value] of Object.entries(profileData)) {
+    if (typeof value === 'string') {
+      switch (key) {
+        case 'description':
+        case 'motivation':
+          sanitized[key] = sanitizeTextMessage(value, true);
+          break;
+        case 'email':
+          sanitized[key] = sanitizeFormField(value, 'email');
+          break;
+        case 'name':
+        case 'nom':
+          sanitized[key] = sanitizeFormField(value, 'name');
+          break;
+        case 'job':
+          sanitized[key] = sanitizeFormField(value, 'job');
+          break;
+        case 'localisation':
+        case 'location':
+          sanitized[key] = sanitizeFormField(value, 'location');
+          break;
+        case 'linkPhoto':
+        case 'imageUrl':
+          sanitized[key] = sanitizeFormField(value, 'url');
+          break;
+        default:
+          sanitized[key] = sanitizeFormField(value, 'text');
+      }
+    } else {
+      sanitized[key] = value;
     }
   }
 
-  // Utiliser la sanitisation serveur (côté serveur Node.js)
-  try {
-    const cleanHtml = serverSanitize(html);
-    
-    // Vérification finale
-    if (cleanHtml !== html) {
-      console.warn('Contenu modifié par la sanitisation');
-    }
-    
-    return cleanHtml;
-  } catch (error) {
-    console.error('Erreur lors de la sanitisation:', error);
-    return '';
-  }
-}
-
-/**
- * Version asynchrone pour le côté client
- * @param html - Le contenu HTML à nettoyer
- * @param maxLength - Longueur maximale autorisée (défaut: 5000)
- * @returns Le HTML nettoyé et sécurisé
- */
-export async function sanitizeHtmlAsync(html: string, maxLength: number = 5000): Promise<string> {
-  if (!html || typeof html !== 'string') {
-    return '';
-  }
-
-  // Vérifier la longueur
-  if (html.length > maxLength) {
-    throw new Error(`Le contenu dépasse la limite de ${maxLength} caractères`);
-  }
-
-  try {
-    const cleanHtml = await clientSanitize(html);
-    return cleanHtml;
-  } catch (error) {
-    console.error('Erreur lors de la sanitisation:', error);
-    return '';
-  }
-}
-
-/**
- * Valide que le contenu est sûr avant l'envoi
- * @param content - Le contenu à valider
- * @returns true si le contenu est valide
- */
-export function validateContent(content: string): boolean {
-  if (!content || content.trim().length === 0) {
-    return true; // Contenu vide accepté
-  }
-
-  // Vérifier la longueur
-  if (content.length > 5000) {
-    return false;
-  }
-
-  // Vérifier qu'il n'y a pas de scripts après sanitisation
-  const sanitized = serverSanitize(content);
-  const hasScript = /<script/gi.test(sanitized);
-  
-  return !hasScript;
-}
-
-/**
- * Convertit le markdown en HTML sécurisé
- * @param markdown - Le contenu markdown
- * @returns HTML sécurisé
- */
-export function markdownToSafeHtml(markdown: string): string {
-  if (!markdown) return '';
-  
-  // Conversion simple markdown vers HTML
-  let html = markdown
-    // Headers
-    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-    // Bold
-    .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-    .replace(/__(.*)/gim, '<strong>$1</strong>')
-    // Italic
-    .replace(/\*(.*)\*/gim, '<em>$1</em>')
-    .replace(/_(.*)/gim, '<em>$1</em>')
-    // Lists
-    .replace(/^\* (.+$)/gim, '<li>$1</li>')
-    .replace(/^\d+\. (.+$)/gim, '<li>$1</li>')
-    // Line breaks
-    .replace(/\n\n/gim, '</p><p>')
-    .replace(/\n/gim, '<br>');
-
-  // Envelopper dans des paragraphes si nécessaire
-  if (!html.includes('<p>') && !html.includes('<h')) {
-    html = `<p>${html}</p>`;
-  }
-
-  // Traiter les listes
-  html = html.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
-
-  return serverSanitize(html);
-}
-
-/**
- * Extrait le texte brut d'un contenu HTML
- * @param html - Le contenu HTML
- * @returns Le texte brut
- */
-export function extractPlainText(html: string): string {
-  if (!html) return '';
-  
-  // Supprimer toutes les balises HTML
-  return html
-    .replace(/<[^>]*>/g, '')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .trim();
+  return sanitized;
 }

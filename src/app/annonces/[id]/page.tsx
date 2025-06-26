@@ -86,8 +86,7 @@ async function getMentorData(mentorId: string): Promise<IMentor | null> {
       nom: userData.name || '',
       job: 'Mentor', // Valeur par défaut
       localisation: userData.city || userData.address || 'Non renseigné',
-      description: 'Profil mentor en cours de configuration',
-      note: 0
+      description: 'Profil mentor en cours de configuration'
     };
 
     console.log(`📧 Email mentor récupéré: ${mentorFromUser.email}`);

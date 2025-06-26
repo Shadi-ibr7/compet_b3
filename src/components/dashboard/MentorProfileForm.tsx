@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useSafeInput } from '@/hooks/useSafeInput';
 import type { IMentor } from '@/types/interfaces/mentor.interface';
 
 interface MentorProfileFormProps {
@@ -17,21 +18,25 @@ export default function MentorProfileForm({
   onCancel, 
   isLoading = false 
 }: MentorProfileFormProps) {
-  const [formData, setFormData] = useState({
-    nom: mentor.nom || '',
-    job: mentor.job || '',
-    localisation: mentor.localisation || '',
-    description: mentor.description || '',
-    linkPhoto: mentor.linkPhoto || ''
-  });
+  // Form state sécurisé avec useSafeInput
+  const nom = useSafeInput({ fieldType: 'name', initialValue: mentor.nom || '' });
+  const job = useSafeInput({ fieldType: 'job', initialValue: mentor.job || '' });
+  const localisation = useSafeInput({ fieldType: 'location', initialValue: mentor.localisation || '' });
+  const description = useSafeInput({ fieldType: 'description', initialValue: mentor.description || '', preserveWhitespace: true });
+  const linkPhoto = useSafeInput({ fieldType: 'url', initialValue: mentor.linkPhoto || '' });
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+  // Fonction de soumission sécurisée
+  const handleSubmit = async () => {
+    const formData = {
+      nom: nom.value,
+      job: job.value,
+      localisation: localisation.value,
+      description: description.value,
+      linkPhoto: linkPhoto.value
+    };
+    await onSave(formData);
   };
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,10 +72,7 @@ export default function MentorProfileForm({
       }
 
       const { url } = await response.json();
-      setFormData(prev => ({
-        ...prev,
-        linkPhoto: url
-      }));
+      linkPhoto.setValue(url);
     } catch (err) {
       console.error('Erreur lors du téléchargement:', err);
       setError('Erreur lors du téléchargement de l\'image');
@@ -79,18 +81,18 @@ export default function MentorProfileForm({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     // Validation
-    if (!formData.nom || !formData.job || !formData.localisation || !formData.description) {
+    if (!nom.value || !job.value || !localisation.value || !description.value) {
       setError('Tous les champs sont obligatoires');
       return;
     }
 
     try {
-      await onSave(formData);
+      await handleSubmit();
     } catch (err) {
       console.error('Erreur lors de la sauvegarde:', err);
       setError('Erreur lors de la sauvegarde');
@@ -98,7 +100,7 @@ export default function MentorProfileForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleFormSubmit} className="space-y-4">
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           {error}
@@ -113,7 +115,7 @@ export default function MentorProfileForm({
         <div className="flex items-center space-x-4">
           <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-200">
             <Image
-              src={formData.linkPhoto || '/placeholder_pp.png'}
+              src={linkPhoto.value || '/placeholder_pp.png'}
               alt="Photo de profil"
               width={80}
               height={80}
@@ -147,8 +149,8 @@ export default function MentorProfileForm({
         <input
           type="text"
           id="nom"
-          value={formData.nom}
-          onChange={(e) => handleInputChange('nom', e.target.value)}
+          value={nom.value}
+          onChange={(e) => nom.setValue(e.target.value)}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           disabled={isLoading}
           required
@@ -163,8 +165,8 @@ export default function MentorProfileForm({
         <input
           type="text"
           id="job"
-          value={formData.job}
-          onChange={(e) => handleInputChange('job', e.target.value)}
+          value={job.value}
+          onChange={(e) => job.setValue(e.target.value)}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="Ex: Développeur Full Stack"
           disabled={isLoading}
@@ -180,8 +182,8 @@ export default function MentorProfileForm({
         <input
           type="text"
           id="localisation"
-          value={formData.localisation}
-          onChange={(e) => handleInputChange('localisation', e.target.value)}
+          value={localisation.value}
+          onChange={(e) => localisation.setValue(e.target.value)}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="Ex: Paris, France"
           disabled={isLoading}
@@ -196,8 +198,8 @@ export default function MentorProfileForm({
         </label>
         <textarea
           id="description"
-          value={formData.description}
-          onChange={(e) => handleInputChange('description', e.target.value)}
+          value={description.value}
+          onChange={(e) => description.setValue(e.target.value)}
           rows={4}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="Présentez-vous et votre expertise..."

@@ -1,0 +1,82 @@
+.ratingContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.fullStars {
+  color: #ffd700;
+}
+
+.halfStar {
+  color: #ffd700;
+  opacity: 0.6;
+}
+
+.emptyStars {
+  color: #e0e0e0;
+}
+
+.ratingText {
+  color: #666666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.newMentor {
+  display: flex;
+  align-items: center;
+}
+
+.newMentorText {
+  color: #06104A;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background-color: #BEF9DE;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+/* Tailles */
+.small {
+  font-size: 0.8rem;
+}
+
+.small .stars {
+  font-size: 0.9rem;
+}
+
+.small .ratingText {
+  font-size: 0.75rem;
+}
+
+.small .newMentorText {
+  font-size: 0.7rem;
+  padding: 1px 6px;
+}
+
+.medium {
+  font-size: 1rem;
+}
+
+.medium .stars {
+  font-size: 1.1rem;
+}
+
+.large {
+  font-size: 1.2rem;
+}
+
+.large .stars {
+  font-size: 1.4rem;
+}
+
+.large .ratingText {
+  font-size: 1rem;
+}

@@ -1,15 +1,79 @@
 'use client';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import type { IMentor } from "@/types/interfaces/mentor.interface";
 import styles from "../annonces/AnnoncesSection.module.css";
 import MentorCard from "./MentorCard";
+
+// Constantes pour les filtres mentors
+const VILLES_FRANCE = [
+  'Toutes les villes',
+  'Paris',
+  'Lyon',
+  'Marseille',
+  'Toulouse',
+  'Nice',
+  'Nantes',
+  'Strasbourg',
+  'Montpellier',
+  'Bordeaux',
+  'Lille',
+  'Rennes',
+  'Reims',
+  'Le Havre',
+  'Saint-Étienne',
+  'Toulon',
+  'Grenoble',
+  'Dijon',
+  'Angers',
+  'Nîmes'
+];
+
+const SECTEURS_COMMERCE = [
+  'Tous les secteurs',
+  'Boulangerie',
+  'Boucherie',
+  'Coiffure',
+  'Épicerie',
+  'Pharmacie',
+  'Fleuriste',
+  'Restauration',
+  'Librairie',
+  'Bijouterie',
+  'Cordonnerie',
+  'Pressing',
+  'Opticien'
+];
+
+// Mapping pour détecter le secteur depuis job (identique aux annonces)
+const detecterSecteurMentor = (job: string): string => {
+  const jobLower = job.toLowerCase();
+  
+  if (jobLower.includes('boulang')) return 'Boulangerie';
+  if (jobLower.includes('boucher')) return 'Boucherie';
+  if (jobLower.includes('coiffeur') || jobLower.includes('coiffure')) return 'Coiffure';
+  if (jobLower.includes('épicier') || jobLower.includes('epicier')) return 'Épicerie';
+  if (jobLower.includes('pharmac')) return 'Pharmacie';
+  if (jobLower.includes('fleur')) return 'Fleuriste';
+  if (jobLower.includes('serveur') || jobLower.includes('cuisine') || jobLower.includes('restaur')) return 'Restauration';
+  if (jobLower.includes('libraire') || jobLower.includes('livre')) return 'Librairie';
+  if (jobLower.includes('bijou')) return 'Bijouterie';
+  if (jobLower.includes('cordonn')) return 'Cordonnerie';
+  if (jobLower.includes('pressing') || jobLower.includes('nettoyage')) return 'Pressing';
+  if (jobLower.includes('optic') || jobLower.includes('lunette')) return 'Opticien';
+  
+  return 'Autres';
+};
 
 const MentorsSection = () => {
   const [search, setSearch] = useState("");
   const [showLocation, setShowLocation] = useState(false);
   const [showSector, setShowSector] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  
+  // Nouveaux states pour les filtres
+  const [selectedLocation, setSelectedLocation] = useState('Toutes les villes');
+  const [selectedSector, setSelectedSector] = useState('Tous les secteurs');
   
   // States pour les données réelles
   const [mentors, setMentors] = useState<IMentor[]>([]);
@@ -22,10 +86,10 @@ const MentorsSection = () => {
     fetchMentors();
   }, []);
 
-  // Filtrer les mentors quand la recherche change
+  // Filtrer les mentors quand la recherche ou les filtres changent
   useEffect(() => {
     filterMentors();
-  }, [search, mentors]);
+  }, [search, selectedLocation, selectedSector, mentors]);
 
   const fetchMentors = async () => {
     try {
@@ -48,22 +112,38 @@ const MentorsSection = () => {
     }
   };
 
-  const filterMentors = () => {
-    if (!search.trim()) {
-      setFilteredMentors(mentors);
-      return;
+  const filterMentors = useCallback(() => {
+    let filtered = [...mentors];
+
+    // Filtrage par recherche textuelle
+    if (search.trim()) {
+      const searchLower = search.toLowerCase();
+      filtered = filtered.filter(mentor => 
+        mentor.nom?.toLowerCase().includes(searchLower) ||
+        mentor.job?.toLowerCase().includes(searchLower) ||
+        mentor.description?.toLowerCase().includes(searchLower) ||
+        mentor.localisation?.toLowerCase().includes(searchLower)
+      );
     }
 
-    const searchLower = search.toLowerCase();
-    const filtered = mentors.filter(mentor => 
-      mentor.nom?.toLowerCase().includes(searchLower) ||
-      mentor.job?.toLowerCase().includes(searchLower) ||
-      mentor.description?.toLowerCase().includes(searchLower) ||
-      mentor.localisation?.toLowerCase().includes(searchLower)
-    );
+    // Filtrage par localisation
+    if (selectedLocation && selectedLocation !== 'Toutes les villes') {
+      filtered = filtered.filter(mentor => {
+        const localisationLower = mentor.localisation?.toLowerCase() || '';
+        return localisationLower.includes(selectedLocation.toLowerCase());
+      });
+    }
+
+    // Filtrage par secteur
+    if (selectedSector && selectedSector !== 'Tous les secteurs') {
+      filtered = filtered.filter(mentor => {
+        const secteurDetecte = detecterSecteurMentor(mentor.job || '');
+        return secteurDetecte === selectedSector;
+      });
+    }
     
     setFilteredMentors(filtered);
-  };
+  }, [search, selectedLocation, selectedSector, mentors]);
 
   const BlocFinMentors = () => (
     <div className={styles.blocFinWrapper}>
@@ -94,28 +174,104 @@ const MentorsSection = () => {
         </div>
       </div>
       <div className={styles.filtersRow}>
-        <button className={styles.filterBtn} onClick={() => setShowLocation(v => !v)}>
+        <button 
+          className={`${styles.filterBtn} ${selectedLocation !== 'Toutes les villes' ? styles.filterBtnActive : ''}`}
+          onClick={() => setShowLocation(v => !v)}
+        >
           <Image src="/Union.svg" alt="" width={13} height={16} className={styles.filterIcon} />
           <span>Localisation</span>
+          {selectedLocation !== 'Toutes les villes' && <span className={styles.filterDot}></span>}
         </button>
-        <button className={styles.filterBtn} onClick={() => setShowSector(v => !v)}>
+        <button 
+          className={`${styles.filterBtn} ${selectedSector !== 'Tous les secteurs' ? styles.filterBtnActive : ''}`}
+          onClick={() => setShowSector(v => !v)}
+        >
           <Image src="/Vector2.svg" alt="" width={16} height={16} className={styles.filterIcon} />
           <span>Secteur</span>
+          {selectedSector !== 'Tous les secteurs' && <span className={styles.filterDot}></span>}
         </button>
         <button className={styles.filterBtnDark} onClick={() => setShowFilters(v => !v)}>
           <Image src="/Vector_Stroke.svg" alt="" width={16} height={11} className={styles.filterIcon} />
           <span>Plus de filtres</span>
         </button>
       </div>
-      {/* Menus logiques (exemple simple, à remplacer par vrais menus/modals si besoin) */}
+
+      {/* Indicateur et reset des filtres actifs */}
+      {(selectedLocation !== 'Toutes les villes' || selectedSector !== 'Tous les secteurs') && (
+        <div className={styles.activeFiltersBar}>
+          <div className={styles.activeFiltersInfo}>
+            <span className={styles.activeFiltersText}>
+              Filtres actifs : 
+              {selectedLocation !== 'Toutes les villes' && (
+                <span className={styles.activeFilterTag}>{selectedLocation}</span>
+              )}
+              {selectedSector !== 'Tous les secteurs' && (
+                <span className={styles.activeFilterTag}>{selectedSector}</span>
+              )}
+            </span>
+          </div>
+          <button 
+            className={styles.resetFiltersBtn}
+            onClick={() => {
+              setSelectedLocation('Toutes les villes');
+              setSelectedSector('Tous les secteurs');
+              setShowLocation(false);
+              setShowSector(false);
+            }}
+          >
+            ✕ Effacer tous les filtres
+          </button>
+        </div>
+      )}
+      
+      {/* Dropdown Localisation */}
       {showLocation && (
-        <div className={styles.menuPopup}>Sélectionnez une localisation (exemple)</div>
+        <div className={styles.menuPopup}>
+          <div className={styles.filterHeader}>Sélectionnez une localisation</div>
+          <div className={styles.filterOptions}>
+            {VILLES_FRANCE.map((ville) => (
+              <button
+                key={ville}
+                className={`${styles.filterOption} ${selectedLocation === ville ? styles.filterOptionActive : ''}`}
+                onClick={() => {
+                  setSelectedLocation(ville);
+                  setShowLocation(false);
+                }}
+              >
+                {ville}
+              </button>
+            ))}
+          </div>
+        </div>
       )}
+
+      {/* Dropdown Secteur */}
       {showSector && (
-        <div className={styles.menuPopup}>Sélectionnez un secteur d'expertise (exemple)</div>
+        <div className={styles.menuPopup}>
+          <div className={styles.filterHeader}>Sélectionnez un secteur d'expertise</div>
+          <div className={styles.filterOptions}>
+            {SECTEURS_COMMERCE.map((secteur) => (
+              <button
+                key={secteur}
+                className={`${styles.filterOption} ${selectedSector === secteur ? styles.filterOptionActive : ''}`}
+                onClick={() => {
+                  setSelectedSector(secteur);
+                  setShowSector(false);
+                }}
+              >
+                {secteur}
+              </button>
+            ))}
+          </div>
+        </div>
       )}
+
+      {/* Filtres avancés placeholder */}
       {showFilters && (
-        <div className={styles.menuPopup}>Filtres avancés (exemple)</div>
+        <div className={styles.menuPopup}>
+          <div className={styles.filterHeader}>Filtres avancés</div>
+          <p>Fonctionnalité à venir...</p>
+        </div>
       )}
       <div className={styles.mentorsGrid}>
         {loading ? (
@@ -139,17 +295,21 @@ const MentorsSection = () => {
           // Aucun mentor trouvé
           <div className={styles.emptyContainer}>
             <p className={styles.emptyMessage}>
-              {search ? 
-                `Aucun mentor trouvé pour "${search}"` : 
+              {search || selectedLocation !== 'Toutes les villes' || selectedSector !== 'Tous les secteurs' ? 
+                'Aucun mentor trouvé avec ces critères' : 
                 'Aucun mentor disponible pour le moment'
               }
             </p>
-            {search && (
+            {(search || selectedLocation !== 'Toutes les villes' || selectedSector !== 'Tous les secteurs') && (
               <button 
-                onClick={() => setSearch('')}
-                className={styles.clearSearchButton}
+                onClick={() => {
+                  setSearch('');
+                  setSelectedLocation('Toutes les villes');
+                  setSelectedSector('Tous les secteurs');
+                }}
+                className={styles.clearFiltersButton}
               >
-                Effacer la recherche
+                Effacer tous les filtres
               </button>
             )}
           </div>

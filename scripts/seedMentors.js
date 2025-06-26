@@ -28,7 +28,6 @@ const sampleMentors = [
     name: 'Sophie Martin',
     email: 'sophie.martin@epicerie-terroir.fr',
     dateCreation: new Date(),
-    note: 4.8,
     linkPhoto: '/image2.png'
   },
   {
@@ -41,7 +40,6 @@ const sampleMentors = [
     name: 'Paul Dubois',
     email: 'paul.dubois@boulangerie-artisanale.fr',
     dateCreation: new Date(),
-    note: 4.9,
     linkPhoto: '/image2.png'
   },
   {
@@ -54,7 +52,6 @@ const sampleMentors = [
     name: 'Marie Leroy',
     email: 'marie.leroy@fleurs-creation.fr',
     dateCreation: new Date(),
-    note: 4.7,
     linkPhoto: '/image2.png'
   }
 ];
