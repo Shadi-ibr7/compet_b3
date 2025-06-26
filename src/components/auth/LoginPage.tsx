@@ -51,43 +51,46 @@ export default function LoginPage() {
   return (
     <div className={styles.container}>
       <Link href="/">
-      <Image className={styles.logo} width={85.5} height={40} alt="Molty" src="/Logotype.svg" />
+        <Image className={styles.logo} width={85.5} height={40} alt="Molty" src="/Logotype.svg" />
       </Link>
-      <h1 className={styles.title}>
-        Me <span className={styles.highlight}>connecter</span>
-      </h1>
-      <div className={styles.subtitle}>
-        <b>Plus de 300 mentors</b> vous attendent
-      </div>
-      <p className={styles.error}>{error && error.replace(/'/g, "&apos;")}</p>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>Mail</label>
-          <input 
-            className={styles.input} 
-            type="email" 
-            placeholder="Entrez votre mail ici"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      
+      <div className={styles.formContainer}>
+        <h1 className={styles.title}>
+          Me <span className={styles.highlight}>connecter</span>
+        </h1>
+        <div className={styles.subtitle}>
+          <b>Plus de 300 mentors</b> vous attendent
         </div>
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>Mot de passe</label>
-          <input 
-            className={styles.input} 
-            type="password" 
-            placeholder="Entrez votre mot de passe ici"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        {error && <p className={styles.error}>{error}</p>}
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Mail</label>
+            <input 
+              className={styles.input} 
+              type="email" 
+              placeholder="Entrez votre mail ici"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Mot de passe</label>
+            <input 
+              className={styles.input} 
+              type="password" 
+              placeholder="Entrez votre mot de passe ici"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className={styles.submitBtn}>Se connecter</button>
+        </form>
+        <div className={styles.signup}>
+          <span>Je n&apos;ai pas de compte, </span>
+          <Link href="/auth/signup" className={styles.signupLink}>s&apos;inscrire</Link>
         </div>
-        <button type="submit" className={styles.submitBtn}>Se connecter</button>
-      </form>
-      <div className={styles.signup}>
-        <span>Je n&apos;ai pas de compte, </span>
-        <Link href="/auth/signup" className={styles.signupLink}>s&apos;inscrire</Link>
       </div>
     </div>
   );

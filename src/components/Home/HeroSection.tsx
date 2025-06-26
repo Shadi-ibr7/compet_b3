@@ -1,14 +1,32 @@
-'use client';
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import { useRouter } from 'next/navigation';
 import styles from "@/styles/HeroSection.module.css";
 
 const HeroSection = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const router = useRouter();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in-view');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className={styles.hero}>
+    <section ref={sectionRef} className={styles.hero}>
       <div className={styles.heroContent}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>
@@ -38,26 +56,10 @@ const HeroSection = () => {
             type="text"
             placeholder="Rechercher une annonce par domaine"
             className={styles.texte}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && searchQuery.trim()) {
-                router.push(`/annonces?search=${encodeURIComponent(searchQuery.trim())}`);
-              }
-            }}
           />
         </div>
 
-        <button 
-          className={styles.trouverMonMentor}
-          onClick={() => {
-            if (searchQuery.trim()) {
-              router.push(`/annonces?search=${encodeURIComponent(searchQuery.trim())}`);
-            } else {
-              router.push('/annonces');
-            }
-          }}
-        >
+        <button className={styles.trouverMonMentor}>
           Trouver une annonce
         </button>
 

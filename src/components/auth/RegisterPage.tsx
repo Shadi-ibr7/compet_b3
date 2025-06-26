@@ -97,61 +97,64 @@ export default function RegisterPage() {
       <Link href="/">
         <Image className={styles.logo} width={85.5} height={40} alt="Molty" src="/Logotype.svg" />
       </Link>
-      <h1 className={styles.title}>
-        M&apos; <span className={styles.highlight}>inscrire</span>
-      </h1>
-      <div className={styles.subtitle}>
-        <b>Plus de 300 mentors</b> vous attendent
-      </div>
-      <div className={styles.stepIndicator}>
-        <div className={`${styles.step} ${styles.stepActive}`}></div>
-        <div className={styles.step}></div>
-      </div>
-      {error && <div className={styles.error}>{error}</div>}
-      <form className={styles.form} onSubmit={handleStepOne}>
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>Nom</label>
-          <input 
-            className={styles.input} 
-            type="text" 
-            placeholder="Entrez votre nom ici" 
-            value={formData.name}
-            onChange={(e) => setFormData({...formData, name: e.target.value})}
-            required
-          />
+      
+      <div className={styles.formContainer}>
+        <h1 className={styles.title}>
+          M&apos; <span className={styles.highlight}>inscrire</span>
+        </h1>
+        <div className={styles.subtitle}>
+          <b>Plus de 300 mentors</b> vous attendent
         </div>
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>Mail</label>
-          <input 
-            className={styles.input} 
-            type="email" 
-            placeholder="Entrez votre mail ici" 
-            value={formData.email}
-            onChange={(e) => setFormData({...formData, email: e.target.value})}
-            required
-          />
+        <div className={styles.stepIndicator}>
+          <div className={`${styles.step} ${styles.stepActive}`}></div>
+          <div className={styles.step}></div>
         </div>
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>Mot de passe</label>
-          <input 
-            className={styles.input} 
-            type="password" 
-            placeholder="Entrez votre mot de passe ici" 
-            value={formData.password}
-            onChange={(e) => setFormData({...formData, password: e.target.value})}
-            required
-          />
+        {error && <div className={styles.error}>{error}</div>}
+        <form className={styles.form} onSubmit={handleStepOne}>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Nom</label>
+            <input 
+              className={styles.input} 
+              type="text" 
+              placeholder="Entrez votre nom ici" 
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Mail</label>
+            <input 
+              className={styles.input} 
+              type="email" 
+              placeholder="Entrez votre mail ici" 
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              required
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Mot de passe</label>
+            <input 
+              className={styles.input} 
+              type="password" 
+              placeholder="Entrez votre mot de passe ici" 
+              value={formData.password}
+              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              required
+            />
+          </div>
+          <button 
+            type="submit" 
+            className={styles.submitBtn}
+          >
+            Suivant
+          </button>
+        </form>
+        <div className={styles.login}>
+          <span>J&apos;ai déjà un compte, </span>
+          <Link href="/auth/signin" className={styles.loginLink}>se connecter</Link>
         </div>
-        <button 
-          type="submit" 
-          className={styles.submitBtn}
-        >
-          Suivant
-        </button>
-      </form>
-      <div className={styles.login}>
-        <span>J&apos;ai déjà un compte, </span>
-        <Link href="/auth/signin" className={styles.loginLink}>se connecter</Link>
       </div>
     </div>
   );

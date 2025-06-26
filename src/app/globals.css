@@ -42,3 +42,692 @@ html, body {
     font-family: var(--font-montserrat), system-ui, sans-serif;
   }
 } */
+
+/* ============================
+   ANIMATIONS HOMEPAGE
+   ============================ */
+
+/* Hero Section Animations */
+@keyframes heroFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes heroSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes heroHighlightPulse {
+  0%, 100% { 
+    filter: brightness(1); 
+  }
+  50% { 
+    filter: brightness(1.1);
+    text-shadow: 0 0 10px rgba(190, 249, 222, 0.3);
+  }
+}
+
+@keyframes heroFloat {
+  0%, 100% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-5px); 
+  }
+}
+
+@keyframes heroTextShimmer {
+  0% { 
+    background-position: -200% center; 
+  }
+  100% { 
+    background-position: 200% center; 
+  }
+}
+
+@keyframes heroButtonHover {
+  0% { 
+    transform: scale(1); 
+  }
+  100% { 
+    transform: scale(1.02); 
+  }
+}
+
+/* Stats Section Animations */
+@keyframes statsSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes statsSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes statsTextReveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0% 0 0);
+  }
+}
+
+@keyframes statsHighlightGlow {
+  0%, 100% { 
+    text-shadow: none; 
+  }
+  50% { 
+    text-shadow: 0 0 15px rgba(190, 249, 222, 0.6); 
+  }
+}
+
+@keyframes statsCounterAnimation {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotateY(180deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
+  }
+}
+
+@keyframes statsButtonBounce {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-3px); 
+  }
+}
+
+@keyframes statsCardHover {
+  0% { 
+    transform: translateY(0) scale(1); 
+  }
+  100% { 
+    transform: translateY(-5px) scale(1.02); 
+  }
+}
+
+/* Jobs Section Animations */
+@keyframes jobsFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes jobsCardHover {
+  0% { 
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  100% { 
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@keyframes jobsImageZoom {
+  0% { 
+    transform: scale(1); 
+  }
+  100% { 
+    transform: scale(1.05); 
+  }
+}
+
+@keyframes jobsTextSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes jobsIconsBounce {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-2px); 
+  }
+}
+
+@keyframes jobsTextWave {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  25% { 
+    transform: translateY(-2px); 
+  }
+  75% { 
+    transform: translateY(2px); 
+  }
+}
+
+@keyframes jobsUnderlineExpand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes jobsAccentGlow {
+  0%, 100% { 
+    text-shadow: none; 
+  }
+  50% { 
+    text-shadow: 0 0 20px rgba(190, 249, 222, 0.4); 
+  }
+}
+
+@keyframes jobsButtonGlow {
+  0%, 100% { 
+    box-shadow: 0 4px 15px rgba(6, 16, 74, 0.2); 
+  }
+  50% { 
+    box-shadow: 0 8px 25px rgba(6, 16, 74, 0.3); 
+  }
+}
+
+/* ============================
+   ANIMATION CLASSES
+   ============================ */
+
+/* Hero Section Classes */
+.hero-fade-in-up {
+  animation: heroFadeInUp 0.8s ease-out;
+}
+
+.hero-fade-in-up-delay-1 {
+  animation: heroFadeInUp 0.8s ease-out 0.2s both;
+}
+
+.hero-fade-in-up-delay-2 {
+  animation: heroFadeInUp 0.8s ease-out 0.4s both;
+}
+
+.hero-fade-in-up-delay-3 {
+  animation: heroFadeInUp 0.8s ease-out 0.6s both;
+}
+
+.hero-fade-in-up-delay-4 {
+  animation: heroFadeInUp 0.8s ease-out 0.8s both;
+}
+
+.hero-slide-in-left {
+  animation: heroSlideInLeft 0.8s ease-out 0.3s both;
+}
+
+.hero-slide-in-right {
+  animation: heroSlideInRight 0.8s ease-out 0.5s both;
+}
+
+.hero-highlight-pulse {
+  animation: heroHighlightPulse 3s ease-in-out infinite 1s;
+}
+
+.hero-float {
+  animation: heroFloat 3s ease-in-out infinite 1.5s;
+}
+
+.hero-text-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(190, 249, 222, 0.4), transparent);
+  background-size: 200% 100%;
+  animation: heroTextShimmer 2s linear infinite;
+  background-clip: text;
+}
+
+.hero-button-hover {
+  transition: transform 0.3s ease;
+}
+
+.hero-button-hover:hover {
+  animation: heroButtonHover 0.3s ease forwards;
+}
+
+/* Stats Section Classes */
+.stats-slide-in-left {
+  animation: statsSlideInLeft 1s ease-out;
+}
+
+.stats-slide-in-right {
+  animation: statsSlideInRight 1s ease-out 0.3s both;
+}
+
+.stats-text-reveal {
+  animation: statsTextReveal 1.2s ease-out 0.5s both;
+}
+
+.stats-highlight-glow {
+  animation: statsHighlightGlow 2s ease-in-out infinite 1.5s;
+}
+
+.stats-fade-in-up {
+  animation: heroFadeInUp 1s ease-out 0.8s both;
+}
+
+.stats-counter-animation {
+  animation: statsCounterAnimation 1s ease-out;
+}
+
+.stats-text-slide-up {
+  animation: jobsTextSlideIn 0.8s ease-out;
+}
+
+.stats-button-bounce {
+  transition: transform 0.3s ease;
+}
+
+.stats-button-bounce:hover {
+  animation: statsButtonBounce 0.5s ease infinite;
+}
+
+.stats-card-hover {
+  transition: all 0.3s ease;
+  animation: jobsFadeInUp 0.8s ease-out both;
+}
+
+.stats-card-hover:hover {
+  animation: statsCardHover 0.3s ease forwards;
+}
+
+/* Jobs Section Classes */
+.jobs-title-reveal {
+  animation: heroFadeInUp 1s ease-out;
+}
+
+.jobs-underline-expand {
+  animation: jobsUnderlineExpand 1s ease-out 0.5s both;
+}
+
+.jobs-text-wave {
+  animation: jobsTextWave 2s ease-in-out infinite 1s;
+}
+
+.jobs-accent-glow {
+  animation: jobsAccentGlow 3s ease-in-out infinite 1.5s;
+}
+
+.jobs-grid-stagger {
+  animation: heroFadeInUp 1s ease-out 0.3s both;
+}
+
+.jobs-swiper-slide-in {
+  animation: heroSlideInLeft 1s ease-out 0.3s both;
+}
+
+.jobs-fade-in-up {
+  animation: jobsFadeInUp 0.8s ease-out both;
+}
+
+.jobs-card-hover {
+  transition: all 0.3s ease;
+}
+
+.jobs-card-hover:hover {
+  animation: jobsCardHover 0.3s ease forwards;
+}
+
+.jobs-card-hover:hover .jobs-image-zoom img {
+  animation: jobsImageZoom 0.3s ease forwards;
+}
+
+.jobs-image-zoom {
+  overflow: hidden;
+}
+
+.jobs-text-slide-in {
+  animation: jobsTextSlideIn 0.6s ease-out both;
+}
+
+.jobs-icons-bounce {
+  animation: jobsIconsBounce 1s ease-in-out infinite 2s;
+}
+
+.jobs-cta-pulse {
+  animation: heroFadeInUp 1s ease-out 0.8s both;
+}
+
+.jobs-button-glow {
+  transition: all 0.3s ease;
+  animation: jobsButtonGlow 2s ease-in-out infinite 2s;
+}
+
+.jobs-button-glow:hover {
+  transform: translateY(-2px);
+}
+
+/* ============================
+   PERFORMANCE OPTIMIZATIONS
+   ============================ */
+
+/* Reduce animations on slower devices */
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade-in-up,
+  .hero-fade-in-up-delay-1,
+  .hero-fade-in-up-delay-2,
+  .hero-fade-in-up-delay-3,
+  .hero-fade-in-up-delay-4,
+  .hero-slide-in-left,
+  .hero-slide-in-right,
+  .stats-slide-in-left,
+  .stats-slide-in-right,
+  .stats-text-reveal,
+  .jobs-fade-in-up,
+  .jobs-title-reveal,
+  .jobs-grid-stagger,
+  .jobs-swiper-slide-in,
+  .jobs-text-slide-in,
+  .stats-card-hover,
+  .jobs-cta-pulse {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .hero-highlight-pulse,
+  .hero-float,
+  .hero-text-shimmer,
+  .stats-highlight-glow,
+  .stats-counter-animation,
+  .jobs-text-wave,
+  .jobs-accent-glow,
+  .jobs-icons-bounce,
+  .jobs-button-glow,
+  .jobs-underline-expand {
+    animation: none;
+  }
+}
+
+/* Optimize for mobile performance */
+@media (max-width: 768px) {
+  .hero-highlight-pulse,
+  .hero-float,
+  .stats-highlight-glow,
+  .jobs-text-wave,
+  .jobs-accent-glow,
+  .jobs-icons-bounce,
+  .jobs-button-glow {
+    animation-duration: 4s; /* Slower animations on mobile */
+  }
+}
+
+/* FAQ Section Animations */
+@keyframes faqSectionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes faqTitleBounce {
+  0%, 100% { 
+    transform: translateY(0) scale(1); 
+  }
+  50% { 
+    transform: translateY(-5px) scale(1.02); 
+  }
+}
+
+@keyframes faqItemSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes faqArrowRotate {
+  from { 
+    transform: rotate(0deg); 
+  }
+  to { 
+    transform: rotate(180deg); 
+  }
+}
+
+/* Footer Section Animations */
+@keyframes footerSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes footerSectionSlide {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes footerTitleGlow {
+  0%, 100% { 
+    text-shadow: none; 
+  }
+  50% { 
+    text-shadow: 0 0 10px rgba(190, 249, 222, 0.4); 
+  }
+}
+
+@keyframes footerSocialBounce {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-3px); 
+  }
+}
+
+/* ============================
+   ADDITIONAL ANIMATION CLASSES
+   ============================ */
+
+/* FAQ Classes */
+.faq-section-reveal {
+  animation: faqSectionReveal 1s ease-out;
+}
+
+.faq-title-bounce {
+  animation: faqTitleBounce 2s ease-in-out infinite 1s;
+}
+
+.faq-list-stagger {
+  animation: heroFadeInUp 1s ease-out 0.3s both;
+}
+
+.faq-item-hover {
+  transition: all 0.3s ease;
+  animation: faqItemSlide 0.8s ease-out both;
+}
+
+.faq-item-hover:hover {
+  transform: translateX(10px);
+  background: rgba(190, 249, 222, 0.05);
+}
+
+.faq-question-hover {
+  transition: all 0.3s ease;
+}
+
+.faq-question-hover:hover {
+  color: #06104A;
+  background: rgba(190, 249, 222, 0.1);
+}
+
+.faq-text-slide {
+  animation: jobsTextSlideIn 0.6s ease-out both;
+}
+
+.faq-arrow-spin {
+  transition: transform 0.3s ease;
+}
+
+.faq-answer-slide {
+  transition: all 0.3s ease;
+}
+
+.faq-text-fade {
+  animation: heroFadeInUp 0.6s ease-out 0.2s both;
+}
+
+/* Footer Classes */
+.footer-slide-up {
+  animation: footerSlideUp 1s ease-out;
+}
+
+.footer-content-stagger {
+  animation: heroFadeInUp 1s ease-out 0.2s both;
+}
+
+.footer-logo-fade {
+  animation: heroFadeInUp 1s ease-out 0.3s both;
+}
+
+.footer-section-slide {
+  animation: footerSectionSlide 0.8s ease-out both;
+}
+
+.footer-title-glow {
+  animation: footerTitleGlow 3s ease-in-out infinite 2s;
+}
+
+.footer-links-cascade li {
+  animation: jobsTextSlideIn 0.6s ease-out both;
+}
+
+.footer-links-cascade li:nth-child(1) { animation-delay: 0.1s; }
+.footer-links-cascade li:nth-child(2) { animation-delay: 0.2s; }
+.footer-links-cascade li:nth-child(3) { animation-delay: 0.3s; }
+
+.footer-link-hover {
+  transition: all 0.3s ease;
+}
+
+.footer-link-hover:hover {
+  color: #BEF9DE;
+  transform: translateX(5px);
+}
+
+.footer-social-bounce {
+  animation: footerSocialBounce 2s ease-in-out infinite 3s;
+}
+
+.footer-social-hover {
+  transition: all 0.3s ease;
+}
+
+.footer-social-hover:hover {
+  transform: translateY(-3px) scale(1.1);
+  filter: brightness(1.2);
+}
+
+.footer-bottom-fade {
+  animation: heroFadeInUp 1s ease-out 0.8s both;
+}
+
+/* ============================
+   ENHANCED PERFORMANCE OPTIMIZATIONS
+   ============================ */
+
+/* Add FAQ and Footer to reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .faq-section-reveal,
+  .faq-title-bounce,
+  .faq-list-stagger,
+  .faq-item-hover,
+  .faq-text-slide,
+  .faq-text-fade,
+  .footer-slide-up,
+  .footer-content-stagger,
+  .footer-logo-fade,
+  .footer-section-slide,
+  .footer-links-cascade li,
+  .footer-bottom-fade {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  .faq-title-bounce,
+  .footer-title-glow,
+  .footer-social-bounce {
+    animation: none;
+  }
+}
+
+/* Mobile optimizations for FAQ and Footer */
+@media (max-width: 768px) {
+  .faq-title-bounce,
+  .footer-title-glow,
+  .footer-social-bounce {
+    animation-duration: 3s;
+  }
+}

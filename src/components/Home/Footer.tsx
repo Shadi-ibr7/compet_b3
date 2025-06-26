@@ -14,7 +14,14 @@ const Footer: NextPage = () => {
           <div className={styles.footerTitle}>Contact</div>
           <div className={styles.footerContactBlock}>
             <div className={styles.footerIcons}>
-              <Image className={styles.vectorIcon} width={16} height={16} alt="" src="/logoinsta.svg" />
+              <a 
+                href="https://www.instagram.com/agence.molty/?igsh=cnZ0bWQxam9xY3Fz" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="Suivez-nous sur Instagram"
+              >
+                <Image className={styles.vectorIcon} width={16} height={16} alt="Instagram" src="/logoinsta.svg" />
+              </a>
               <Image className={styles.unionIcon} width={20} height={16} alt="" src="/logoyt.svg" />
             </div>
             <div className={styles.footerContact}>contact@molty.com</div>
@@ -24,21 +31,19 @@ const Footer: NextPage = () => {
         <div className={styles.footerSection}>
           <div className={styles.footerTitle}>À propos</div>
           <div className={styles.footerLinks}>
-            <a href="#" className={styles.footerLink}>Conditions générales</a>
-            <a href="#" className={styles.footerLink}>Mentions légales</a>
-            <a href="#" className={styles.footerLink}>Gérer mes préférences</a>
-            <a href="#" className={styles.footerLink}>Cookies</a>
+            <a href="/legal/conditions-generales" className={styles.footerLink}>Conditions générales</a>
+            <a href="/legal/mentions-legales" className={styles.footerLink}>Mentions légales</a>
+            <a href="/legal/preferences" className={styles.footerLink}>Gérer mes préférences</a>
+            <a href="/legal/cookies" className={styles.footerLink}>Cookies</a>
           </div>
         </div>
         <div className={styles.footerSection}>
           <div className={styles.footerTitle}>Menu</div>
           <div className={styles.footerLinks}>
             <a href="#" className={styles.footerLink}>Accueil</a>
-            <a href="#" className={styles.footerLink}>Annonces</a>
-            <a href="#" className={styles.footerLink}>Mentors</a>
-            <a href="#" className={styles.footerLink}>Créer mon avenir</a>
-            <a href="#" className={styles.footerLink}>Blog</a>
-            <a href="#" className={styles.footerLink}>À propos</a>
+            <a href="/annonces" className={styles.footerLink}>Annonces</a>
+            <a href="/mentors" className={styles.footerLink}>Mentors</a>
+            <a href="/blog" className={styles.footerLink}>Blog</a>
           </div>
         </div>
       </div>
