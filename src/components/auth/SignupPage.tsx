@@ -5,12 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useSafeInput } from "@/hooks/useSafeInput";
 import styles from "@/styles/Login.module.css";
 
 export default function SignupPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  // Form state sécurisé avec useSafeInput
+  const email = useSafeInput('', 'email');
+  const password = useSafeInput('', 'password');
+  const confirmPassword = useSafeInput('', 'password');
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -18,7 +20,7 @@ export default function SignupPage() {
     e.preventDefault();
     setError('');
 
-    if (password !== confirmPassword) {
+    if (password.value !== confirmPassword.value) {
       toast.error('Les mots de passe ne correspondent pas', {
         position: "top-right",
         autoClose: 3000,
@@ -34,8 +36,8 @@ export default function SignupPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email,
-          password,
+          email: email.value,
+          password: password.value,
         }),
       });
 
@@ -83,8 +85,8 @@ export default function SignupPage() {
             className={styles.input} 
             type="email" 
             placeholder="Entrez votre mail ici"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={email.value}
+            onChange={(e) => email.setValue(e.target.value)}
             required
           />
         </div>
@@ -94,8 +96,8 @@ export default function SignupPage() {
             className={styles.input} 
             type="password" 
             placeholder="Créez votre mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={password.value}
+            onChange={(e) => password.setValue(e.target.value)}
             required
           />
         </div>
@@ -105,8 +107,8 @@ export default function SignupPage() {
             className={styles.input} 
             type="password" 
             placeholder="Confirmez votre mot de passe"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={confirmPassword.value}
+            onChange={(e) => confirmPassword.setValue(e.target.value)}
             required
           />
         </div>

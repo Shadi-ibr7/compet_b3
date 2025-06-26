@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useCallback, useEffect } from 'react';
+import { sanitizeHtml, validateContent } from '@/lib/security';
 import styles from './FormattedTextArea.module.css';
 
 interface FormattedTextAreaProps {
@@ -29,30 +30,94 @@ export default function FormattedTextArea({
     }
   }, [value]);
 
-  // Gestion du changement de contenu
+  // Gestion du changement de contenu avec sanitisation préservant les espaces
   const handleContentChange = useCallback(() => {
     if (editorRef.current) {
-      const newContent = editorRef.current.innerHTML;
-      if (newContent !== value) {
-        onChange(newContent);
+      const rawContent = editorRef.current.innerHTML;
+      
+      // Ne pas sanitiser si le contenu est identique
+      if (rawContent === value) {
+        return;
+      }
+      
+      // Sanitiser le contenu en temps réel mais de façon moins agressive
+      try {
+        const sanitizedContent = sanitizeHtml(rawContent, variant);
+        
+        // Valider le contenu
+        if (validateContent(sanitizedContent, variant)) {
+          // Seulement mettre à jour si le contenu sanitisé est différent de la valeur actuelle
+          if (sanitizedContent !== value) {
+            onChange(sanitizedContent);
+          }
+          
+          // Mettre à jour l'affichage seulement si nécessaire pour la sécurité
+          // Éviter les modifications cosmétiques d'espaces
+          if (sanitizedContent !== rawContent) {
+            // Vérifier si c'est une modification de sécurité significative ou juste des espaces
+            const normalizedOriginal = rawContent.replace(/\s+/g, ' ');
+            const normalizedSanitized = sanitizedContent.replace(/\s+/g, ' ');
+            
+            if (normalizedOriginal !== normalizedSanitized) {
+              // Modification de sécurité significative, mettre à jour
+              editorRef.current.innerHTML = sanitizedContent;
+            }
+          }
+        } else {
+          console.warn('Contenu non valide détecté et bloqué');
+          // Restaurer la valeur précédente
+          editorRef.current.innerHTML = value || '';
+        }
+      } catch (error) {
+        console.error('Erreur lors de la sanitisation:', error);
+        // En cas d'erreur, restaurer la valeur précédente
+        editorRef.current.innerHTML = value || '';
       }
     }
-  }, [value, onChange]);
+  }, [value, onChange, variant]);
 
-  // Formatage du texte sélectionné
-  const formatText = useCallback((command: string, value?: string) => {
+  // Formatage du texte sélectionné avec sécurité
+  const formatText = useCallback((command: string, commandValue?: string) => {
     if (readOnly) return;
     
     // Sauvegarder la sélection
     const selection = window.getSelection();
     if (!selection || selection.rangeCount === 0) return;
 
-    // Appliquer le formatage
-    document.execCommand(command, false, value);
-    
-    // Déclencher l'événement de changement
-    handleContentChange();
-  }, [readOnly, handleContentChange]);
+    // Valider la commande
+    const allowedCommands = ['bold', 'italic', 'insertUnorderedList', 'formatBlock', 'createLink', 'removeFormat'];
+    if (!allowedCommands.includes(command)) {
+      console.warn('Commande de formatage non autorisée:', command);
+      return;
+    }
+
+    // Valider la valeur de la commande si présente
+    if (commandValue) {
+      if (command === 'formatBlock') {
+        const allowedBlocks = variant === 'full' ? ['h2', 'h3', 'p'] : ['p'];
+        if (!allowedBlocks.includes(commandValue)) {
+          console.warn('Type de bloc non autorisé:', commandValue);
+          return;
+        }
+      } else if (command === 'createLink') {
+        // Valider l'URL
+        if (!commandValue.match(/^https?:\/\//)) {
+          console.warn('URL non valide pour le lien:', commandValue);
+          return;
+        }
+      }
+    }
+
+    try {
+      // Appliquer le formatage
+      document.execCommand(command, false, commandValue);
+      
+      // Déclencher l'événement de changement avec sanitisation
+      setTimeout(() => handleContentChange(), 10);
+    } catch (error) {
+      console.error('Erreur lors du formatage:', error);
+    }
+  }, [readOnly, handleContentChange, variant]);
 
   // Handlers pour les boutons
   const handleBold = () => formatText('bold');

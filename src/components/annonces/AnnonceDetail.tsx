@@ -10,6 +10,8 @@ import type { IMentor } from "@/types/interfaces/mentor.interface";
 import type { IMolt } from "@/types/interfaces/molt.interface";
 import type { IMentorRating } from "@/types/interfaces/rating.interface";
 import RatingDisplay from "@/components/rating/RatingDisplay";
+import SafeHtml from "@/components/Security/SafeHtml";
+import { sanitizeTextMessage } from "@/lib/security";
 import styles from "./AnnonceDetail.module.css";
 
 interface AnnonceDetailProps {
@@ -263,7 +265,11 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
           <div className={styles.annonceDescription}>
             <h2 className={styles.sectionTitle}>Description du poste</h2>
             <div className={styles.description}>
-              <div dangerouslySetInnerHTML={{ __html: annonce.description || '' }} />
+              <SafeHtml 
+                html={annonce.description || ''} 
+                variant="basic"
+                className={styles.htmlContent}
+              />
             </div>
           </div>
 
@@ -272,7 +278,11 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
             <div className={styles.annonceDescription}>
               <h2 className={styles.sectionTitle}>Ce que je propose</h2>
               <div className={styles.description}>
-                <div dangerouslySetInnerHTML={{ __html: annonce.ceQueJePropose || '' }} />
+                <SafeHtml 
+                  html={annonce.ceQueJePropose || ''} 
+                  variant="basic"
+                  className={styles.htmlContent}
+                />
               </div>
             </div>
           )}
@@ -282,7 +292,11 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
             <div className={styles.annonceDescription}>
               <h2 className={styles.sectionTitle}>Profil recherché</h2>
               <div className={styles.description}>
-                <div dangerouslySetInnerHTML={{ __html: annonce.profilRecherche || '' }} />
+                <SafeHtml 
+                  html={annonce.profilRecherche || ''} 
+                  variant="basic"
+                  className={styles.htmlContent}
+                />
               </div>
             </div>
           )}
@@ -367,7 +381,16 @@ const AnnonceDetail = ({ annonce, mentor }: AnnonceDetailProps) => {
                   id="customMessage"
                   className={styles.messageTextarea}
                   value={customMessage}
-                  onChange={(e) => setCustomMessage(e.target.value)}
+                  onChange={(e) => {
+                    try {
+                      const sanitizedMessage = sanitizeTextMessage(e.target.value, 500);
+                      setCustomMessage(sanitizedMessage);
+                    } catch (error) {
+                      console.warn('Message trop long, troncature appliquée');
+                      const truncated = e.target.value.substring(0, 500);
+                      setCustomMessage(sanitizeTextMessage(truncated, 500));
+                    }
+                  }}
                   placeholder="Ajoutez un message personnalisé pour vous présenter..."
                   rows={4}
                   maxLength={500}

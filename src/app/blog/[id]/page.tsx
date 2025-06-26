@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { IArticle } from '@/types/interfaces/article.interface';
+import SafeHtml from '@/components/Security/SafeHtml';
 import styles from '@/components/Blog/BlogPage.module.css';
 import ArticleRecommendations from '@/components/Blog/ArticleRecommendations';
 import AudioPlayer from '@/components/Blog/AudioPlayer';
@@ -94,7 +95,12 @@ export default function ArticlePage({ params }: { params: Promise<{ id: string }
           )}
 
           <div className={styles.content}>
-            <div dangerouslySetInnerHTML={{ __html: article.content || '' }} />
+            <SafeHtml 
+              html={article.content || ''} 
+              variant="full"
+              className={styles.htmlContent}
+              maxLength={10000}
+            />
           </div>
 
           {article.lienPodcast && (

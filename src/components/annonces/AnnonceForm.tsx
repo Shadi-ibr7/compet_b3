@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from '@/styles/AnnonceForm.module.css';
 import type { IAnnonce } from '@/types/interfaces/annonce.interface';
+import { getAnnonceTypesByCategory } from '@/types/enums/annonce-types.enum';
 import FormattedTextArea from '@/components/Editor/FormattedTextArea';
 
 interface AnnonceFormProps {
@@ -130,7 +131,7 @@ export default function AnnonceForm({ initialData, onSubmit }: AnnonceFormProps)
           
           <div className={styles.formGroup}>
             <label htmlFor="type" className={styles.label}>
-              Type de mentorat *
+              Type d'opportunité *
             </label>
             <select
               id="type"
@@ -141,11 +142,15 @@ export default function AnnonceForm({ initialData, onSubmit }: AnnonceFormProps)
               disabled={isLoading}
             >
               <option value="">Sélectionnez un type</option>
-              <option value="Professionnel">Professionnel</option>
-              <option value="Académique">Académique</option>
-              <option value="Entrepreneuriat">Entrepreneuriat</option>
-              <option value="Carrière">Carrière</option>
-              <option value="Développement personnel">Développement personnel</option>
+              {Object.entries(getAnnonceTypesByCategory()).map(([category, types]) => (
+                <optgroup key={category} label={category}>
+                  {types.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
             </select>
           </div>
 

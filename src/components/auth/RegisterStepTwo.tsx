@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { useSafeInput } from "@/hooks/useSafeInput";
 import styles from "@/styles/Register.module.css";
 
 interface RegisterStepTwoProps {
@@ -15,15 +16,16 @@ interface RegisterStepTwoProps {
 }
 
 export default function RegisterStepTwo({ onSubmit, isLoading, error }: RegisterStepTwoProps) {
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
+  // Form state sécurisé avec useSafeInput
+  const address = useSafeInput("", "address");
+  const city = useSafeInput("", "city");
   const [role, setRole] = useState<"molt" | "mentor">("molt");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await onSubmit({
-      address,
-      city,
+      address: address.value,
+      city: city.value,
       role,
     });
   };
@@ -49,8 +51,8 @@ export default function RegisterStepTwo({ onSubmit, isLoading, error }: Register
             className={styles.input} 
             type="text" 
             placeholder="Entrez votre adresse ici" 
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            value={address.value}
+            onChange={(e) => address.setValue(e.target.value)}
             required
             disabled={isLoading}
           />
@@ -61,8 +63,8 @@ export default function RegisterStepTwo({ onSubmit, isLoading, error }: Register
             className={styles.input} 
             type="text" 
             placeholder="Entrez votre ville ici" 
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            value={city.value}
+            onChange={(e) => city.setValue(e.target.value)}
             required
             disabled={isLoading}
           />

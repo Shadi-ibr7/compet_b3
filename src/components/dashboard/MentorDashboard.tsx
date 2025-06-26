@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { getMentorRating } from '@/lib/ratingService';
+import { useSafeInput } from '@/hooks/useSafeInput';
+import { sanitizeProfile } from '@/lib/security';
 import type { IAnnonce } from '@/types/interfaces/annonce.interface';
 import type { IMentor } from '@/types/interfaces/mentor.interface';
 import type { IMentorRating } from '@/types/interfaces/rating.interface';
@@ -50,8 +52,7 @@ export default function MentorDashboard() {
           nom: session?.user?.name || '',
           job: '',
           localisation: '',
-          description: '',
-          note: 0
+          description: ''
         });
       }
 

@@ -64,6 +64,8 @@
   background: white;
   overflow-y: auto;
   outline: none;
+  white-space: pre-wrap; /* Préserve les espaces et retours à la ligne */
+  word-wrap: break-word; /* Évite le débordement horizontal */
 }
 
 .editor:focus {
