@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getMentorRating } from '@/lib/ratingService';
 import { useSafeInput } from '@/hooks/useSafeInput';
-import { sanitizeProfile } from '@/lib/security';
+import { sanitizeProfile, sanitizeHtml } from '@/lib/security';
 import type { IAnnonce } from '@/types/interfaces/annonce.interface';
 import type { IMentor } from '@/types/interfaces/mentor.interface';
 import type { IMentorRating } from '@/types/interfaces/rating.interface';
@@ -305,19 +305,22 @@ export default function MentorDashboard() {
                   </div>
                   <p className={styles.type}>Type: {annonce.type}</p>
                   <p className={styles.location}>📍 {annonce.localisation}</p>
-                  <p className={styles.description}>{annonce.description}</p>
+                  <div 
+                    className={styles.description}
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(annonce.description) }}
+                  />
                   
                   {annonce.ceQueJePropose && annonce.ceQueJePropose.trim() && (
                     <div className={styles.additionalSection}>
                       <h4>Ce que je propose</h4>
-                      <p>{annonce.ceQueJePropose}</p>
+                      <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(annonce.ceQueJePropose) }} />
                     </div>
                   )}
 
                   {annonce.profilRecherche && annonce.profilRecherche.trim() && (
                     <div className={styles.additionalSection}>
                       <h4>Profil recherché</h4>
-                      <p>{annonce.profilRecherche}</p>
+                      <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(annonce.profilRecherche) }} />
                     </div>
                   )}
 
