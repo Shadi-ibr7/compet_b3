@@ -1,0 +1,24 @@
+{
+  "profiles": {
+    "mentor-boulanger": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/mentor-boulanger.jpg",
+    "mentor-epiciere": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/mentor-epiciere.jpg",
+    "mentor-fleuriste": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/mentor-fleuriste.jpg",
+    "mentor-boucher": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/mentor-boucher.jpg",
+    "mentor-libraire": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/mentor-libraire.jpg",
+    "mentor-restaurateur": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/mentor-restaurateur.jpg",
+    "mentor-coach": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/mentor-coach.jpg",
+    "molt-dev1": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/molt-dev1.jpg",
+    "molt-dev2": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/molt-dev2.jpg",
+    "molt-designer": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/molt-designer.jpg",
+    "molt-pm": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/avatars/molt-pm.jpg"
+  },
+  "annonces": {
+    "annonce-boulangerie": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/images/annonces/annonce-boulangerie.jpg",
+    "annonce-epicerie": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/images/annonces/annonce-epicerie.jpg",
+    "annonce-fleuriste": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/images/annonces/annonce-fleuriste.webp",
+    "annonce-boucherie": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/images/annonces/annonce-boucherie.jpg",
+    "annonce-librairie": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/images/annonces/annonce-librairie.jpg",
+    "annonce-restaurant": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/images/annonces/annonce-restaurant.jpg",
+    "annonce-formation": "https://storage.googleapis.com/compet-lean-start-up.firebasestorage.app/images/annonces/annonce-formation.webp"
+  }
+}

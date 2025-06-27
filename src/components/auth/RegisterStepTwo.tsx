@@ -8,7 +8,6 @@ import { useSafeInput } from "@/hooks/useSafeInput";
 
 interface RegisterStepTwoProps {
   onSubmit: (data: {
-    address: string;
     city: string;
     role: "molt" | "mentor";
   }) => Promise<void>;
@@ -18,14 +17,12 @@ interface RegisterStepTwoProps {
 
 export default function RegisterStepTwo({ onSubmit, isLoading, error }: RegisterStepTwoProps) {
   // Form state sécurisé avec useSafeInput
-  const address = useSafeInput({ fieldType: "address", initialValue: "" });
   const city = useSafeInput({ fieldType: "city", initialValue: "" });
   const [role, setRole] = useState<"molt" | "mentor">("molt");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await onSubmit({
-      address: address.value,
       city: city.value,
       role,
     });
@@ -50,19 +47,6 @@ export default function RegisterStepTwo({ onSubmit, isLoading, error }: Register
         </div>
         {error && <div className={styles.error}>{error}</div>}
         <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>Adresse</label>
-            <input 
-              className={styles.input} 
-              type="text" 
-              placeholder="Entrez votre adresse ici" 
-              value={address.value}
-              onChange={address.handleChange}
-              required
-              disabled={isLoading}
-            />
-            {address.error && <span className={styles.fieldError}>{address.error}</span>}
-          </div>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Ville</label>
             <input 

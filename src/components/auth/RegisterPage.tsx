@@ -42,7 +42,7 @@ export default function RegisterPage() {
     }
   };
 
-  const handleStepTwo = async (data: { address: string; city: string; role: "molt" | "mentor" }) => {
+  const handleStepTwo = async (data: { city: string; role: "molt" | "mentor" }) => {
     setError("");
     setIsLoading(true);
 
@@ -52,6 +52,7 @@ export default function RegisterPage() {
         email: email.value,
         password: password.value,
         name: name.value,
+        city: data.city,
         role: data.role,
         isSignup: "true",
         redirect: false,
@@ -61,12 +62,6 @@ export default function RegisterPage() {
       if (result?.error) {
         throw new Error(result.error);
       }
-
-      // Stockage des informations supplémentaires dans le localStorage
-      localStorage.setItem('userAdditionalInfo', JSON.stringify({
-        address: data.address,
-        city: data.city
-      }));
 
       router.push("/dashboard");
     } catch (err) {

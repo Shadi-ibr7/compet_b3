@@ -13,45 +13,8 @@ import { getMentorRating } from '@/lib/ratingService';
 import type { IMentorRating } from '@/types/interfaces/rating.interface';
 import type { IMentor } from "@/types/interfaces/mentor.interface";
 
-// Données de secours en cas d'erreur de chargement
-const fallbackMentors: IMentor[] = [
-  {
-    id: "1",
-    role: "mentor",
-    nom: 'Mathieu Fournel',
-    email: 'mathieu.fournel@example.com',
-    name: 'Mathieu Fournel',
-    job: 'Boulangerie artisanale',
-    localisation: 'Troyes, France',
-    linkPhoto: '/image2.png',
-    description: "On pétrit chaque jour du bon pain, fait maison, avec des farines locales et beaucoup d'amour. Baguettes croustillantes, pains spéciaux, viennoiseries dorées…",
-    dateCreation: new Date()
-  },
-  {
-    id: "2",
-    role: "mentor",
-    nom: 'Sophie Martin',
-    email: 'sophie.martin@example.com',
-    name: 'Sophie Martin',
-    job: 'Épicerie fine',
-    localisation: 'Lyon, France',
-    linkPhoto: '/image2.png',
-    description: "Produits du terroir, épices rares, accueil chaleureux et conseils personnalisés pour tous les gourmets.",
-    dateCreation: new Date()
-  },
-  {
-    id: "3",
-    role: "mentor",
-    nom: 'Karim Benali',
-    email: 'karim.benali@example.com',
-    name: 'Karim Benali',
-    job: 'Librairie indépendante',
-    localisation: 'Marseille, France',
-    linkPhoto: '/image2.png',
-    description: "Un large choix de livres, des rencontres d'auteurs et un coin lecture convivial pour petits et grands.",
-    dateCreation: new Date()
-  }
-];
+// Pas de données de fallback - afficher un message quand aucun mentor n'est disponible
+const fallbackMentors: IMentor[] = [];
 
 const Card = ({ mentor }: { mentor: IMentor }) => {
   const [mentorRating, setMentorRating] = useState<IMentorRating | null>(null);

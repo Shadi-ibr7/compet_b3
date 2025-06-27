@@ -8,12 +8,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "clean:database": "node scripts/cleanDatabase.js",
+    "upload:assets": "node scripts/uploadAssets.js",
+    "seed:complete": "node scripts/seedComplete.js",
+    "reset:database": "npm run clean:database && npm run upload:assets && npm run seed:complete",
     "seed:articles": "node scripts/seedArticles.js",
     "seed:mentors": "node scripts/seedMentors.js",
     "seed:annonces-mentors": "node scripts/seedAnnoncesForMentors.js",
     "seed:molts": "node scripts/seedMolts.js",
     "migrate:email": "node scripts/migrateNumberToEmail.js",
-    "create:test-accounts": "node scripts/createTestAccount.js"
+    "create:test-accounts": "node scripts/createTestAccount.js",
+    "create:admin": "node scripts/createAdmin.js"
   },
   "dependencies": {
     "@auth/firebase-adapter": "^2.9.1",
